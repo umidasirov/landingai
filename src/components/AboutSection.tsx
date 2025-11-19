@@ -1,4 +1,4 @@
-import { motion, useInView } from 'motion/react';
+import { motion, useInView } from 'framer-motion';
 import { Brain, Cpu, Network, Zap, Users, Globe, Award, Calendar } from 'lucide-react@0.487.0';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { useRef, useEffect, useState } from 'react';
