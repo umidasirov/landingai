@@ -8,7 +8,6 @@ import { SponsorsSection } from './components/SponsorsSection';
 import { Footer } from './components/Footer';
 import { AIParticlesBackground } from './components/AIParticlesBackground';
 import { ScrollReveal } from './components/ScrollReveal';
-import { FloatingRegistrationBadge } from './components/FloatingRegistrationBadge';
 import { DigitalRain } from './components/DigitalRain';
 import { ScrollProgress } from './components/ScrollProgress';
 import { ModalProvider } from './context/context';
@@ -23,7 +22,6 @@ export default function App() {
       <RegistrationModal/>
       <AIParticlesBackground />
       <Navigation />
-      <FloatingRegistrationBadge />
       <main className="relative z-10">
         <HeroSection />
         <ScrollReveal direction="up">
