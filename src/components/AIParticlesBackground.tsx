@@ -1,4 +1,4 @@
-import { motion, useScroll, useTransform } from 'motion/react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Brain, Cpu, Zap, Network, Bot, Sparkles } from 'lucide-react@0.487.0';
 
 export function AIParticlesBackground() {
