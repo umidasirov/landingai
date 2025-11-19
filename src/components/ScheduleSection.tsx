@@ -1,4 +1,4 @@
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 import { Calendar, Clock, MapPin, Users } from 'lucide-react@0.487.0';
 
 export function ScheduleSection() {

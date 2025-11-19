@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Menu, X, UserPlus } from 'lucide-react@0.487.0';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { RegistrationModal } from './RegistrationModal';
 import { useModal } from '../context/context';
 

@@ -1,4 +1,4 @@
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 import { Linkedin, Twitter } from 'lucide-react@0.487.0';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 
