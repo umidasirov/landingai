@@ -1,38 +1,46 @@
-import { motion, useScroll, useSpring } from "framer-motion";
+import { useEffect } from "react";
 
 export function ScrollProgress() {
-  const { scrollYProgress } = useScroll();
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.body.scrollHeight - window.innerHeight;
+      const scrollFraction = scrollTop / docHeight;
 
-  // Smoother, less CPU usage
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 60,
-    damping: 20,
-    restDelta: 0.001,
-  });
+      // Yuqori progress bar uchun
+      document.documentElement.style.setProperty("--scroll", `${scrollFraction}`);
+
+      // Pastki aylana indikator uchun
+      const circle = document.querySelector<SVGCircleElement>(".scroll-circle");
+      if (circle) {
+        const circumference = 2 * Math.PI * 25; // r = 25
+        const offset = circumference - scrollFraction * circumference;
+        circle.style.strokeDashoffset = `${offset}`;
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <>
-      {/* Top Progress Bar (very light) */}
-      <motion.div
-        className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-600 via-pink-500 to-cyan-400 origin-left z-50"
-        style={{ scaleX }}
-      />
+      {/* Yuqori progress bar */}
+      <div className="fixed top-0 left-0 h-1 bg-gradient-to-r from-purple-600 via-pink-500 to-cyan-400 z-50 origin-left scale-x-[var(--scroll)]" />
 
-      {/* Circular Progress Indicator (optimized) */}
-      <div className="fixed bottom-6 left-6 z-40 hidden lg:block">
-        <svg width="60" height="60" className="transform -rotate-90">
-          {/* Background Circle */}
+      {/* Pastki aylana indikator */}
+      <div className="fixed bottom-6 left-6 z-40 hidden lg:block w-14 h-14">
+        <svg width="60" height="60" viewBox="0 0 60 60" className="transform -rotate-90">
           <circle
             cx="30"
             cy="30"
             r="25"
-            stroke="rgba(168, 85, 247, 0.15)"
+            stroke="rgba(168,85,247,0.15)"
             strokeWidth="4"
             fill="none"
           />
-
-          {/* Progress Circle */}
-          <motion.circle
+          <circle
+            className="scroll-circle"
             cx="30"
             cy="30"
             r="25"
@@ -40,10 +48,10 @@ export function ScrollProgress() {
             strokeWidth="4"
             fill="none"
             strokeLinecap="round"
-            style={{ pathLength: scrollYProgress }}
+            strokeDasharray={2 * Math.PI * 25}
+            strokeDashoffset={2 * Math.PI * 25}
+            style={{ transition: "stroke-dashoffset 0.1s linear" }}
           />
-          
-          {/* Gradient Definition */}
           <defs>
             <linearGradient id="scrollGradient" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stopColor="#a78bfa" />
@@ -52,14 +60,9 @@ export function ScrollProgress() {
             </linearGradient>
           </defs>
         </svg>
-
-        {/* AI Text (optimized) */}
-        <motion.div
-          className="absolute inset-0 flex items-center justify-center text-xs bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent"
-          style={{ opacity: scrollYProgress }}
-        >
+        <div className="absolute inset-0 flex items-center justify-center text-xs bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
           AI
-        </motion.div>
+        </div>
       </div>
     </>
   );

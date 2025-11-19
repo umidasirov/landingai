@@ -13,12 +13,13 @@ import { DigitalRain } from './components/DigitalRain';
 import { ScrollProgress } from './components/ScrollProgress';
 import { ModalProvider } from './context/context';
 import { RegistrationModal } from './components/RegistrationModal';
+import "./App.css"
 export default function App() {
   return (
     <ModalProvider>
     <div className="min-h-screen bg-black text-white antialiased overflow-x-hidden">
       <ScrollProgress />
-      <DigitalRain />
+      {/* <DigitalRain /> */}
       <RegistrationModal/>
       <AIParticlesBackground />
       <Navigation />
