@@ -48,7 +48,7 @@ export function CountdownTimer({ targetDate }: CountdownTimerProps) {
         return (
           <div
             key={item.label}
-            className={`bg-purple-900/30 backdrop-blur-sm border border-purple-500/50 rounded-xl p-4 flex flex-col items-center w-20 ${isSeconds ? 'hidden md:flex' : ''}`}
+            className="bg-purple-900/30 backdrop-blur-sm border border-purple-500/50 rounded-xl p-4 flex flex-col items-center w-20"
           >
             <span className="text-2xl font-bold text-white">{item.value.toString().padStart(2, '0')}</span>
             <span className="text-xs text-purple-400 mt-1">{item.label}</span>
