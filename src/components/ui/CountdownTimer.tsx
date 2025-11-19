@@ -33,6 +33,7 @@ export function CountdownTimer({ targetDate }: CountdownTimerProps) {
     { label: 'Days', value: timeLeft.days },
     { label: 'Hours', value: timeLeft.hours },
     { label: 'Minutes', value: timeLeft.minutes },
+    { label: 'Seconds', value: timeLeft.seconds },
   ];
 
   return (
@@ -42,15 +43,18 @@ export function CountdownTimer({ targetDate }: CountdownTimerProps) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8 }}
     >
-      {timeItems.map((item) => (
-        <div
-          key={item.label}
-          className="bg-purple-900/30 backdrop-blur-sm border border-purple-500/50 rounded-xl p-4 flex flex-col items-center w-20"
-        >
-          <span className="text-2xl font-bold text-white">{item.value.toString().padStart(2, '0')}</span>
-          <span className="text-xs text-purple-400 mt-1">{item.label}</span>
-        </div>
-      ))}
+      {timeItems.map((item) => {
+        const isSeconds = item.label === 'Seconds';
+        return (
+          <div
+            key={item.label}
+            className={`bg-purple-900/30 backdrop-blur-sm border border-purple-500/50 rounded-xl p-4 flex flex-col items-center w-20 ${isSeconds ? 'hidden md:flex' : ''}`}
+          >
+            <span className="text-2xl font-bold text-white">{item.value.toString().padStart(2, '0')}</span>
+            <span className="text-xs text-purple-400 mt-1">{item.label}</span>
+          </div>
+        );
+      })}
     </motion.div>
   );
 }
