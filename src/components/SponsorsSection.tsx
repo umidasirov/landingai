@@ -71,7 +71,7 @@ export function SponsorsSection() {
   const [isFormOpen, setIsFormOpen] = useState(false);
 
   return (
-    <section id="sponsors" className="relative py-24 lg:py-32 bg-black overflow-hidden">
+    <section id="homiylar" className="relative py-24 lg:py-32 bg-black overflow-hidden">
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16">

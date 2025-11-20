@@ -24,7 +24,7 @@ export function HeroSection() {
       {/* Background */}
       <div className="absolute inset-0">
         <ImageWithFallback
-          src="https://images.unsplash.com/photo-1664526936810-ec0856d31b92?crop=entropy&cs=tinysrgb&fit=max&fm=jpg"
+          src="https://www.sercansolmaz.com/content/images/2025/02/DALL-E-2025-02-10-00.30.24---A-16_9-cover-image-with-a-deep-midnight-blue-gradient-background.-Overlay-an-abstract-neural-network-or-circuit-board-pattern-in-neon-blue-and-purple-.webp"
           alt="AI Neural Network"
           className="w-full h-full object-cover opacity-40"
         />
@@ -117,11 +117,11 @@ export function HeroSection() {
       </div>
 
       {/* Scroll Indicator */}
-      <div className="animate-blob absolute bottom-10 left-1/2 transform -translate-x-1/2">
+      {/* <div className="animate-blob absolute bottom-10 left-1/2 transform -translate-x-1/2">
         <div className="w-6 h-10 border-2 border-purple-400 rounded-full flex justify-center pt-2 animate-bounce">
           <div className="w-1 h-2 bg-purple-400 rounded-full" />
         </div>
-      </div>
+      </div> */}
 
       {/* Registration modal */}
       <RegistrationModal isOpen={showRegister} onClose={() => setShowRegister(false)} />

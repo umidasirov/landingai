@@ -70,7 +70,7 @@ END:VCALENDAR
 }
 
   return (
-    <section id="schedule" className="relative py-24 lg:py-32 bg-black overflow-hidden">
+    <section id="jadval" className="relative py-24 lg:py-32 bg-black overflow-hidden">
       {/* Background Grid */}
       <div className="absolute inset-0 opacity-10">
         <div
