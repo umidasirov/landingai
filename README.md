@@ -1,7 +1,4 @@
 
-  # AI Conference Landing Page
-
-  This is a code bundle for AI Conference Landing Page. The original project is available at https://www.figma.com/design/PivHSkNdklsklkq7PWrtYz/AI-Conference-Landing-Page.
 
   ## Running the code
 
