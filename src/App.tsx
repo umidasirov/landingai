@@ -42,6 +42,9 @@ export default function App() {
                     <ScrollReveal direction="up" delay={0.04}>
                       <BigBanner />
                     </ScrollReveal>
+                    <ScrollReveal className='my-6' direction="up" delay={0.04}>
+                      <CountdownTimer targetDate="2025-11-29T00:00:00" />
+                    </ScrollReveal>
                     <ScrollReveal direction="up">
                       <AboutSection />
                     </ScrollReveal>
@@ -73,6 +76,7 @@ export default function App() {
 
 
 import ai from "./assets/ai.png";
+import { CountdownTimer } from './components/ui/CountdownTimer';
 const blocks = [
   {
     id: 1,
@@ -97,7 +101,7 @@ export function BigBanner() {
 
         <div className="w-full md:w-1/2 flex flex-col justify-center p-6 bg-black/55 backdrop-blur-sm">
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent mb-2">
-            AI Texnologiyalar
+            AI Day (prompt)
           </h2>
           <p className="text-gray-300 mb-4">
             Sun'iy intellektning yangi chegaralarini kashf qiling. Seminarlardan amaliy mashgʻulotlargacha — hammasi shu erda.
@@ -105,7 +109,7 @@ export function BigBanner() {
           <div className="flex gap-3">
             <Link
               to="/register/ai"
-              className="px-5 p-2 rounded-xl bg-purple-600 hover:bg-purple-500 transition shadow-lg font-semibold"
+              className="px-5 p-4 rounded-xl bg-purple-600 hover:bg-purple-500 transition shadow-lg font-semibold"
             >
               Ro‘yxatdan o‘ting →
             </Link>

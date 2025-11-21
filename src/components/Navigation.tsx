@@ -3,6 +3,7 @@ import { Menu, X, UserPlus } from 'lucide-react@0.487.0';
 import { RegistrationModal } from './RegistrationModal';
 import { useModal } from '../context/context';
 import { Link } from 'react-router-dom';
+import logo from "../assets/dg.png";
 export function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { showRegister, setShowRegister } = useModal();
@@ -28,19 +29,15 @@ export function Navigation() {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-lg border-b border-purple-500/20 transition-all w-full">
-      <div className="w-full mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
-          
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-lg border-b border-purple-500/20 transition-all ">
+      <div className="px-20 w-[70%] px-8">
+        <div className=" mx-auto flex items-center justify-between h-20">
+
           {/* Logo */}
           <div className="cursor-pointer flex items-center gap-2">
-            <div className="w-10 h-10 bg-gradient-to-br from-purple-600 to-cyan-400 rounded-lg flex items-center justify-center">
-              <Link to='/' className="text-white font-bold">AI</Link>
-            </div>
-            <div>
-              <div className="text-white font-semibold">AI Conference</div>
-              <div className="text-xs text-purple-400">2025</div>
-            </div>
+            <Link to="/">
+              <img src={logo} alt="Logo" className="h-12" />
+            </Link>
           </div>
 
           {/* Desktop Navigation */}
@@ -63,9 +60,8 @@ export function Navigation() {
                 <button
                   key={lang}
                   onClick={() => setLanguage(lang)}
-                  className={`px-3 py-1 rounded-full transition-all ${
-                    language === lang ? 'bg-purple-600 text-white' : 'text-gray-400 hover:text-white'
-                  }`}
+                  className={`px-3 py-1 rounded-full transition-all ${language === lang ? 'bg-purple-600 text-white' : 'text-gray-400 hover:text-white'
+                    }`}
                 >
                   {lang}
                 </button>
@@ -99,9 +95,8 @@ export function Navigation() {
                 <button
                   key={lang}
                   onClick={() => setLanguage(lang)}
-                  className={`px-3 py-1 rounded-full ${
-                    language === lang ? 'bg-purple-600 text-white' : 'bg-purple-900/30 text-gray-400'
-                  }`}
+                  className={`px-3 py-1 rounded-full ${language === lang ? 'bg-purple-600 text-white' : 'bg-purple-900/30 text-gray-400'
+                    }`}
                 >
                   {lang}
                 </button>

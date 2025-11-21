@@ -210,9 +210,9 @@ export default function Register(): JSX.Element {
     );
 
     return (
-        <div className="min-h-screen bg-black text-white py-10 px-4 relative z-50">
+        <div className="min-h-screen bg-black text-white py-10 p-[20px] px-4 relative z-50 m-auto flex items-center justify-center">
             <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <aside className="lg:col-span-1 rounded-2xl overflow-hidden bg-gradient-to-b from-gray-900 to-gray-800 shadow-lg flex flex-col">
+                <aside className="lg:col-span-1 rounded-l-2xl overflow-hidden bg-gradient-to-b from-gray-900 to-gray-800 shadow-lg flex flex-col">
                     <div className="w-full flex-1 min-h-0 bg-gray-700">
                         {eventImage ? (
                             <img src={eventImage} alt={eventTitle} className="w-full h-full object-cover block" />
@@ -234,9 +234,7 @@ export default function Register(): JSX.Element {
                         {/* Seats */}
                         <div className="flex items-center justify-between mb-6">
                             <div className="text-sm text-gray-300">
-                                ⚠ Joylar soni cheklangan:
-                                <span className="ml-2 font-semibold text-white">{seatsLeft}</span>
-                                <span className="text-gray-400"> / {seatsTotal}</span>
+                                ⚠ Joylar soni cheklangan!!!
                             </div>
 
                             <div
@@ -300,10 +298,10 @@ export default function Register(): JSX.Element {
 
                 </aside>
 
-                <main className="lg:col-span-2 bg-gray-900 rounded-2xl p-6 shadow-lg">
+                <main className="lg:col-span-2 bg-gray-900 rounded-2xl p-6 shadow-2xl">
                     {done ? (
-                        <div className="text-center space-y-6">
-                            <div className="flex justify-center">
+                        <div className="text-center space-y-6 rounded-r-lg ">
+                            <div className="flex justify-center rounded-r-lg ">
                                 <svg className="w-16 h-16 text-green-400 animate-bounce" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                                 </svg>
@@ -351,7 +349,9 @@ export default function Register(): JSX.Element {
                         </div>
                     ) : (
                         <form id="form" onSubmit={handleSubmit} className="space-y-4" aria-labelledby="register-heading">
-                            <h2 id="register-heading" className="text-xl font-semibold">{eventTitle} — Ro‘yxatdan o‘tish</h2>
+                            <h2 id="register-heading" className="text-xl font-semibold">
+                                {eventTitle} — Ro‘yxatdan o‘tish
+                            </h2>
 
                             {error && <div className="text-sm text-red-700">{error}</div>}
 
@@ -363,7 +363,7 @@ export default function Register(): JSX.Element {
                                         type="text"
                                         value={form.first_name}
                                         onChange={(e) => setField('first_name', e.target.value)}
-                                        className="mt-1 w-full rounded-md bg-gray-800 border border-white/6 px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-600"
+                                        className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-600"
                                         required
                                     />
                                 </label>
@@ -374,7 +374,7 @@ export default function Register(): JSX.Element {
                                         type="text"
                                         value={form.last_name}
                                         onChange={(e) => setField('last_name', e.target.value)}
-                                        className="mt-1 w-full rounded-md bg-gray-800 border border-white/6 px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-600"
+                                        className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-600"
                                     />
                                 </label>
                             </div>
@@ -386,7 +386,7 @@ export default function Register(): JSX.Element {
                                     value={form.phone_number}
                                     onChange={(e) => setField('phone_number', e.target.value)}
                                     placeholder="+998901234567"
-                                    className="mt-1 w-full rounded-md bg-gray-800 border border-white/6 px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-600"
+                                    className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-gray-00"
                                     required
                                 />
                             </label>
@@ -398,7 +398,7 @@ export default function Register(): JSX.Element {
                                         type="date"
                                         value={form.birth_date}
                                         onChange={(e) => setField('birth_date', e.target.value)}
-                                        className="mt-1 w-full rounded-md bg-gray-800 border border-white/6 px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-600"
+                                        className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-600"
                                     />
                                 </label>
 
@@ -408,7 +408,7 @@ export default function Register(): JSX.Element {
                                         type="text"
                                         value={form.study_place}
                                         onChange={(e) => setField('study_place', e.target.value)}
-                                        className="mt-1 w-full rounded-md bg-gray-800 border border-white/6 px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-600"
+                                        className="mt-1 w-full rounded-xl bg-white text-black border-b border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-600"
                                     />
                                 </label>
                             </div>
@@ -420,7 +420,7 @@ export default function Register(): JSX.Element {
                                         type="text"
                                         value={form.region}
                                         onChange={(e) => setField('region', e.target.value)}
-                                        className="mt-1 w-full rounded-md bg-gray-800 border border-white/6 px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-600"
+                                        className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-600"
                                     />
                                 </label>
 
@@ -430,19 +430,19 @@ export default function Register(): JSX.Element {
                                         type="text"
                                         value={form.district}
                                         onChange={(e) => setField('district', e.target.value)}
-                                        className="mt-1 w-full rounded-md bg-gray-800 border border-white/6 px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-600"
+                                        className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-600"
                                     />
                                 </label>
                             </div>
 
                             <label className="block">
-                                <span className="text-sm text-gray-300">Yo‘nalish (slug yoki avtomatik)</span>
+                                <span className="text-sm text-gray-300">Yo‘nalish</span>
                                 <input
                                     type="text"
                                     value={form.direction}
                                     onChange={(e) => setField('direction', e.target.value)}
                                     placeholder="masalan: rsumo, rfutbol, ai"
-                                    className="mt-1 w-full rounded-md bg-gray-800 border border-white/6 px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-600"
+                                    className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-600"
                                 />
                             </label>
 
@@ -452,7 +452,7 @@ export default function Register(): JSX.Element {
                                     type="email"
                                     value={form.email}
                                     onChange={(e) => setField('email', e.target.value)}
-                                    className="mt-1 w-full rounded-md bg-gray-800 border border-white/6 px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-600"
+                                    className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-600"
                                     required
                                 />
                             </label>
@@ -461,7 +461,7 @@ export default function Register(): JSX.Element {
                                 <button
                                     type="submit"
                                     disabled={loading}
-                                    className="flex-1 px-4 py-3 rounded-lg bg-purple-600 hover:bg-purple-500 disabled:opacity-60 transition font-semibold"
+                                    className="flex-1 px-4 py-3 rounded-xl bg-purple-600 hover:bg-purple-500 disabled:opacity-60 transition font-semibold"
                                 >
                                     {loading ? 'Yuborilmoqda...' : 'Ro‘yxatdan o‘tish'}
                                 </button>
@@ -469,7 +469,7 @@ export default function Register(): JSX.Element {
                                 <button
                                     type="button"
                                     onClick={() => navigate(-1)}
-                                    className="px-4 py-3 rounded-lg border border-white/10 text-sm hover:bg-white/5 transition"
+                                    className="px-4 py-3 rounded-xl border border-white/10 text-sm hover:bg-white/5 transition"
                                 >
                                     Bekor qilish
                                 </button>

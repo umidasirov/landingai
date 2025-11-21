@@ -30,17 +30,17 @@ const smallBlocks = allBlocks;
                 />
               </div>
 
-              <div className="w-full md:w-1/2 flex flex-col justify-center p-6 sm:p-8 bg-black/50 backdrop-blur-md">
+              <div className="w-full md:w-1/2 flex flex-col justify-center gap-2 p-6 sm:p-8 bg-black/50 backdrop-blur-md">
                 <h3 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
                   {item.title}
                 </h3>
 
                 <p className="text-gray-300 mt-3 mb-5 text-sm sm:text-base">{item.desc}</p>
 
-                <div className="flex flex-wrap gap-3 mt-auto">
+                <div className="flex flex-wrap gap-3 mt-auto min-sm:justify-center">
                   <Link
                     to={item.link}
-                    className="px-5 p-2 rounded-lg bg-purple-600 hover:bg-purple-500 transition font-semibold"
+                    className="px-5 p-2 rounded-lg bg-purple-600 hover:bg-purple-500 mt-2 transition font-semibold"
                   >
                     Ro‘yxatdan o‘ting
                   </Link>
@@ -113,7 +113,6 @@ export function HeroSection() {
 
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-20">
         <FiveBlocks />
-        <CountdownTimer targetDate="2025-11-29T00:00:00" />
       </div>
 
     </section>

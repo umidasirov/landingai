@@ -75,9 +75,6 @@ export function SponsorsSection() {
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16">
-          <div className="inline-block px-4 py-2 bg-purple-900/30 border border-purple-500/50 rounded-full text-purple-400 mb-6">
-            Bizning Hamkorimiz
-          </div>
           <h2 className="text-4xl lg:text-5xl mb-4 text-white">
             Digital Generation of Uzbekistan
           </h2>
@@ -101,13 +98,6 @@ export function SponsorsSection() {
               </span>
             </div>
           </div>
-
-          <button
-            onClick={() => setIsFormOpen(true)}
-            className="mt-8 px-8 py-4 bg-gradient-to-r from-purple-600 to-cyan-500 rounded-full text-white shadow-lg shadow-purple-500/50 hover:shadow-purple-500/80 transition-shadow"
-          >
-            Sponsor bo‘ling
-          </button>
         </div>
 
         {/* Sponsor Form Modal */}

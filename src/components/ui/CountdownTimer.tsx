@@ -37,24 +37,26 @@ export function CountdownTimer({ targetDate }: CountdownTimerProps) {
   ];
 
   return (
-    <motion.div
-      className="flex justify-center gap-4 mt-8 mb-4"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8 }}
-    >
-      {timeItems.map((item) => {
-        const isSeconds = item.label === 'Seconds';
-        return (
-          <div
-            key={item.label}
-            className="bg-purple-900/30 backdrop-blur-sm border border-purple-500/50 rounded-xl p-4 flex flex-col items-center w-20"
-          >
-            <span className="text-2xl font-bold text-white">{item.value.toString().padStart(2, '0')}</span>
-            <span className="text-xs text-purple-400 mt-1">{item.label}</span>
-          </div>
-        );
-      })}
-    </motion.div>
+    <div className="p-8 w-[40%] bg-purple-900/20 backdrop-blur-sm border-t border-purple-500/50 flex justify-center rounded-xl">
+      <motion.div
+        className="flex justify-center gap-4"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+      >
+        {timeItems.map((item) => {
+          const isSeconds = item.label === 'Seconds';
+          return (
+            <div
+              key={item.label}
+              className="bg-purple-900/30 backdrop-blur-sm border border-purple-500/50 rounded-xl p-4 flex flex-col items-center w-20"
+            >
+              <span className="text-2xl font-bold text-white">{item.value.toString().padStart(2, '0')}</span>
+              <span className="text-xs text-purple-400 mt-1">{item.label}</span>
+            </div>
+          );
+        })}
+      </motion.div>
+    </div>
   );
 }
