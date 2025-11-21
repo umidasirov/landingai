@@ -221,57 +221,83 @@ export default function Register(): JSX.Element {
                         )}
                     </div>
 
-                    <div className="p-6">
-                        <h1 className="text-2xl font-bold mb-2">{eventTitle}</h1>
-                        <p className="text-gray-300 mb-4 text-sm">{eventDesc}</p>
+                    <div className="p-6 bg-gradient-to-br from-purple-950/60 via-black/60 to-blue-950/60 rounded-2xl shadow-xl backdrop-blur-md border border-white/10">
 
-                        <div className="flex items-center justify-between mb-4">
+                        <h1 className="text-3xl font-bold mb-3 bg-gradient-to-r from-purple-300 to-blue-300 text-transparent bg-clip-text">
+                            {eventTitle}
+                        </h1>
+
+                        <p className="text-gray-300 mb-6 text-sm leading-relaxed">
+                            {eventDesc}
+                        </p>
+
+                        {/* Seats */}
+                        <div className="flex items-center justify-between mb-6">
                             <div className="text-sm text-gray-300">
-                                Joylar cheklangan:
+                                ⚠ Joylar soni cheklangan:
                                 <span className="ml-2 font-semibold text-white">{seatsLeft}</span>
                                 <span className="text-gray-400"> / {seatsTotal}</span>
                             </div>
-                            <div className={`px-2 py-1 rounded-full text-xs font-medium ${seatsLeft > 10 ? 'bg-green-800/40 text-green-300' : seatsLeft > 0 ? 'bg-yellow-900/40 text-yellow-300' : 'bg-red-900/40 text-red-300'}`}>
+
+                            <div
+                                className={`px-3 py-1 rounded-full text-xs font-medium shadow-md
+            ${seatsLeft > 10
+                                        ? 'bg-green-900/40 text-green-300 border border-green-700/40'
+                                        : seatsLeft > 0
+                                            ? 'bg-yellow-900/40 text-yellow-300 border border-yellow-700/40'
+                                            : 'bg-red-900/40 text-red-300 border border-red-700/40'
+                                    }`}
+                            >
                                 {seatsLeft > 10 ? 'Mavjud' : seatsLeft > 0 ? 'So‘nggi joylar' : 'Tugagan'}
                             </div>
                         </div>
 
-                        <div className="mb-3">
-                            <div className="text-sm text-gray-300 mb-2 font-medium">Sovg'alar</div>
+                        {/* Gifts */}
+                        <div className="mb-5">
+                            <div className="text-sm text-gray-200 mb-3 font-semibold">
+                                🎁 Sovg‘alar
+                            </div>
+
                             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                                 {eventGifts.length ? (
-                                    eventGifts.map((g, i) => (
-                                        <div key={i} className="flex items-center gap-2 p-2 bg-black/30 rounded-lg border border-white/6">
-                                            <div className="flex items-center justify-center w-10 h-10 bg-purple-900/20 rounded-md">
-                                                {giftIcon(g)}
+                                    eventGifts.map((g, i) => {
+                                        const colors = [
+                                            "from-purple-700/40 to-purple-900/40",
+                                            "from-blue-700/40 to-blue-900/40",
+                                            "from-pink-700/40 to-pink-900/40",
+                                            "from-green-700/40 to-green-900/40",
+                                            "from-yellow-600/30 to-yellow-900/30",
+                                        ];
+                                        const randomColor = colors[Math.floor(Math.random() * colors.length)];
+
+                                        return (
+                                            <div
+                                                key={i}
+                                                className={`flex items-center gap-2 p-3 rounded-xl border border-white/10 
+                                bg-gradient-to-br ${randomColor} shadow-lg hover:scale-[1.03] transition`}
+                                            >
+                                                <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-black/40">
+                                                    {giftIcon(g)}
+                                                </div>
+                                                <div className="text-xs sm:text-sm text-gray-100 font-medium drop-shadow">
+                                                    {g}
+                                                </div>
                                             </div>
-                                            <div className="text-xs sm:text-sm text-gray-200">{g}</div>
-                                        </div>
-                                    ))
+                                        );
+                                    })
                                 ) : (
                                     <div className="text-sm text-gray-500">Sovg'alar mavjud emas</div>
                                 )}
                             </div>
                         </div>
 
-                        <div className="text-sm text-gray-300 italic mb-2">
-                            Ro‘yxatdan o‘tganlar orasidan sovg'alardan birini yutib olishingiz mumkin!
+                        {/* Motivational highlight */}
+                        <div className="text-sm text-center text-yellow-300 font-semibold italic mb-4 bg-yellow-900/20 py-2 rounded-lg border border-yellow-700/30 shadow-md">
+                            🎉 Ro‘yxatdan o‘tganlar orasidan <span className="text-yellow-200 underline">sovg‘alardan birini</span> yutib olishingiz mumkin!
                         </div>
 
-                        <div className="flex gap-3">
-                            <button
-                                type="button"
-                                onClick={() => navigate(-1)}
-                                className="px-4 py-2 rounded-lg border border-white/10 hover:bg-white/5 transition text-sm"
-                            >
-                                Orqaga
-                            </button>
-
-                            <a href="#form" className="px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-500 transition text-sm">
-                                Ro‘yxatdan o‘tish
-                            </a>
-                        </div>
                     </div>
+
                 </aside>
 
                 <main className="lg:col-span-2 bg-gray-900 rounded-2xl p-6 shadow-lg">

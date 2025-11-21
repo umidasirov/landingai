@@ -82,9 +82,9 @@ export function HeroSection() {
         <ImageWithFallback
           src="https://www.sercansolmaz.com/content/images/2025/02/DALL-E-2025-02-10-00.30.24---A-16_9-cover-image-with-a-deep-midnight-blue-gradient-background.-Overlay-an-abstract-neural-network-or-circuit-board-pattern-in-neon-blue-and-purple-.webp"
           alt="AI Neural Network"
-          className="w-full h-full object-cover opacity-40"
+         className="w-full h-full object-cover opacity-40 max-w-none"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-purple-900/20 to-black" />
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-black via-purple-900/20 to-black" />
       </div>
 
       {particles.map((p, i) => (

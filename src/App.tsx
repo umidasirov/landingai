@@ -45,16 +45,16 @@ export default function App() {
                     <ScrollReveal direction="up">
                       <AboutSection />
                     </ScrollReveal>
-                    <ScrollReveal direction="scale" delay={0.04}>
+                    <ScrollReveal direction="up" delay={0.04}>
                       <SpeakersSection />
                     </ScrollReveal>
-                    <ScrollReveal direction="left" delay={0.04}>
+                    <ScrollReveal direction="up" delay={0.04}>
                       <ScheduleSection />
                     </ScrollReveal>
                     <ScrollReveal direction="up" delay={0.04}>
                       <LocationSection />
                     </ScrollReveal>
-                    <ScrollReveal direction="scale">
+                    <ScrollReveal direction="up">
                       <SponsorsSection />
                     </ScrollReveal>
                     <Footer />
