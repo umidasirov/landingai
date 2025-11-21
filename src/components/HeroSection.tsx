@@ -1,9 +1,60 @@
-import { useState, useMemo } from 'react';
-import { Sparkles, ArrowRight, Users, Cpu, Brain, Zap } from 'lucide-react';
+import { useMemo } from 'react';
+import { Cpu, Brain, Zap } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { RegistrationModal } from './RegistrationModal';
 import { useModal } from '../context/context';
 import { CountdownTimer } from './ui/CountdownTimer';
+import { Link } from 'react-router-dom';
+import { useContext } from 'react';
+
+
+export function FiveBlocks() {
+const { blocks } = useModal();
+const allBlocks = [...blocks]; // original massivni saqlab qo'yish
+const mainBlock = allBlocks.shift(); // birinchi elementni olib olamiz
+const smallBlocks = allBlocks;
+  return (
+    <section className="bg-gray-950 py-16 px-4 sm:px-6 lg:px-10 mt-10 lg:mt-20">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
+          {smallBlocks.map((item) => (
+            <article
+              key={item.id}
+              className="group relative rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row h-auto md:h-72 lg:h-80 xl:h-96 bg-gradient-to-br from-black/40 to-black/10 border border-white/10 backdrop-blur-sm"
+            >
+              <div className="w-full md:w-1/2 h-52 md:h-full overflow-hidden">
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 group-hover:brightness-90"
+                />
+              </div>
+
+              <div className="w-full md:w-1/2 flex flex-col justify-center p-6 sm:p-8 bg-black/50 backdrop-blur-md">
+                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
+                  {item.title}
+                </h3>
+
+                <p className="text-gray-300 mt-3 mb-5 text-sm sm:text-base">{item.desc}</p>
+
+                <div className="flex flex-wrap gap-3 mt-auto">
+                  <Link
+                    to={item.link}
+                    className="px-5 p-2 rounded-lg bg-purple-600 hover:bg-purple-500 transition font-semibold"
+                  >
+                    Ro‘yxatdan o‘ting
+                  </Link>
+                </div>
+              </div>
+
+              <div className="absolute inset-0 rounded-3xl pointer-events-none border border-purple-500/20 group-hover:border-purple-400/40 transition" />
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
 
 export function HeroSection() {
   const { showRegister, setShowRegister } = useModal();
@@ -19,9 +70,14 @@ export function HeroSection() {
     []
   );
 
+  const floatingIcons = [
+    { icon: Brain, top: '25%', left: '33%', from: 'purple', to: 'transparent', border: 'purple-500/30' },
+    { icon: Cpu, top: '66%', left: '25%', from: 'cyan', to: 'transparent', border: 'cyan-500/30' },
+    { icon: Zap, top: '33%', left: '66%', from: 'pink', to: 'transparent', border: 'pink-500/30' },
+  ];
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black">
-      {/* Background */}
       <div className="absolute inset-0">
         <ImageWithFallback
           src="https://www.sercansolmaz.com/content/images/2025/02/DALL-E-2025-02-10-00.30.24---A-16_9-cover-image-with-a-deep-midnight-blue-gradient-background.-Overlay-an-abstract-neural-network-or-circuit-board-pattern-in-neon-blue-and-purple-.webp"
@@ -31,7 +87,6 @@ export function HeroSection() {
         <div className="absolute inset-0 bg-gradient-to-b from-black via-purple-900/20 to-black" />
       </div>
 
-      {/* Floating Particles */}
       {particles.map((p, i) => (
         <div
           key={i}
@@ -45,86 +100,22 @@ export function HeroSection() {
         />
       ))}
 
-      {/* Gradient Orbs */}
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600 rounded-full filter blur-3xl opacity-20 animate-pulse" />
-      <div
-        className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-600 rounded-full filter blur-3xl opacity-20 animate-pulse"
-        style={{ animationDelay: '1s' }}
-      />
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-600 rounded-full filter blur-3xl opacity-20 animate-pulse" style={{ animationDelay: '1s' }} />
 
-      {/* Floating AI Icons */}
-      {[{ icon: Brain, top: '25%', left: '33%', from: 'purple', to: 'transparent', border: 'purple-500/30' },
-      { icon: Cpu, top: '66%', left: '25%', from: 'cyan', to: 'transparent', border: 'cyan-500/30' },
-      { icon: Zap, top: '33%', left: '66%', from: 'pink', to: 'transparent', border: 'pink-500/30' }]
-        .map(({ icon: Icon, top, left, from, to, border }, i) => (
-          <div key={i} className="absolute hidden md:block" style={{ top, left }}>
-            <div className={`p-4 bg-gradient-to-br from-${from}-600/20 to-${to} backdrop-blur-sm border ${border} rounded-2xl animate-floatSoft`}>
-              <Icon className={`text-${from}-400`} size={40} />
-            </div>
+      {floatingIcons.map(({ icon: Icon, top, left, from, to, border }, i) => (
+        <div key={i} className="absolute hidden md:block" style={{ top, left }}>
+          <div className={`p-4 bg-gradient-to-br from-${from}-600/20 to-${to} backdrop-blur-sm border ${border} rounded-2xl animate-floatSoft`}>
+            <Icon className={`text-${from}-400`} size={40} />
           </div>
-        ))
-      }
+        </div>
+      ))}
 
-      {/* Content */}
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-20">
-        <div className="flex items-center justify-center gap-2 mb-6 opacity-80">
-          <Sparkles className="text-cyan-400" size={20} />
-          <span className="text-cyan-400 uppercase tracking-wider">Toshkent, O‘zbekiston</span>
-          <Sparkles className="text-cyan-400" size={20} />
-        </div>
-
-        <h1 className="text-5xl sm:text-6xl lg:text-8xl mb-6">
-          <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent">
-            AI Konferensiya
-          </span>
-          <br />
-          <span className="text-white">2025</span>
-        </h1>
-
-        <p className="text-xl sm:text-2xl lg:text-3xl text-gray-300 mb-4">
-          Sun’iy intellektning kelajagi. Global mutaxassislar.
-          <br />
-          <span className="text-purple-400">Inqilobiy yangiliklar.</span>
-        </p>
-
-        <p className="text-gray-400 mb-12 max-w-2xl mx-auto">
-          Sun’iy intellekt sohasidagi yetakchi fikr egalari bilan uch kun davomida zamonaviy yondashuvlar,
-          yangi tadqiqotlar va kelajak texnologiyasini shakllantiradigan innovatsion yechimlar bilan tanishing.
-        </p>
-
+        <FiveBlocks />
         <CountdownTimer targetDate="2025-11-29T00:00:00" />
-
-        {/* Buttons */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8 w-full max-w-md mx-auto sm:max-w-none">
-          <button
-            onClick={() => setShowRegister(true)}
-            className="w-full sm:w-64 px-8 py-4 bg-gradient-to-r from-purple-600 to-cyan-500 rounded-full text-white flex items-center justify-center gap-2 shadow-2xl shadow-purple-500/50 hover:shadow-purple-500/80 transition-transform duration-200 transform hover:scale-105 active:scale-95 relative overflow-hidden group"
-          >
-            <Sparkles size={20} />
-            Ro‘yxatdan o‘tish
-            <ArrowRight size={20} />
-          </button>
-
-          <button
-            onClick={() => document.getElementById('speakers')?.scrollIntoView({ behavior: 'smooth' })}
-            className="w-full sm:w-64 px-8 py-4 border-2 border-purple-500 rounded-full text-white flex items-center justify-center gap-2 hover:bg-purple-500/10 transition-colors backdrop-blur-sm"
-          >
-            <Users size={20} />
-            Spikerlarni ko‘rish
-          </button>
-        </div>
-
       </div>
 
-      {/* Scroll Indicator */}
-      {/* <div className="animate-blob absolute bottom-10 left-1/2 transform -translate-x-1/2">
-        <div className="w-6 h-10 border-2 border-purple-400 rounded-full flex justify-center pt-2 animate-bounce">
-          <div className="w-1 h-2 bg-purple-400 rounded-full" />
-        </div>
-      </div> */}
-
-      {/* Registration modal */}
-      <RegistrationModal isOpen={showRegister} onClose={() => setShowRegister(false)} />
     </section>
   );
 }

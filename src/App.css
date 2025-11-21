@@ -59,3 +59,31 @@
   transform-origin: left;
   z-index: 50;
 }
+/* === AUTOSCROLL ANIMATSIYA === */
+@keyframes autoscroll {
+  0% {
+    transform: translateY(0px);
+  }
+  100% {
+    transform: translateY(-12px);
+  }
+}
+
+/* === AI GLOW PULSE ANIMATSIYA === */
+@keyframes glowpulse {
+  0%, 100% {
+    box-shadow: 0 0 12px #a855f7;
+  }
+  50% {
+    box-shadow: 0 0 28px #c084fc;
+  }
+}
+
+/* === ANIMATSIYALAR KLASSLARI === */
+.animate-autoscroll {
+  animation: autoscroll 3s ease-in-out infinite alternate;
+}
+
+.animate-glowpulse {
+  animation: glowpulse 2.4s ease-in-out infinite;
+}

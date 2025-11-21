@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Menu, X, UserPlus } from 'lucide-react@0.487.0';
 import { RegistrationModal } from './RegistrationModal';
 import { useModal } from '../context/context';
-
+import { Link } from 'react-router-dom';
 export function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { showRegister, setShowRegister } = useModal();
@@ -35,7 +35,7 @@ export function Navigation() {
           {/* Logo */}
           <div className="cursor-pointer flex items-center gap-2">
             <div className="w-10 h-10 bg-gradient-to-br from-purple-600 to-cyan-400 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold">AI</span>
+              <Link to='/' className="text-white font-bold">AI</Link>
             </div>
             <div>
               <div className="text-white font-semibold">AI Conference</div>
@@ -46,13 +46,13 @@ export function Navigation() {
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-8">
             {navLinks.map((link) => (
-              <button
+              <div
                 key={link}
                 onClick={() => scrollToSection(link)}
-                className="text-gray-300 hover:text-purple-400 transition-colors duration-200 cursor-pointer"
+                className="text-gray-300 transition-colors duration-200 cursor-pointer"
               >
                 {link}
-              </button>
+              </div>
             ))}
           </div>
 
@@ -71,14 +71,6 @@ export function Navigation() {
                 </button>
               ))}
             </div>
-
-            <button
-              onClick={() => setShowRegister(true)}
-              className="px-6 py-3 bg-gradient-to-r from-purple-600 to-cyan-500 rounded-full text-white flex items-center gap-2 shadow-lg shadow-purple-500/50 hover:shadow-purple-500/80 transition-shadow duration-200"
-            >
-              <UserPlus size={18} />
-              Ro‘yxatdan o‘tish
-            </button>
           </div>
 
           {/* Mobile Menu Toggle */}
@@ -130,7 +122,6 @@ export function Navigation() {
         </div>
       )}
 
-      <RegistrationModal isOpen={showRegister} onClose={() => setShowRegister(false)} />
     </nav>
   );
 }

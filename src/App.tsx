@@ -11,112 +11,108 @@ import { ScrollReveal } from './components/ScrollReveal';
 import { DigitalRain } from './components/DigitalRain';
 import { ScrollProgress } from './components/ScrollProgress';
 import { ModalProvider } from './context/context';
-import { RegistrationModal } from './components/RegistrationModal';
-import { BrowserRouter, Link } from 'react-router-dom';
+import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
+import Register from './components/register';
+import { BigBanner } from './components/BigBanner';
 import "./App.css"
 export default function App() {
   return (
     <ModalProvider>
       <BrowserRouter>
-      <div className="min-h-screen bg-black text-white antialiased overflow-x-hidden">
         <ScrollProgress />
         {/* <DigitalRain /> */}
-        <RegistrationModal />
         <AIParticlesBackground />
-        <Navigation />
-        <main className="relative z-10">
-          <HeroSection />
-          <ScrollReveal direction="up">
-            <RegistrationCard />
-          </ScrollReveal>
-          <ScrollReveal direction="up">
-            <AboutSection />
-          </ScrollReveal>
-          <ScrollReveal direction="scale" delay={0.2}>
-            <SpeakersSection />
-          </ScrollReveal>
-          <ScrollReveal direction="left" delay={0.1}>
-            <ScheduleSection />
-          </ScrollReveal>
-          <ScrollReveal direction="up" delay={0.2}>
-            <LocationSection />
-          </ScrollReveal>
-          <ScrollReveal direction="scale">
-            <SponsorsSection />
-          </ScrollReveal>
-        </main>
-        <Footer />
-      </div>
-    </BrowserRouter>
+
+        {/* Container: full-screen, flex column */}
+        <div className="min-h-screen flex flex-col bg-black text-white antialiased">
+
+          {/* NAVBAR */}
+          <Navigation />
+
+          {/* MAIN CONTENT */}
+          <div className="flex-1">
+            <Routes>
+              <Route path="/register/:id" element={<Register />} />
+
+              <Route
+                path="/"
+                element={
+                  <main className="flex-1 w-full">
+                    <HeroSection />
+                    <ScrollReveal direction="up" delay={0.04}>
+                      <BigBanner />
+                    </ScrollReveal>
+                    <ScrollReveal direction="up">
+                      <AboutSection />
+                    </ScrollReveal>
+                    <ScrollReveal direction="scale" delay={0.04}>
+                      <SpeakersSection />
+                    </ScrollReveal>
+                    <ScrollReveal direction="left" delay={0.04}>
+                      <ScheduleSection />
+                    </ScrollReveal>
+                    <ScrollReveal direction="up" delay={0.04}>
+                      <LocationSection />
+                    </ScrollReveal>
+                    <ScrollReveal direction="scale">
+                      <SponsorsSection />
+                    </ScrollReveal>
+                    <Footer />
+                  </main>
+                }
+              />
+            </Routes>
+          </div>
+
+          {/* FOOTER doim pastda */}
+        </div>
+      </BrowserRouter>
     </ModalProvider>
   );
 }
-import { Cpu, Zap, Users, Globe, Award } from 'lucide-react';
 
-const directions = [
-  {
-    name: 'Robo Football',
-    icon: Cpu,
-    path: '/register/robofutbol',
-    description: "Robotlar bilan futbol jangolari. Texnologiya va sportning mukammal uyg'unligi",
-    features: ['Innovatsion texnologiyalar', 'Professional mentorlik', "Qimmatli sovg'alar"],
-  },
-  {
-    name: 'Robo Sumo',
-    icon: Zap,
-    path: '/register/robosumo',
-    description: "Robotlarning kuch sinov kurashi. Dohiy g'oyalar va qattiq raqobat",
-    features: ['Innovatsion texnologiyalar', 'Professional mentorlik', "Qimmatli sovg'alar"],
-  },
-  {
-    name: 'Foydali Ixtirolar',
-    icon: Globe,
-    path: '/register/ixtirolar',
-    description: "Hayotni soddalashtiradigan aqli ixtirolar. Yangi g'oyalarni amalga oshiring",
-    features: ['Innovatsion texnologiyalar', 'Professional mentorlik', "Qimmatli sovg'alar"],
-  },
-];
 
-export function RegistrationCard() {
+import ai from "./assets/ai.png";
+const blocks = [
+  {
+    id: 1,
+    title: "AI Texnologiyalar",
+    desc: "Sun'iy intellektning yangi chegaralarini kashf qiling.",
+    image: ai,
+    size: "large",
+    link: "/register/ai",
+  },]
+
+export function BigBanner() {
   return (
-    <div className="px-4 py-10 bg-gray-900">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        {directions.map((dir) => {
-          const Icon = dir.icon;
+    <div className="max-w-7xl mx-auto">
+      <div className="relative rounded-3xl overflow-hidden shadow-xl flex flex-col md:flex-row h-[18rem] md:h-[20rem] lg:h-[22rem]">
+        <div className="w-full md:w-1/2 h-48 md:h-full overflow-hidden">
+          <img
+            src={ai}
+            alt="AI Texnologiyalar"
+            className="w-full h-full object-cover transition-transform duration-500 ease-out transform hover:scale-105 filter"
+          />
+        </div>
 
-          return (
-            <div
-              key={dir.name}
-              className="bg-gray-800 text-white rounded-3xl p-6 shadow-2xl flex flex-col hover:scale-105 transition-transform duration-300"
+        <div className="w-full md:w-1/2 flex flex-col justify-center p-6 bg-black/55 backdrop-blur-sm">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent mb-2">
+            AI Texnologiyalar
+          </h2>
+          <p className="text-gray-300 mb-4">
+            Sun'iy intellektning yangi chegaralarini kashf qiling. Seminarlardan amaliy mashgʻulotlargacha — hammasi shu erda.
+          </p>
+          <div className="flex gap-3">
+            <Link
+              to="/register/ai"
+              className="px-5 p-2 rounded-xl bg-purple-600 hover:bg-purple-500 transition shadow-lg font-semibold"
             >
-              {/* Icon */}
-              <div className="w-20 h-20 mb-4 flex items-center justify-center bg-gray-700 rounded-full shadow-lg transition-transform duration-300 hover:scale-110">
-                <Icon size={36} className="text-purple-400" />
-              </div>
+              Ro‘yxatdan o‘ting →
+            </Link>
+          </div>
+        </div>
 
-              {/* Title */}
-              <h3 className="text-xl font-bold mb-2 text-center">{dir.name}</h3>
-
-              {/* Description */}
-              <p className="text-gray-300 text-center mb-4">{dir.description}</p>
-
-              {/* Features */}
-              <ul className="mb-6 list-disc list-inside text-gray-400 space-y-1">
-                {dir.features.map((feature) => (
-                  <li key={feature}>{feature}</li>
-                ))}
-              </ul>
-
-              {/* Button */}
-              <Link
-                to={dir.path}
-                className="mt-auto bg-purple-600 hover:bg-purple-500 text-white py-2 px-4 rounded-lg text-center font-semibold transition-colors duration-300"
-              >
-                Hozir qo'shilish →
-              </Link>
-            </div>
-          );
-        })}
+        <div className="absolute inset-0 rounded-3xl pointer-events-none border-2 border-purple-500/15" />
       </div>
     </div>
   );
