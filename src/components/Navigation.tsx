@@ -9,7 +9,7 @@ export function Navigation() {
   const { showRegister, setShowRegister } = useModal();
   const [language, setLanguage] = useState('EN');
 
-  const navLinks = ['Haqida', 'Nutqchilar', 'Jadval', 'Manzil', 'Homiylar', 'Bog‘lanish'];
+  const navLinks = ['Musobaqalar', 'Nutqchilar', 'Manzil', 'Homiylar', 'Bog‘lanish'];
   const languages = ['EN'];
 
   const scrollToSection = (section: string) => {
@@ -54,29 +54,29 @@ export function Navigation() {
           </div>
 
           {/* Mobile Menu Toggle */}
-          <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="lg:hidden text-white p-2">
+          <div onClick={() => setIsMenuOpen(!isMenuOpen)} className="lg:hidden text-white p-2">
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          </div>
         </div>
       </div>
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="lg:hidden bg-black/95 border-t border-purple-500/20 transition-all duration-300">
+        <div className="lg:hidden backdrop-blur-lg bg-black/30 border-t border-purple-500/20 transition-all duration-300">
           <div className="px-4 py-6 space-y-4">
             {navLinks.map((link) => (
-              <button
+              <div
                 key={link}
                 onClick={() => scrollToSectionMobile(link)}
                 className="block w-full text-left text-gray-300 hover:text-purple-400 py-2 transition-colors duration-200"
               >
                 {link}
-              </button>
+              </div>
             ))}
-             
           </div>
         </div>
       )}
+
 
     </nav>
   );

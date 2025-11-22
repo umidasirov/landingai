@@ -6,11 +6,20 @@ import constest from '../assets/contest.png';
 import idea from '../assets/idea.png';
 import React, { createContext, useState, useContext } from "react";
 
-import laptop from '../assets/gifts/laptop.jpg';
-import iphone from '../assets/gifts/i.jpeg';
-import TV from '../assets/gifts/tv.png';
-import pilesos from '../assets/gifts/pilesos.png';
-import s from '../assets/gifts/ы.png';
+import laptop from '../assets/gifts/lop.png';
+import iphone from '../assets/gifts/i.png';
+import TV from '../assets/gifts/tele.png';
+import pilesos from '../assets/gifts/piles.png';
+import s from '../assets/gifts/pil.png';
+import naush from '../assets/gifts/na.png';
+import key from '../assets/gifts/klav.png';
+import ter from '../assets/gifts/termiz.png';
+import kal from '../assets/gifts/kalon.png';
+import t from '../assets/gifts/ls-no-bg-preview (carve.photos).png';
+import rp from '../assets/gifts/piles.png';
+import sam from '../assets/gifts/sama.png';
+import sumk from '../assets/gifts/sumka.png';
+
 // Block turi
 type GiftType = {
     type: string;
@@ -27,6 +36,7 @@ interface BlockType {
   size: 'small' | 'large';
   link: string;
   gifts?: Gift[]; 
+  date:string;
 }
 
 interface ModalContextType {
@@ -47,10 +57,11 @@ const blocks = [
     image: idea,
     size: 'small',
     link: '/register/fixtirolar',
+    date: "2025-11-30T00:00:00",
     gifts: [
-      { type: "planner", description: "Rejalashtiruvchi daftarchalar", image: s, count: 1 },
-      { type: "smartwatch", description: "Smart soat", image: s, count: 2 },
-      { type: "lamp", description: "Stol lampasi", image: s, count: 1 },
+      { type: "Noutbuk", description: "Noutbuk", image: laptop, count: 1 },
+      { type: "Televizor", description: "Smart soat", image: TV, count: 2 },
+      { type: "Robo pilesos", description: "Robot changyutgich", image: rp, count: 1 },
     ],
   },
   {
@@ -60,6 +71,7 @@ const blocks = [
     image: robosumo,
     size: 'small',
     link: '/register/rsumo',
+    date: "2025-12-29T00:00:00",
     gifts: [
       { type: "samakat", description: "Samakat", image: s, count: 1 },
       { type: "tv", description: "Televizor", image: TV, count: 1 },
@@ -73,8 +85,9 @@ const blocks = [
     image: constest,
     size: 'small',
     link: '/register/contest',
+    date: "2025-12-07T00:00:00",
     gifts: [
-      { type: "keyboard", description: "Klaviatura", image: s, count: 1 },
+      { type: "keyboard", description: "Klaviatura", image: key, count: 1 },
       { type: "tablet", description: "Planshet", image: s, count: 3 },
       { type: "smartlamp", description: "Smart lamp", image: s, count: 2 },
     ],
@@ -86,6 +99,7 @@ const blocks = [
     image: futbol,
     size: 'small',
     link: '/register/rfutbol',
+    date: "2025-12-01T00:00:00",
     gifts: [
       { type: "nout", description: "Noutbuk", image: laptop, count: 2 },
       { type: "tv", description: "Televizor", image: TV, count: 2 },
@@ -99,17 +113,19 @@ const blocks = [
     image: ai,
     size: "large",
     link: "/register/ai",
+    date: "2025-11-25T00:00:00",
     gifts: [
       { type: "iphone", description: "iPhone 17", image: iphone, count: 1 },
-      { type: "speaker", description: "Kalonka", image: s, count: 10 },
-      { type: "termoz", description: "Termoz", image: s, count: 10 },
-      { type: "thermocup", description: "Termokrushka", image: s, count: 10 },
-      { type: "smartwatch", description: "Smart soat", image: s, count: 10 },
-      { type: "headphones", description: "Naushnik", image: s, count: 10 },
-      { type: "keyboard", description: "Klaviatura", image: s, count: 10 },
+      { type: "speaker", description: "Kalonka", image: kal, count: 10 },
+      { type: "termoz", description: "Termoz", image: ter, count: 10 },
+      { type: "thermocup", description: "Termokrushka", image: t, count: 10 },
+      { type:'sumka', description: "Sumka", image: sumk, count: 10 },
+      { type: "headphones", description: "Naushnik", image: naush, count: 10 },
+      { type: "keyboard", description: "Klaviatura", image: key, count: 10 },
     ],
   },
 ];
+
 
 export const ModalProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [showRegister, setShowRegister] = useState<boolean>(false);

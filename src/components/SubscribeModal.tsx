@@ -33,6 +33,7 @@ export function SubscriptionModal({ open, onClose, formData, onSubmit }: Subscri
         backgroundColor: "rgba(0,0,0,0.4)",
         backdropFilter: "blur(10px)",
         WebkitBackdropFilter: "blur(10px)",
+        zIndex: 1000,
       }}
     >
       <div className="bg-gray-900 w-1/5 rounded-2xl p-8 max-w-md text-center">

@@ -12,6 +12,7 @@ import { DigitalRain } from './components/DigitalRain';
 import { ScrollProgress } from './components/ScrollProgress';
 import { ModalProvider } from './context/context';
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
+import { TypingEffect } from './components/TypingEffect';
 import Register from './components/register';
 import "./App.css"
 import { CountdownTimer } from './components/ui/CountdownTimer';
@@ -37,12 +38,8 @@ export default function App() {
                 path="/"
                 element={
                   <main className="flex-1 w-full">
-                    <HeroSection />
                     <Navigation />
-
-                    <ScrollReveal className='my-6' direction="up" delay={0.04}>
-                      <CountdownTimer targetDate="2025-11-29T00:00:00" />
-                    </ScrollReveal>
+                    <HeroSection />
                     <ScrollReveal direction="up">
                       <AboutSection />
                     </ScrollReveal>

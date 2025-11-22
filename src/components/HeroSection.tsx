@@ -14,8 +14,9 @@ export function FiveBlocks() {
   const mainBlock = allBlocks.shift(); // birinchi elementni olib olamiz
   const smallBlocks = allBlocks;
   return (
-    <section className="bg-gray-950 py-16 px-4 sm:px-6 lg:px-10 mt-10 lg:mt-20">
+    <section className="bg-gray-950 py-10 px-4 sm:px-6 lg:px-10 mt-10 lg:mt-20" id='musobaqalar'>
       <div className="max-w-7xl mx-auto">
+        <CountdownTimer targetDate="2025-11-29T00:00:00" />
         <div className="flex flex-wrap justify-center gap-8 lg:gap-10 ani">
           {blocks.map((item, idx) => (
             <article
@@ -42,7 +43,7 @@ export function FiveBlocks() {
                     to={item.link =='/register/contest'?'https://online.raqamliavlod.uz/':item.link}
                     className="px-5 p-2 rounded-lg bg-purple-600 hover:bg-purple-500 mt-2 transition font-semibold"
                   >
-                    Ro‘yxatdan o‘ting
+                    Ro‘yxatdan o‘tish
                   </Link>
                 </div>
               </div>

@@ -5,8 +5,95 @@ import { useModal } from '../context/context';
 import regions from '../locate/regions.json';
 import districts from '../locate/districts.json';
 import { GiftsList } from './GiftList';
-import { CountdownTimer } from './ui/CountdownTimer';
+// import { CountdownTimer } from './ui/CountdownTimer';
+import { SuspendedGiftBox } from './GiftReveal';
+import { PrizesSection } from './t';
+import pdf from "../assets/pdf.pdf"
 type Params = { id?: string };
+
+
+
+
+
+
+
+import { motion } from 'framer-motion';
+import Karobka from './Karobka';
+
+interface CountdownTimerProps {
+    targetDate: string;
+}
+
+function CountdownTimer({ targetDate }: CountdownTimerProps) {
+    const calculateTimeLeft = () => {
+        const difference = new Date(targetDate).getTime() - new Date().getTime();
+        let timeLeft = { days: 0, hours: 0, minutes: 0, seconds: 0 };
+        if (difference > 0) {
+            timeLeft = {
+                days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+                hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+                minutes: Math.floor((difference / 1000 / 60) % 60),
+                seconds: Math.floor((difference / 1000) % 60),
+            };
+        }
+        return timeLeft;
+    };
+
+    const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setTimeLeft(calculateTimeLeft());
+        }, 1000);
+        return () => clearInterval(timer);
+    }, [targetDate]);
+
+    const timeItems = [
+        { label: 'Kun', value: timeLeft.days },
+        { label: 'Soat', value: timeLeft.hours },
+        { label: 'Daqiqa', value: timeLeft.minutes },
+        { label: 'Soniya', value: timeLeft.seconds },
+    ];
+
+    return (
+        <div className="flex justify-center gap-3">
+            {timeItems.map((item) => (
+                <motion.div
+                    key={item.label}
+                    className="bg-purple-900/40 border border-purple-500/50 rounded-xl p-3 flex flex-col items-center w-16"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8 }}
+                >
+                    <span className="text-white font-bold text-lg">
+                        {item.value.toString().padStart(2, '0')}
+                    </span>
+                    <span className="text-xs text-purple-300 mt-1">{item.label}</span>
+                </motion.div>
+            ))}
+        </div>
+    );
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 type BlockType = {
     id: number | string;
@@ -85,6 +172,11 @@ export default function Register(): JSX.Element {
 
     const firstNameRef = useRef<HTMLInputElement | null>(null);
 
+
+
+
+
+
     // Main person form
     const [form, setForm] = useState<RegisterPayload>({
         first_name: '',
@@ -113,10 +205,10 @@ export default function Register(): JSX.Element {
         birth_date: '',
         email: '',
         study_place: '',
-        region1: '',
-        district1: '',
+        region: '',
+        district: '',
         about: '',
-        gender_f: '',
+        gender: '',
         telegram_username: '',
     });
 
@@ -156,13 +248,13 @@ export default function Register(): JSX.Element {
             if (!friendForm.first_name?.trim()) return "Do‘stingizning ismi kiritilsin.";
             if (!friendForm.last_name?.trim()) return "Do‘stingizning familiyasi kiritilsin.";
             if (!friendForm.middle_name?.trim()) return "Do‘stingizning otasining ismi kiritilsin.";
-            if (!friendForm.gender_f) return "Do‘stingizning jinsini tanlang.";
+            if (!friendForm.gender) return "Do‘stingizning jinsini tanlang.";
             if (!friendForm.phone_number?.trim()) return "Do‘stingizning telefon raqami kiritilsin.";
             if (!friendForm.email?.trim()) return "Do‘stingizning emaili kiritilsin.";
             if (!friendForm.birth_date) return "Do‘stingizning tug‘ilgan sanasi kiritilsin.";
             if (!friendForm.study_place?.trim()) return "Do‘stingizning o‘qish joyi kiritilsin.";
-            if (!friendForm.region1?.trim()) return "Do‘stingizning hududi kiritilsin.";
-            if (!friendForm.district1?.trim()) return "Do‘stingizning tumani kiritilsin.";
+            if (!friendForm.region?.trim()) return "Do‘stingizning hududi kiritilsin.";
+            if (!friendForm.district?.trim()) return "Do‘stingizning tumani kiritilsin.";
             if (!friendForm.about?.trim()) return "Do‘stingiz haqida qisqacha ma'lumot kiritilsin.";
         }
         return null;
@@ -253,34 +345,27 @@ export default function Register(): JSX.Element {
                         {eventImage ? (
                             <img src={eventImage} alt={eventTitle} className="w-full h-full object-cover block" />
                         ) : (
-                            <div className="w-full h-48 flex items-center justify-center text-gray-500">Rasm mavjud emas</div>
+                            <div className="w-full h-48 flex items-center justify-center text-gray-500">
+                                Rasm mavjud emas
+                            </div>
                         )}
                     </div>
 
-                    <div className="p-6 bg-gradient-to-br from-purple-950/60 via-black/60 to-blue-950/60 rounded-2xl shadow-xl backdrop-blur-md border border-white/10">
+                    <div className="p-6 bg-gradient-to-br from-purple-950/60 via-black/60 to-blue-950/60 rounded-2xl shadow-xl backdrop-blur-md border border-white/10 flex flex-col gap-4">
 
-                        <h1 className="text-3xl font-bold mb-3 bg-gradient-to-r from-purple-300 to-blue-300 text-gray-100 bg-clip-text">
+                        {/* Countdown */}
+
+                        {/* Event Title */}
+                        <h1 className="text-3xl font-bold mb-2 bg-gradient-to-r from-purple-300 to-blue-300 text-gray-100 bg-clip-text">
                             {eventTitle}
                         </h1>
 
-                        <p className="text-gray-300 mb-6 text-sm leading-relaxed">
-                            {eventDesc}
-                        </p>
+                        {/* Event Description */}
+                        <p className="text-gray-300 mb-4 text-sm leading-relaxed">{eventDesc}</p>
 
-                        {/* Seats */}
-                        <div className="flex items-center justify-between mb-6">
-                            <div className="text-sm text-gray-300">
-                               {eventDesc == "AI Texnologiyalar"? '⚠ Joylar soni cheklangan!!!': ""}
-                            </div>
-                        </div>
-
-                        <div className="text-sm text-center text-yellow-300 font-semibold italic mb-4 bg-yellow-900/20 py-2 rounded-lg border border-yellow-700/30 shadow-md">
-                            🎉 Ro‘yxatdan o‘tganlar orasidan <span className="text-yellow-200 underline">sovg‘alardan birini</span> yutib olishingiz mumkin!
-                        </div>
-                        <div className='p-4'>
-                        </div>
+                        {/* Gift message */}
+                        <CountdownTimer targetDate={block.date} />
                     </div>
-
                 </aside>
 
                 <main className="lg:col-span-2 bg-gray-900 rounded-2xl p-6 shadow-2xl z-20">
@@ -352,10 +437,18 @@ export default function Register(): JSX.Element {
                         </div>
 
                     ) : (
+                        <div>
+                            <div className="flex items-center justify-between mb-6">
+                                <h2 id="register-heading" className="text-xl font-semibold">
+                                    {eventTitle} — Ro‘yxatdan o‘tish
+                                </h2>
+                                <a href={pdf} download className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
+                                <button className='mt-2 w-full py-3 rounded-xl px-6 text-white font-semibold transition bg-purple-600 hover:bg-purple-500'>
+                                    nizomni yuklab olish <i className='fa-solid fa-download'></i>
+                                </button>
+                                </a>
+                            </div>
                         <form id="form" onSubmit={handleSubmit} className="space-y-4" aria-labelledby="register-heading">
-                            <h2 id="register-heading" className="text-xl font-semibold">
-                                {eventTitle} — Ro‘yxatdan o‘tish
-                            </h2>
                             {error && <div className="text-sm text-red-700">{error}</div>}
                             {/* Main person fields */}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -375,100 +468,108 @@ export default function Register(): JSX.Element {
                                 </label>
                                 <label className="block">
                                     <span className="text-sm text-gray-300">Jins</span>
-                                    <select style={{ border: '1px solid blue' }} value={form.gender} onChange={e => setField('gender', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3">
+                                    <select style={{ border: '1px solid white' }} value={form.gender} onChange={e => setField('gender', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3">
                                         <option value="" className='bg-gray-900'>Tanlang</option>
                                         <option value="male" className='bg-gray-900'>Erkak</option>
                                         <option value="female" className='bg-gray-900'>Ayol</option>
                                     </select>
                                 </label>
                             </div>
-                            <label className="block">
-                                <span className="text-sm text-gray-300">Telefon</span>
-                                <input type="tel" value={form.phone_number} onChange={e => setField('phone_number', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
-                            </label>
-                            <label className="block">
-                                <span className="text-sm text-gray-300">Telegram username</span>
-                                <input type="text" value={form.telegram_username} onChange={e => setField('telegram_username', e.target.value)} className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
-                            </label>
-                            <label className="block">
-                                <span className="text-sm text-gray-300">Tug‘ilgan sana</span>
-                                <input type="date" value={form.birth_date} onChange={e => setField('birth_date', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
-                            </label>
-                            <label className="block">
-                                <span className="text-sm text-gray-300">Ta'lim / O‘qish joyi</span>
-                                <input type="text" value={form.study_place} onChange={e => setField('study_place', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
-                            </label>
-                            <div>
-                                <label className="block text-sm mb-2">Viloyat</label>
-                                <select
-                                    value={form.region}
-                                    onChange={e => {
-                                        setField('region', e.target.value);
-                                        setField('district', '');
-                                    }}
-                                    className="w-full p-3 rounded-lg font-semibold shadow focus:outline-none"
-                                    style={{
-                                        color: '#fff',
-                                        border: '1px solid blue'
-                                    }}
-                                    required
-                                >
-                                    <option value="" className='bg-gray-900'>Viloyatni tanlang</option>
-                                    {regions.map(region => (
-                                        <option key={region.id} className='bg-gray-900' value={region.id}>
-                                            {region.name_uz}
-                                        </option>
-                                    ))}
-                                </select>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <label className="block">
+                                    <span className="text-sm text-gray-300">Telefon</span>
+                                    <input type="tel" value={form.phone_number} onChange={e => setField('phone_number', e.target.value)} placeholder='+998(12)-345-67-89' required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
+                                </label>
+                                <label className="block">
+                                    <span className="text-sm text-gray-300">Telegram username</span>
+                                    <input type="text" value={form.telegram_username} placeholder='@username' onChange={e => setField('telegram_username', e.target.value)} className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
+                                </label>
                             </div>
-                            <div>
-                                <label className="block text-sm mb-2">Tuman</label>
-                                <select
-                                    value={form.district}
-                                    onChange={e => setField('district', e.target.value)}
-                                    className="w-full p-3 rounded-lg font-semibold shadow focus:outline-none"
-                                    style={{
-                                        color: '#fff',
-                                        border: '1px solid blue'
-                                    }}
-                                    required
-                                    disabled={!form.region}
-                                >
-                                    <option value="" className='bg-gray-900'>Tumanni tanlang</option>
-                                    {districts
-                                        .filter(d => String(d.region_id) === String(form.region))
-                                        .map(district => (
-                                            <option key={district.id} value={district.name_uz} className='bg-gray-900'>
-                                                {district.name_uz}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <label className="block">
+                                    <span className="text-sm text-gray-300">Tug‘ilgan sana</span>
+                                    <input type="date" value={form.birth_date} onChange={e => setField('birth_date', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
+                                </label>
+                                <label className="block">
+                                    <span className="text-sm text-gray-300">Ta'lim / O‘qish joyi</span>
+                                    <input type="text" value={form.study_place} onChange={e => setField('study_place', e.target.value)} required placeholder='Maktab, Litsey, Universitet nomi' className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
+                                </label>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <div>
+                                    <label className="block text-sm mb-2">Viloyat</label>
+                                    <select
+                                        value={form.region}
+                                        onChange={e => {
+                                            setField('region', e.target.value);
+                                            setField('district', '');
+                                        }}
+                                        className="w-full p-3 rounded-lg font-semibold shadow focus:outline-none"
+                                        style={{
+                                            color: '#fff',
+                                            border: '1px solid white'
+                                        }}
+                                        required
+                                    >
+                                        <option value="" className='bg-gray-900'>Viloyatni tanlang</option>
+                                        {regions.map(region => (
+                                            <option key={region.id} className='bg-gray-900' value={region.id}>
+                                                {region.name_uz}
                                             </option>
                                         ))}
-                                </select>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label className="block text-sm mb-2">Tuman</label>
+                                    <select
+                                        value={form.district}
+                                        onChange={e => setField('district', e.target.value)}
+                                        className="w-full p-3 rounded-lg font-semibold shadow focus:outline-none"
+                                        style={{
+                                            color: '#fff',
+                                            border: '1px solid white'
+                                        }}
+                                        required
+                                        disabled={!form.region}
+                                    >
+                                        <option value="" className='bg-gray-900'>Tumanni tanlang</option>
+                                        {districts
+                                            .filter(d => String(d.region_id) === String(form.region))
+                                            .map(district => (
+                                                <option key={district.id} value={district.name_uz} className='bg-gray-900'>
+                                                    {district.name_uz}
+                                                </option>
+                                            ))}
+                                    </select>
+                                </div>
                             </div>
-                            <label className="block">
-                                <span className="text-sm text-gray-300">Email</span>
-                                <input type="email" value={form.email} onChange={e => setField('email', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
-                            </label>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <label className="block">
+                                    <span className="text-sm text-gray-300">Email</span>
+                                    <input type="email" placeholder='example@gmail.com' value={form.email} onChange={e => setField('email', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
+                                </label>
+                                <label className="block">
+                                    <span className="text-sm text-gray-300">Yo'nalish</span>
+                                    <select
+                                        value={form.direction}
+                                        onChange={e => {
+                                            setField('direction', e.target.value);
+                                            navigate(`/register/${e.target.value}`);
+                                        }}
+                                        required
+                                        className="mt-1 w-full border rounded-xl bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white border border-purple-700 px-4 py-3 font-semibold shadow focus:outline-none"
+                                        style={{ background: 'transparent', color: 'white', border: '1px solid white' }} // Qo'shimcha inline style
+                                    >
+                                        <option value="ai" className='bg-gray-900'>Sun'iy intelekt</option>
+                                        <option value="fixtirolar" className='bg-gray-900'>Foydali ixtirolar</option>
+                                        <option value="rfutbol" className='bg-gray-900'>Robo futbol</option>
+                                        <option value="rsumo" className='bg-gray-900'>Robo sumo</option>
+                                    </select>
+                                </label>
+                            </div>
                             <label className="block">
                                 <span className="text-sm text-gray-300">Qisqacha ma'lumot</span>
                                 <textarea value={form.about} onChange={e => setField('about', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" rows={3} />
-                            </label>
-                            <label className="block">
-                                <span className="text-sm text-gray-300">Yo'nalish</span>
-                                <select
-                                    value={form.direction}
-                                    onChange={e => {
-                                        setField('direction', e.target.value);
-                                        navigate(`/register/${e.target.value}`);
-                                    }}
-                                    required
-                                    className="mt-1 w-full border rounded-xl bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white border border-purple-700 px-4 py-3 font-semibold shadow focus:outline-none"
-                                    style={{ background: 'transparent', color: 'white', border: '1px solid blue' }} // Qo'shimcha inline style
-                                >
-                                    <option value="ai" className='bg-gray-900'>Sun'iy intelekt</option>
-                                    <option value="fixtirolar" className='bg-gray-900'>Foydali ixtirolar</option>
-                                    <option value="rfutbol" className='bg-gray-900'>Robo futbol</option>
-                                    <option value="rsumo" className='bg-gray-900'>Robo sumo</option>
-                                </select>
                             </label>
                             {/* Friend form only for robofutbol */}
                             {eventKey === "rfutbol" && (
@@ -491,74 +592,80 @@ export default function Register(): JSX.Element {
                                         </label>
                                         <label className="block">
                                             <span className="text-sm text-gray-300">Jins</span>
-                                            <select style={{ border: '1px solid blue' }} value={form.gender_f} onChange={e => setField('gender', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3">
+                                            <select value={friendForm.gender} onChange={e => setFriendField('gender', e.target.value)} required style={{ border: '1px solid white' }} className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3">
                                                 <option value="" className='bg-gray-900'>Tanlang</option>
                                                 <option value="male" className='bg-gray-900'>Erkak</option>
                                                 <option value="female" className='bg-gray-900'>Ayol</option>
                                             </select>
                                         </label>
                                     </div>
-                                    <label className="block">
-                                        <span className="text-sm text-gray-300">Telefon</span>
-                                        <input type="tel" value={friendForm.phone_number} onChange={e => setFriendField('phone_number', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
-                                    </label>
-                                    <label className="block">
-                                        <span className="text-sm text-gray-300">Telegram username</span>
-                                        <input type="text" value={friendForm.telegram_username} onChange={e => setFriendField('telegram_username', e.target.value)} className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
-                                    </label>
-                                    <label className="block">
-                                        <span className="text-sm text-gray-300">Tug‘ilgan sana</span>
-                                        <input type="date" value={friendForm.birth_date} onChange={e => setFriendField('birth_date', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
-                                    </label>
-                                    <label className="block">
-                                        <span className="text-sm text-gray-300">Ta'lim / O‘qish joyi</span>
-                                        <input type="text" value={friendForm.study_place} onChange={e => setFriendField('study_place', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
-                                    </label>
-                                    <div>
-                                        <label className="block text-sm mb-2">Viloyat</label>
-                                        <select
-                                            value={form.region2}
-                                            onChange={e => {
-                                                setField('region', e.target.value);
-                                                setField('district', '');
-                                            }}
-                                            className="w-full p-3 rounded-lg font-semibold shadow focus:outline-none"
-                                            style={{
-                                                color: '#fff',
-                                                border: '1px solid blue'
-                                            }}
-                                            required
-                                        >
-                                            <option value="" className='bg-gray-900'>Viloyatni tanlang</option>
-                                            {regions.map(region => (
-                                                <option key={region.id} className='bg-gray-900' value={region.id}>
-                                                    {region.name_uz}
-                                                </option>
-                                            ))}
-                                        </select>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                        <label className="block">
+                                            <span className="text-sm text-gray-300">Telefon</span>
+                                            <input type="tel" value={friendForm.phone_number} onChange={e => setFriendField('phone_number', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
+                                        </label>
+                                        <label className="block">
+                                            <span className="text-sm text-gray-300">Telegram username</span>
+                                            <input type="text" value={friendForm.telegram_username} onChange={e => setFriendField('telegram_username', e.target.value)} className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
+                                        </label>
                                     </div>
-                                    <div>
-                                        <label className="block text-sm mb-2">Tuman</label>
-                                        <select
-                                            value={form.district2}
-                                            onChange={e => setField('district', e.target.value)}
-                                            className="w-full p-3 rounded-lg font-semibold shadow focus:outline-none"
-                                            style={{
-                                                color: '#fff',
-                                                border: '1px solid blue'
-                                            }}
-                                            required
-                                            disabled={!form.region}
-                                        >
-                                            <option value="" className='bg-gray-900'>Tumanni tanlang</option>
-                                            {districts
-                                                .filter(d => String(d.region_id) === String(form.region))
-                                                .map(district => (
-                                                    <option key={district.id} value={district.name_uz} className='bg-gray-900'>
-                                                        {district.name_uz}
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                        <label className="block">
+                                            <span className="text-sm text-gray-300">Tug‘ilgan sana</span>
+                                            <input type="date" value={friendForm.birth_date} onChange={e => setFriendField('birth_date', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
+                                        </label>
+                                        <label className="block">
+                                            <span className="text-sm text-gray-300">Ta'lim / O‘qish joyi</span>
+                                            <input type="text" value={friendForm.study_place} onChange={e => setFriendField('study_place', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
+                                        </label>
+                                    </div>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                        <div>
+                                            <label className="block text-sm mb-2">Viloyat</label>
+                                            <select
+                                                value={friendForm.region}
+                                                onChange={e => {
+                                                    setFriendField('region', e.target.value);
+                                                    setFriendField('district', '');
+                                                }}
+                                                className="w-full p-3 rounded-lg font-semibold shadow focus:outline-none"
+                                                style={{
+                                                    color: '#fff',
+                                                    border: '1px solid white'
+                                                }}
+                                                required
+                                            >
+                                                <option value="" className='bg-gray-900'>Viloyatni tanlang</option>
+                                                {regions.map(region => (
+                                                    <option key={region.id} className='bg-gray-900' value={region.id}>
+                                                        {region.name_uz}
                                                     </option>
                                                 ))}
-                                        </select>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm mb-2">Tuman</label>
+                                            <select
+                                                value={friendForm.district}
+                                                onChange={e => setFriendField('district', e.target.value)}
+                                                className="w-full p-3 rounded-lg font-semibold shadow focus:outline-none"
+                                                style={{
+                                                    color: '#fff',
+                                                    border: '1px solid white'
+                                                }}
+                                                required
+                                                disabled={!friendForm.region}
+                                            >
+                                                <option value="" className='bg-gray-900'>Tumanni tanlang</option>
+                                                {districts
+                                                    .filter(d => String(d.region_id) === String(friendForm.region))
+                                                    .map(district => (
+                                                        <option key={district.id} value={district.name_uz} className='bg-gray-900'>
+                                                            {district.name_uz}
+                                                        </option>
+                                                    ))}
+                                            </select>
+                                        </div>
                                     </div>
                                     <label className="block">
                                         <span className="text-sm text-gray-300">Email</span>
@@ -579,12 +686,15 @@ export default function Register(): JSX.Element {
                                 </button>
                             </div>
                         </form>
+                        </div>
                     )}
                 </main>
             </div>
-            <div style={{marginTop:'30px', width: '80%',marginLeft: 'auto', marginRight: 'auto',marginBottom:'20px'}}>
-                <GiftsList gifts={block?.gifts} />
+            <div style={{ marginTop: '30px', width: '80%', marginLeft: 'auto', marginRight: 'auto', marginBottom: '20px', zIndex: 50 }}>
+                {/* <PrizesSection gifts={block.gifts}/> */}
+                <Karobka f={block.gifts} />
             </div>
+
 
             {/* Gifts Section */}
             <SubscriptionModal

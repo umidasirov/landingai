@@ -39,14 +39,14 @@ export function LocationSection() {
             <div className="absolute -inset-4 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-3xl opacity-20 blur-3xl group-hover:opacity-30 transition-opacity" />
             <div className="relative rounded-3xl overflow-hidden border-2 border-purple-500/30 backdrop-blur-sm">
               <ImageWithFallback
-                src="https://images.unsplash.com/photo-1761823486862-86a65c032559?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjB2ZW51ZSUyMGFyY2hpdGVjdHVyZXxlbnwxfHx8fDE3NjM0ODU4MzJ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                src="https://storage.kun.uz/source/5/s5qSCwSqNUg9DnCjhVAQE3XH72A58i-T.jpg"
                 alt="Konferensiya markazi"
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-black/90 to-transparent backdrop-blur-sm">
                 <h3 className="text-white text-2xl mb-2">
-                  Toshkent Xalqaro Konferensiya Markazi
+                  Muhammad Al-Xorazmiy nomidagi ixtisoslashtirilgan maktab
                 </h3>
                 <p className="text-purple-400">
                   1000+ ishtirokchi sig‘imi bilan zamonaviy jihozlar
@@ -76,16 +76,7 @@ export function LocationSection() {
 
             {/* Xarita */}
             <div className="relative rounded-2xl overflow-hidden border-2 border-purple-500/30 backdrop-blur-sm h-64 sm:h-80 lg:h-96">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1781.3374929711977!2d69.21711479512696!3d41.33407887277547!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38ae8b6d335ad179%3A0xb4aa336cdfa29db8!2sPedagogik%20mahorat%20va%20xalqaro%20baholash%20ilmiy-amaliy%20markazi!5e0!3m2!1sru!2s!4v1763512091504!5m2!1sru!2s"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                className="rounded-2xl"
-              />
+             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1498.6370638324217!2d69.31624253176832!3d41.302899763840294!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38aef5378726fbaf%3A0x2d84fd21efda8919!2sMuhammad%20al-Xorazmiy%20nomidagi%20ixtisoslashtirilgan%20maktab!5e0!3m2!1sru!2s!4v1763813441498!5m2!1sru!2s" width="600" height="450" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
 
             {/* Aloqa ma’lumotlari */}
@@ -113,7 +104,7 @@ export function LocationSection() {
 
             {/* Yo‘nalish olish tugmasi */}
             <a
-              href="https://maps.app.goo.gl/DWX5yqWCeTPzSozi6"
+              href="https://maps.app.goo.gl/5GH2QyXkXsta99QP6"
               target="_blank"
               rel="noopener noreferrer"
               className="w-full px-8 py-4 bg-gradient-to-r from-purple-600 to-cyan-500 rounded-full text-white flex items-center justify-center gap-2 shadow-lg shadow-purple-500/50 hover:shadow-purple-500/80 transition-shadow"

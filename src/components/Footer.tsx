@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Facebook, Twitter, Linkedin, Instagram, Youtube, Mail } from 'lucide-react@0.487.0';
-
+import logo from "../assets/logo.png";
 export function Footer() {
   const socialLinks = [
     { icon: Facebook, href: '#', color: 'hover:text-blue-500' },
@@ -34,8 +34,8 @@ export function Footer() {
               whileHover={{ scale: 1.05 }}
               className="flex items-center gap-2 mb-4"
             >
-              <div className="w-12 h-12 bg-gradient-to-br from-purple-600 to-cyan-400 rounded-lg flex items-center justify-center">
-                <span className="text-white">AI</span>
+              <div className="w-12 h-12 from-purple-600 to-cyan-400 rounded-lg flex items-center justify-center">
+                <span className="text-white"><img src={logo} alt="" /></span>
               </div>
               <div>
                 <div className="text-white">AI Conference</div>

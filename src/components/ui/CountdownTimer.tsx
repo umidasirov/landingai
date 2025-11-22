@@ -37,7 +37,8 @@ export function CountdownTimer({ targetDate }: CountdownTimerProps) {
   ];
 
   return (
-    <div className="p-8 w-[40%] bg-purple-900/20 backdrop-blur-sm border-t border-purple-500/50 flex flex-col items-center justify-center rounded-xl">
+    <div className="p-6 mb-2 w-[40%] bg-purple-900/20 backdrop-blur-sm border-purple-500/50 flex flex-col items-center justify-center rounded-xl">
+      <h1 className='text-blue-500 font-[30px] mt-4 mb-6'>IT haftalig boshlanshiga qolgan vaqt</h1>
       <motion.div
         className="flex justify-center gap-4 mb-4"
         initial={{ opacity: 0, y: 20 }}
@@ -57,7 +58,6 @@ export function CountdownTimer({ targetDate }: CountdownTimerProps) {
           );
         })}
       </motion.div>
-      <h1 className='text-blue-500 font-[30px] mt-4'>IT haftalig boshlanshiga qolgan vaqt</h1>
     </div>
   );
 }

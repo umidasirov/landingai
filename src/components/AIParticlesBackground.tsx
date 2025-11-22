@@ -11,8 +11,8 @@ export function AIParticlesBackground() {
   ];
 
   return (
-    <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{zIndex:1}}>
-      
+    <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 1 }}>
+
       {/* Gradient bloblar */}
       <div className="absolute top-1/4 left-1/4 w-48 sm:w-64 h-48 sm:h-64 bg-purple-600 rounded-full blur-[80px] sm:blur-[120px] opacity-[0.06] animate-blob" />
       <div className="absolute bottom-1/3 right-1/3 w-48 sm:w-64 h-48 sm:h-64 bg-cyan-600 rounded-full blur-[80px] sm:blur-[120px] opacity-[0.06] animate-blob" />
@@ -40,9 +40,9 @@ export function AIParticlesBackground() {
           className="absolute inset-0"
           style={{
             backgroundImage: `
-              linear-gradient(rgba(168,85,247,0.03) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(168,85,247,0.03) 1px, transparent 1px)
-            `,
+      linear-gradient(rgba(168,85,247,0.10) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(168,85,247,0.10) 1px, transparent 1px)
+    `,
             backgroundSize: "55px 55px",
           }}
         />
