@@ -1,6 +1,6 @@
 import { SubscriptionModal } from './SubscribeModal';
 import React, { useEffect, useRef, useState } from 'react';
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { useParams, useNavigate, useLocation, NavLink } from 'react-router-dom';
 import { useModal } from '../context/context';
 import regions from '../locate/regions.json';
 import districts from '../locate/districts.json';
@@ -365,6 +365,7 @@ export default function Register(): JSX.Element {
 
                         {/* Gift message */}
                         <CountdownTimer targetDate={block.date} />
+                        <button onClick={()=>navigate('/')} className='mt-2 w-full py-3 rounded-xl px-6 text-white font-semibold transition bg-purple-600 hover:bg-purple-500'><i class="fa-solid fa-arrow-left"></i> Asosiy menyuga o'tish</button>
                     </div>
                 </aside>
 

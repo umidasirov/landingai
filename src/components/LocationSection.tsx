@@ -37,11 +37,12 @@ export function LocationSection() {
           {/* Chap taraf: Venue rasmi */}
           <div className="relative group">
             <div className="absolute -inset-4 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-3xl opacity-20 blur-3xl group-hover:opacity-30 transition-opacity" />
-            <div className="relative rounded-3xl overflow-hidden border-2 border-purple-500/30 backdrop-blur-sm">
-              <ImageWithFallback
+            <div className="relative rounded-3xl overflow-hidden border-2 border-purple-500/30 backdrop-blur-sm h-full">
+              <img
                 src="https://storage.kun.uz/source/5/s5qSCwSqNUg9DnCjhVAQE3XH72A58i-T.jpg"
                 alt="Konferensiya markazi"
                 className="w-full h-full object-cover"
+                style={{width:'100%',height:'100%'}}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-black/90 to-transparent backdrop-blur-sm">
