@@ -41,13 +41,13 @@ export function SubscriptionModal({ open, onClose, formData, onSubmit }: Subscri
         </h2>
 
         <p className="text-gray-300 text-sm mb-6">
-          Quyidagi sahifalarga <span className="text-purple-400">majburiy obuna</span> bo‘ling.
+          Hurmatli foydalanuvchi, sahifalarga <span className="text-purple-400"> obuna</span> bo‘ling.
         </p>
 
         <div className="flex flex-col gap-3 mb-6">
           <button
             onClick={() =>
-              handleSubscribe("instagram", "https://instagram.com/YOUR_INSTAGRAM")
+              handleSubscribe("instagram", "https://www.instagram.com/dguzbekistan")
             }
             className={`flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-gradient-to-r from-pink-500 to-purple-500 font-semibold transition ${
               subscribed.instagram ? "opacity-60" : "hover:opacity-90"
@@ -59,7 +59,7 @@ export function SubscriptionModal({ open, onClose, formData, onSubmit }: Subscri
 
           <button
             onClick={() =>
-              handleSubscribe("telegram", "https://t.me/YOUR_TELEGRAM")
+              handleSubscribe("telegram", "https://t.me/digitalgeneration_uz")
             }
             className={`flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-blue-600 font-semibold transition ${
               subscribed.telegram ? "opacity-60" : "hover:opacity-90"
@@ -79,7 +79,7 @@ export function SubscriptionModal({ open, onClose, formData, onSubmit }: Subscri
               : "bg-gray-700 cursor-not-allowed"
           }`}
         >
-          Obuna bo‘ldim va Ro‘yxatdan o‘tish
+          Ro‘yxatdan o‘tish
         </button>
       </div>
     </div>

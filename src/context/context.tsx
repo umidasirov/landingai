@@ -26,7 +26,7 @@ interface BlockType {
   image: string;
   size: 'small' | 'large';
   link: string;
-  gifts?: Gift[]; // bu endi 0 yoki ko‘p sovg‘a bo‘lishi mumkin
+  gifts?: Gift[]; 
 }
 
 interface ModalContextType {
@@ -82,7 +82,7 @@ const blocks = [
   {
     id: 4,
     title: 'Robo Futbol',
-    desc: 'Robotlar futbol maydonida jang qiladi.',
+    desc: 'Robotlar futbol maydonida 2x2 futbol oyini.',
     image: futbol,
     size: 'small',
     link: '/register/rfutbol',
@@ -94,7 +94,7 @@ const blocks = [
   },
   {
     id: 5,
-    title: "AI Texnologiyalar",
+    title: "AI Day (prompt)",
     desc: "Sun'iy intellektning yangi chegaralarini kashf qiling.",
     image: ai,
     size: "large",

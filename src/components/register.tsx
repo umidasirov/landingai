@@ -5,6 +5,7 @@ import { useModal } from '../context/context';
 import regions from '../locate/regions.json';
 import districts from '../locate/districts.json';
 import { GiftsList } from './GiftList';
+import { CountdownTimer } from './ui/CountdownTimer';
 type Params = { id?: string };
 
 type BlockType = {
@@ -112,10 +113,10 @@ export default function Register(): JSX.Element {
         birth_date: '',
         email: '',
         study_place: '',
-        region: '',
-        district: '',
+        region1: '',
+        district1: '',
         about: '',
-        gender: '',
+        gender_f: '',
         telegram_username: '',
     });
 
@@ -155,7 +156,7 @@ export default function Register(): JSX.Element {
             if (!friendForm.first_name?.trim()) return "Do‘stingizning ismi kiritilsin.";
             if (!friendForm.last_name?.trim()) return "Do‘stingizning familiyasi kiritilsin.";
             if (!friendForm.middle_name?.trim()) return "Do‘stingizning otasining ismi kiritilsin.";
-            if (!friendForm.gender) return "Do‘stingizning jinsini tanlang.";
+            if (!friendForm.gender_f) return "Do‘stingizning jinsini tanlang.";
             if (!friendForm.phone_number?.trim()) return "Do‘stingizning telefon raqami kiritilsin.";
             if (!friendForm.email?.trim()) return "Do‘stingizning emaili kiritilsin.";
             if (!friendForm.birth_date) return "Do‘stingizning tug‘ilgan sanasi kiritilsin.";
@@ -269,33 +270,15 @@ export default function Register(): JSX.Element {
                         {/* Seats */}
                         <div className="flex items-center justify-between mb-6">
                             <div className="text-sm text-gray-300">
-                                ⚠ Joylar soni cheklangan!!!
-                            </div>
-
-                            <div
-                                className={`px-3 py-1 rounded-full text-xs font-medium shadow-md
-            ${seatsLeft > 10
-                                        ? 'bg-green-900/40 text-green-300 border border-green-700/40'
-                                        : seatsLeft > 0
-                                            ? 'bg-yellow-900/40 text-yellow-300 border border-yellow-700/40'
-                                            : 'bg-red-900/40 text-red-300 border border-red-700/40'
-                                    }`}
-                            >
-                                {seatsLeft > 10 ? 'Mavjud' : seatsLeft > 0 ? 'So‘nggi joylar' : 'Tugagan'}
-                            </div>
-                        </div>
-
-                        {/* Gifts */}
-                        <div className="mb-5">
-                            <div className="text-sm text-gray-200 mb-3 font-semibold">
-                                🎁 Sovg‘alar
+                               {eventDesc == "AI Texnologiyalar"? '⚠ Joylar soni cheklangan!!!': ""}
                             </div>
                         </div>
 
                         <div className="text-sm text-center text-yellow-300 font-semibold italic mb-4 bg-yellow-900/20 py-2 rounded-lg border border-yellow-700/30 shadow-md">
                             🎉 Ro‘yxatdan o‘tganlar orasidan <span className="text-yellow-200 underline">sovg‘alardan birini</span> yutib olishingiz mumkin!
                         </div>
-
+                        <div className='p-4'>
+                        </div>
                     </div>
 
                 </aside>
@@ -508,7 +491,7 @@ export default function Register(): JSX.Element {
                                         </label>
                                         <label className="block">
                                             <span className="text-sm text-gray-300">Jins</span>
-                                            <select style={{ border: '1px solid blue' }} value={form.gender} onChange={e => setField('gender', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3">
+                                            <select style={{ border: '1px solid blue' }} value={form.gender_f} onChange={e => setField('gender', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3">
                                                 <option value="" className='bg-gray-900'>Tanlang</option>
                                                 <option value="male" className='bg-gray-900'>Erkak</option>
                                                 <option value="female" className='bg-gray-900'>Ayol</option>
