@@ -7,10 +7,6 @@ export function SpeakersSection() {
     { name: 'Prof. Michael Rodriguez', role: 'ML tadqiqotlari direktori', company: 'Stanford AI Lab', image: 'https://images.unsplash.com/photo-1762968274962-20c12e6e8ecd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg' },
     { name: 'Elena Volkov', role: 'Sun’iy neyron tarmoqlar bo‘yicha rahbar', company: 'DeepMind', image: 'https://images.unsplash.com/photo-1762968274962-20c12e6e8ecd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg' },
     { name: 'Dr. James Park', role: 'AI innovatsiyalari bo‘yicha vitse-prezident', company: 'Google Brain', image: 'https://images.unsplash.com/photo-1762968274962-20c12e6e8ecd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg' },
-    { name: 'Aisha Mohammed', role: 'AI etikasi bo‘yicha yetakchi', company: 'OpenAI', image: 'https://images.unsplash.com/photo-1762968274962-20c12e6e8ecd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg' },
-    { name: 'Dr. Kenji Tanaka', role: 'Robototexnika va AI direktori', company: 'Sony Research', image: 'https://images.unsplash.com/photo-1762968274962-20c12e6e8ecd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg' },
-    { name: 'Maria Garcia', role: 'NLP tadqiqotlari bo‘yicha yetakchi', company: 'Meta AI', image: 'https://images.unsplash.com/photo-1762968274962-20c12e6e8ecd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg' },
-    { name: 'Dr. Thomas Wright', role: 'Kompyuter ko‘rish bo‘yicha ekspert', company: 'NVIDIA Research', image: 'https://images.unsplash.com/photo-1762968274962-20c12e6e8ecd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg' },
   ];
 
   return (
@@ -44,7 +40,7 @@ export function SpeakersSection() {
         {/* Speakers Grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
           {speakers.map((speaker, index) => (
-            <div key={index} className="group relative cursor-pointer">
+            <div key={index} className="group relative cursor-pointer w-full h-full">
               {/* Neon Frame */}
               <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-2xl opacity-0 group-hover:opacity-100 blur transition-opacity duration-500" />
 
@@ -73,7 +69,7 @@ export function SpeakersSection() {
                 {/* Info */}
                 <div className="p-6 text-center">
                   <h3 className="text-white font-semibold text-lg mb-1">{speaker.name}</h3>
-                  <p className="text-purple-400 text-sm mb-1 h-[30px]">{speaker.role}</p>
+                  <p className="text-purple-400 text-sm mb-1 h-[30px]" style={{height:'30px'}}>{speaker.role}</p>
                   <p className="text-gray-500 text-sm">{speaker.company}</p>
                 </div>
 

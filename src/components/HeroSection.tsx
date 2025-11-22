@@ -9,18 +9,18 @@ import { useContext } from 'react';
 
 
 export function FiveBlocks() {
-const { blocks } = useModal();
-const allBlocks = [...blocks]; // original massivni saqlab qo'yish
-const mainBlock = allBlocks.shift(); // birinchi elementni olib olamiz
-const smallBlocks = allBlocks;
+  const { blocks } = useModal();
+  const allBlocks = [...blocks]; // original massivni saqlab qo'yish
+  const mainBlock = allBlocks.shift(); // birinchi elementni olib olamiz
+  const smallBlocks = allBlocks;
   return (
     <section className="bg-gray-950 py-16 px-4 sm:px-6 lg:px-10 mt-10 lg:mt-20">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
-          {smallBlocks.map((item) => (
+        <div className="flex flex-wrap justify-center gap-8 lg:gap-10 ani">
+          {blocks.map((item, idx) => (
             <article
               key={item.id}
-              className="group relative rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row h-auto md:h-72 lg:h-80 xl:h-96 bg-gradient-to-br from-black/40 to-black/10 border border-white/10 backdrop-blur-sm"
+              className="group we relative rounded-3xl overflow-hidden shadow-2xl flex-none w-full sm:w-80 md:w-72 lg:w-1/5 flex flex-col md:flex-row h-auto md:h-72 lg:h-80 xl:h-96 bg-gradient-to-br from-black/40 to-black/10 border border-white/10 backdrop-blur-sm"
             >
               <div className="w-full md:w-1/2 h-52 md:h-full overflow-hidden">
                 <img
@@ -37,7 +37,7 @@ const smallBlocks = allBlocks;
 
                 <p className="text-gray-300 mt-3 mb-5 text-sm sm:text-base">{item.desc}</p>
 
-                <div className="flex flex-wrap gap-3 mt-auto min-sm:justify-center">
+                <div className="flex flex-wrap gap-3 mt-auto justify-center">
                   <Link
                     to={item.link}
                     className="px-5 p-2 rounded-lg bg-purple-600 hover:bg-purple-500 mt-2 transition font-semibold"
@@ -82,7 +82,7 @@ export function HeroSection() {
         <ImageWithFallback
           src="https://www.sercansolmaz.com/content/images/2025/02/DALL-E-2025-02-10-00.30.24---A-16_9-cover-image-with-a-deep-midnight-blue-gradient-background.-Overlay-an-abstract-neural-network-or-circuit-board-pattern-in-neon-blue-and-purple-.webp"
           alt="AI Neural Network"
-         className="w-full h-full object-cover opacity-40 max-w-none"
+          className="w-full h-full object-cover opacity-40 max-w-none"
         />
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-black via-purple-900/20 to-black" />
       </div>

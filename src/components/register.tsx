@@ -1,3 +1,4 @@
+import { SubscriptionModal } from './SubscribeModal';
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useModal } from '../context/context';
@@ -14,17 +15,25 @@ type BlockType = {
     gifts?: string[];
 };
 
-type RegisterPayload = {
+type PersonPayload = {
     first_name: string;
     last_name?: string;
+    middle_name?: string;
     phone_number: string;
     birth_date?: string;
     email: string;
     study_place?: string;
     region?: string;
     district?: string;
+    about?: string;
+    gender?: string;
+    telegram_username?: string;
+};
+
+type RegisterPayload = PersonPayload & {
     direction: string;
-    eventKey: string;
+    eventKey?: string;
+    friend?: PersonPayload | null;
 };
 
 const DIRECTION_ALIASES: Record<string, string> = {
@@ -45,6 +54,8 @@ const SEATS_DEFAULT: Record<string, number> = {
 };
 
 export default function Register(): JSX.Element {
+    const { setShowSubscribe } = useModal();
+
     const { id } = useParams<Params>();
     const location = useLocation();
     const navigate = useNavigate();
@@ -71,17 +82,39 @@ export default function Register(): JSX.Element {
 
     const firstNameRef = useRef<HTMLInputElement | null>(null);
 
+    // Main person form
     const [form, setForm] = useState<RegisterPayload>({
         first_name: '',
         last_name: '',
+        middle_name: '',
         phone_number: '',
         birth_date: '',
         email: '',
         study_place: '',
         region: '',
         district: '',
+        about: '',
+        gender: '',
+        telegram_username: '',
         direction: eventKey,
         eventKey,
+        friend: null,
+    });
+
+    // Friend form (only for robofutbol)
+    const [friendForm, setFriendForm] = useState<PersonPayload>({
+        first_name: '',
+        last_name: '',
+        middle_name: '',
+        phone_number: '',
+        birth_date: '',
+        email: '',
+        study_place: '',
+        region: '',
+        district: '',
+        about: '',
+        gender: '',
+        telegram_username: '',
     });
 
     const [loading, setLoading] = useState(false);
@@ -89,37 +122,50 @@ export default function Register(): JSX.Element {
     const [error, setError] = useState<string | null>(null);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-    useEffect(() => {
-        firstNameRef.current?.focus();
-    }, []);
+    // subscription modal state & pending payload
+    const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
+    const [pendingPayload, setPendingPayload] = useState<any>(null);
 
     useEffect(() => {
-        const onKey = (e: KeyboardEvent) => {
-            if (e.key === 'Escape') navigate(-1);
-        };
-        window.addEventListener('keydown', onKey);
-        return () => window.removeEventListener('keydown', onKey);
+        firstNameRef.current?.focus();
     }, []);
 
     function setField<K extends keyof RegisterPayload>(key: K, value: RegisterPayload[K]) {
         setForm((s) => ({ ...s, [key]: value }));
     }
-
-    function canonicalDirection(value: string) {
-        const k = (value || '').toLowerCase();
-        return DIRECTION_ALIASES[k] ?? k ?? eventKey;
+    function setFriendField<K extends keyof PersonPayload>(key: K, value: PersonPayload[K]) {
+        setFriendForm((s) => ({ ...s, [key]: value }));
     }
 
     function validate(): string | null {
-        if (!form.first_name.trim()) return "To'liq ism kiritilsin.";
-        if (!form.phone_number.trim()) return "Telefon raqam kiritilsin.";
-        if (!form.email.trim()) return "Email kiritilsin.";
-        if (!/^\S+@\S+\.\S+$/.test(form.email)) return 'Yaroqli email kiriting.';
+        if (!form.first_name?.trim()) return "Ism kiritilsin.";
+        if (!form.last_name?.trim()) return "Familiya kiritilsin.";
+        if (!form.middle_name?.trim()) return "Otasining ismi kiritilsin.";
+        if (!form.gender) return "Jins tanlang.";
+        if (!form.phone_number?.trim()) return "Telefon raqam kiritilsin.";
+        if (!form.email?.trim()) return "Email kiritilsin.";
+        if (!form.birth_date) return "Tug‘ilgan sana kiritilsin.";
+        if (!form.study_place?.trim()) return "O‘qish joyi kiritilsin.";
+        if (!form.region?.trim()) return "Hudud kiritilsin.";
+        if (!form.district?.trim()) return "Tuman kiritilsin.";
+        if (!form.about?.trim()) return "Qisqacha ma'lumot kiritilsin.";
+        if (eventKey === "rfutbol") {
+            if (!friendForm.first_name?.trim()) return "Do‘stingizning ismi kiritilsin.";
+            if (!friendForm.last_name?.trim()) return "Do‘stingizning familiyasi kiritilsin.";
+            if (!friendForm.middle_name?.trim()) return "Do‘stingizning otasining ismi kiritilsin.";
+            if (!friendForm.gender) return "Do‘stingizning jinsini tanlang.";
+            if (!friendForm.phone_number?.trim()) return "Do‘stingizning telefon raqami kiritilsin.";
+            if (!friendForm.email?.trim()) return "Do‘stingizning emaili kiritilsin.";
+            if (!friendForm.birth_date) return "Do‘stingizning tug‘ilgan sanasi kiritilsin.";
+            if (!friendForm.study_place?.trim()) return "Do‘stingizning o‘qish joyi kiritilsin.";
+            if (!friendForm.region?.trim()) return "Do‘stingizning hududi kiritilsin.";
+            if (!friendForm.district?.trim()) return "Do‘stingizning tumani kiritilsin.";
+            if (!friendForm.about?.trim()) return "Do‘stingiz haqida qisqacha ma'lumot kiritilsin.";
+        }
         return null;
     }
 
-    // ...existing code...
-    async function handleSubmit(e: React.FormEvent) {
+    function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
         setError(null);
         setSuccessMessage(null);
@@ -134,27 +180,33 @@ export default function Register(): JSX.Element {
             return;
         }
 
-        // Build minimal payload (serverga ortiqcha maydon yubormaymiz)
-        const minimalPayload: Partial<RegisterPayload> = {
-            first_name: form.first_name.trim(),
-            last_name: form.last_name?.trim() || undefined,
-            phone_number: form.phone_number.trim(),
-            birth_date: form.birth_date || undefined,
-            email: form.email.trim(),
-            study_place: form.study_place?.trim() || undefined,
-            region: form.region?.trim() || undefined,
-            district: form.district?.trim() || undefined,
-            direction: canonicalDirection(form.direction || eventKey),
+        let payload: any = {
+            ...form,
+            direction: eventKey,
         };
+        if (eventKey === "rfutbol") {
+            payload.friend = { ...friendForm };
+        }
 
-        // remove undefined keys
-        const payload = Object.fromEntries(
-            Object.entries(minimalPayload).filter(([_, v]) => v !== undefined && v !== '')
-        );
+        // Remove empty strings
+        Object.keys(payload).forEach((k) => {
+            if (payload[k] === "") payload[k] = null;
+        });
+        if (payload.friend) {
+            Object.keys(payload.friend).forEach((k) => {
+                if (payload.friend[k] === "") payload.friend[k] = null;
+            });
+        }
 
-        console.debug('POST payload ->', payload);
+        setPendingPayload(payload);
+        setShowSubscriptionModal(true);
+    }
 
+    async function sendRegistration(payload: any) {
+        if (!payload) return;
+        setShowSubscriptionModal(false);
         setLoading(true);
+        setError(null);
         try {
             const res = await fetch('https://aiday.infinite-co.uz/register/', {
                 method: 'POST',
@@ -169,48 +221,29 @@ export default function Register(): JSX.Element {
             let data: any = null;
             try { data = text ? JSON.parse(text) : null; } catch { data = text; }
 
-            // Always log raw server response for debugging
-            console.info('register response status:', res.status, 'body:', data ?? text);
-
             if (!res.ok) {
-                // show server-provided validation errors if any
                 const serverMsg =
                     (data && (data.detail || data.message || data.errors)) ||
                     (typeof data === 'string' ? data : `Server xatosi: ${res.status}`);
                 const errStr = typeof serverMsg === 'object' ? JSON.stringify(serverMsg) : String(serverMsg);
                 setError(errStr);
-                // quick alert for visibility during testing
-                window.alert('Server error: ' + errStr);
                 return;
             }
 
-            // success
             setSeatsLeft((s) => Math.max(0, s - 1));
             setDone(true);
             const successMsg = (data && (data.message || data.detail)) || 'Ro‘yxatdan muvaffaqiyatli o‘tdingiz!';
             setSuccessMessage(successMsg);
-            window.alert(successMsg);
         } catch (err) {
-            console.error('Network/Fetch error:', err);
             setError((err as Error).message || 'Yuborishda xatolik yuz berdi.');
-            window.alert('Network error: ' + ((err as Error).message || 'Unknown'));
         } finally {
             setLoading(false);
+            setPendingPayload(null);
         }
     }
-    // ...existing code...
-
-
-    const giftIcon = (name: string) => (
-        <svg className="w-6 h-6 text-purple-400 shrink-0" viewBox="0 0 24 24" fill="none" aria-hidden>
-            <path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            <path d="M7 11V6a5 5 0 0 1 10 0v5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            <path d="M12 12v9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-    );
 
     return (
-        <div className="min-h-screen bg-black text-white py-10 p-[20px] px-4 relative z-50 m-auto flex items-center justify-center">
+        <div className="min-h-screen text-white py-10 p-[20px] px-4 flex flex-col items-center justify-center">
             <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <aside className="lg:col-span-1 rounded-l-2xl overflow-hidden bg-gradient-to-b from-gray-900 to-gray-800 shadow-lg flex flex-col">
                     <div className="w-full flex-1 min-h-0 bg-gray-700">
@@ -223,7 +256,7 @@ export default function Register(): JSX.Element {
 
                     <div className="p-6 bg-gradient-to-br from-purple-950/60 via-black/60 to-blue-950/60 rounded-2xl shadow-xl backdrop-blur-md border border-white/10">
 
-                        <h1 className="text-3xl font-bold mb-3 bg-gradient-to-r from-purple-300 to-blue-300 text-transparent bg-clip-text">
+                        <h1 className="text-3xl font-bold mb-3 bg-gradient-to-r from-purple-300 to-blue-300 text-gray-100 bg-clip-text">
                             {eventTitle}
                         </h1>
 
@@ -255,41 +288,8 @@ export default function Register(): JSX.Element {
                             <div className="text-sm text-gray-200 mb-3 font-semibold">
                                 🎁 Sovg‘alar
                             </div>
-
-                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                                {eventGifts.length ? (
-                                    eventGifts.map((g, i) => {
-                                        const colors = [
-                                            "from-purple-700/40 to-purple-900/40",
-                                            "from-blue-700/40 to-blue-900/40",
-                                            "from-pink-700/40 to-pink-900/40",
-                                            "from-green-700/40 to-green-900/40",
-                                            "from-yellow-600/30 to-yellow-900/30",
-                                        ];
-                                        const randomColor = colors[Math.floor(Math.random() * colors.length)];
-
-                                        return (
-                                            <div
-                                                key={i}
-                                                className={`flex items-center gap-2 p-3 rounded-xl border border-white/10 
-                                bg-gradient-to-br ${randomColor} shadow-lg hover:scale-[1.03] transition`}
-                                            >
-                                                <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-black/40">
-                                                    {giftIcon(g)}
-                                                </div>
-                                                <div className="text-xs sm:text-sm text-gray-100 font-medium drop-shadow">
-                                                    {g}
-                                                </div>
-                                            </div>
-                                        );
-                                    })
-                                ) : (
-                                    <div className="text-sm text-gray-500">Sovg'alar mavjud emas</div>
-                                )}
-                            </div>
                         </div>
 
-                        {/* Motivational highlight */}
                         <div className="text-sm text-center text-yellow-300 font-semibold italic mb-4 bg-yellow-900/20 py-2 rounded-lg border border-yellow-700/30 shadow-md">
                             🎉 Ro‘yxatdan o‘tganlar orasidan <span className="text-yellow-200 underline">sovg‘alardan birini</span> yutib olishingiz mumkin!
                         </div>
@@ -298,7 +298,7 @@ export default function Register(): JSX.Element {
 
                 </aside>
 
-                <main className="lg:col-span-2 bg-gray-900 rounded-2xl p-6 shadow-2xl">
+                <main className="lg:col-span-2 bg-gray-900 rounded-2xl p-6 shadow-2xl z-50">
                     {done ? (
                         <div className="text-center space-y-6 rounded-r-lg ">
                             <div className="flex justify-center rounded-r-lg ">
@@ -352,125 +352,155 @@ export default function Register(): JSX.Element {
                             <h2 id="register-heading" className="text-xl font-semibold">
                                 {eventTitle} — Ro‘yxatdan o‘tish
                             </h2>
-
                             {error && <div className="text-sm text-red-700">{error}</div>}
-
+                            {/* Main person fields */}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                 <label className="block">
                                     <span className="text-sm text-gray-300">Ism</span>
-                                    <input
-                                        ref={firstNameRef}
-                                        type="text"
-                                        value={form.first_name}
-                                        onChange={(e) => setField('first_name', e.target.value)}
-                                        className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-600"
-                                        required
-                                    />
+                                    <input ref={firstNameRef} type="text" value={form.first_name} onChange={e => setField('first_name', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
                                 </label>
-
                                 <label className="block">
                                     <span className="text-sm text-gray-300">Familiya</span>
-                                    <input
-                                        type="text"
-                                        value={form.last_name}
-                                        onChange={(e) => setField('last_name', e.target.value)}
-                                        className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-600"
-                                    />
+                                    <input type="text" value={form.last_name} onChange={e => setField('last_name', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
                                 </label>
                             </div>
-
-                            <label className="block">
-                                <span className="text-sm text-gray-300">Telefon</span>
-                                <input
-                                    type="tel"
-                                    value={form.phone_number}
-                                    onChange={(e) => setField('phone_number', e.target.value)}
-                                    placeholder="+998901234567"
-                                    className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-gray-00"
-                                    required
-                                />
-                            </label>
-
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                 <label className="block">
-                                    <span className="text-sm text-gray-300">Tug‘ilgan sana</span>
-                                    <input
-                                        type="date"
-                                        value={form.birth_date}
-                                        onChange={(e) => setField('birth_date', e.target.value)}
-                                        className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-600"
-                                    />
+                                    <span className="text-sm text-gray-300">Otasining ismi</span>
+                                    <input type="text" value={form.middle_name} onChange={e => setField('middle_name', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
                                 </label>
-
                                 <label className="block">
-                                    <span className="text-sm text-gray-300">Ta'lim / O‘qish joyi</span>
-                                    <input
-                                        type="text"
-                                        value={form.study_place}
-                                        onChange={(e) => setField('study_place', e.target.value)}
-                                        className="mt-1 w-full rounded-xl bg-white text-black border-b border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-600"
-                                    />
+                                    <span className="text-sm text-gray-300">Jins</span>
+                                    <select style={{border:'1px solid blue'}} value={form.gender} onChange={e => setField('gender', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3">
+                                        <option value="">Tanlang</option>
+                                        <option value="male">Erkak</option>
+                                        <option value="female">Ayol</option>
+                                    </select>
                                 </label>
                             </div>
-
+                            <label className="block">
+                                <span className="text-sm text-gray-300">Telefon</span>
+                                <input type="tel" value={form.phone_number} onChange={e => setField('phone_number', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
+                            </label>
+                            <label className="block">
+                                <span className="text-sm text-gray-300">Telegram username</span>
+                                <input type="text" value={form.telegram_username} onChange={e => setField('telegram_username', e.target.value)} className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
+                            </label>
+                            <label className="block">
+                                <span className="text-sm text-gray-300">Tug‘ilgan sana</span>
+                                <input type="date" value={form.birth_date} onChange={e => setField('birth_date', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
+                            </label>
+                            <label className="block">
+                                <span className="text-sm text-gray-300">Ta'lim / O‘qish joyi</span>
+                                <input type="text" value={form.study_place} onChange={e => setField('study_place', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
+                            </label>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                 <label className="block">
                                     <span className="text-sm text-gray-300">Hudud</span>
-                                    <input
-                                        type="text"
-                                        value={form.region}
-                                        onChange={(e) => setField('region', e.target.value)}
-                                        className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-600"
-                                    />
+                                    <input type="text" value={form.region} onChange={e => setField('region', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
                                 </label>
-
                                 <label className="block">
                                     <span className="text-sm text-gray-300">Tuman</span>
-                                    <input
-                                        type="text"
-                                        value={form.district}
-                                        onChange={(e) => setField('district', e.target.value)}
-                                        className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-600"
-                                    />
+                                    <input type="text" value={form.district} onChange={e => setField('district', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
                                 </label>
                             </div>
-
-                            <label className="block">
-                                <span className="text-sm text-gray-300">Yo‘nalish</span>
-                                <input
-                                    type="text"
-                                    value={form.direction}
-                                    onChange={(e) => setField('direction', e.target.value)}
-                                    placeholder="masalan: rsumo, rfutbol, ai"
-                                    className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-600"
-                                />
-                            </label>
-
                             <label className="block">
                                 <span className="text-sm text-gray-300">Email</span>
-                                <input
-                                    type="email"
-                                    value={form.email}
-                                    onChange={(e) => setField('email', e.target.value)}
-                                    className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-600"
-                                    required
-                                />
+                                <input type="email" value={form.email} onChange={e => setField('email', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
                             </label>
-
-                            <div className="flex items-center gap-3 mt-2">
-                                <button
-                                    type="submit"
-                                    disabled={loading}
-                                    className="flex-1 px-4 py-3 rounded-xl bg-purple-600 hover:bg-purple-500 disabled:opacity-60 transition font-semibold"
+                            <label className="block">
+                                <span className="text-sm text-gray-300">Qisqacha ma'lumot</span>
+                                <textarea value={form.about} onChange={e => setField('about', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" rows={3} />
+                            </label>
+                            <label className="block">
+                                <span className="text-sm text-gray-300">Yo'nalish</span>
+                                <select
+                                    value={form.direction}
+                                    onChange={e => {
+                                        setField('direction', e.target.value);
+                                        navigate(`/register/${e.target.value}`);
+                                    }}
+                                    required
+                                    className="mt-1 w-full border rounded-xl bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white border border-purple-700 px-4 py-3 font-semibold shadow focus:outline-none"
+                                    style={{ background: 'transparent', color: 'white', border: '1px solid blue' }} // Qo'shimcha inline style
                                 >
+                                    <option value="" className="text-black bg-white" style={{ background: 'black' }}>Tanlang</option>
+                                    <option value="ai">Sun'iy intelekt</option>
+                                    <option value="contest">DG Contest</option>
+                                    <option value="fixtirolar">Foydali ixtirolar</option>
+                                    <option value="rfutbol">Robo futbol</option>
+                                    <option value="rsumo">Robo sumo</option>
+                                </select>
+                            </label>
+                            {/* Friend form only for robofutbol */}
+                            {eventKey === "rfutbol" && (
+                                <div className="mt-8 p-4 rounded-xl border border-purple-500/30 bg-purple-900/10">
+                                    <h3 className="text-lg font-bold mb-2 text-purple-300">Do‘stingiz ma'lumotlari</h3>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                        <label className="block">
+                                            <span className="text-sm text-gray-300">Ism</span>
+                                            <input type="text" value={friendForm.first_name} onChange={e => setFriendField('first_name', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
+                                        </label>
+                                        <label className="block">
+                                            <span className="text-sm text-gray-300">Familiya</span>
+                                            <input type="text" value={friendForm.last_name} onChange={e => setFriendField('last_name', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
+                                        </label>
+                                    </div>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                        <label className="block">
+                                            <span className="text-sm text-gray-300">Otasining ismi</span>
+                                            <input type="text" value={friendForm.middle_name} onChange={e => setFriendField('middle_name', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
+                                        </label>
+                                        <label className="block">
+                                            <span className="text-sm text-gray-300">Jins</span>
+                                            <select value={friendForm.gender} style={{border:'1px solid blue'}} onChange={e => setFriendField('gender', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3">
+                                                <option value="">Tanlang</option>
+                                                <option value="male">Erkak</option>
+                                                <option value="female">Ayol</option>
+                                            </select>
+                                        </label>
+                                    </div>
+                                    <label className="block">
+                                        <span className="text-sm text-gray-300">Telefon</span>
+                                        <input type="tel" value={friendForm.phone_number} onChange={e => setFriendField('phone_number', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
+                                    </label>
+                                    <label className="block">
+                                        <span className="text-sm text-gray-300">Telegram username</span>
+                                        <input type="text" value={friendForm.telegram_username} onChange={e => setFriendField('telegram_username', e.target.value)} className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
+                                    </label>
+                                    <label className="block">
+                                        <span className="text-sm text-gray-300">Tug‘ilgan sana</span>
+                                        <input type="date" value={friendForm.birth_date} onChange={e => setFriendField('birth_date', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
+                                    </label>
+                                    <label className="block">
+                                        <span className="text-sm text-gray-300">Ta'lim / O‘qish joyi</span>
+                                        <input type="text" value={friendForm.study_place} onChange={e => setFriendField('study_place', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
+                                    </label>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                        <label className="block">
+                                            <span className="text-sm text-gray-300">Hudud</span>
+                                            <input type="text" value={friendForm.region} onChange={e => setFriendField('region', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
+                                        </label>
+                                        <label className="block">
+                                            <span className="text-sm text-gray-300">Tuman</span>
+                                            <input type="text" value={friendForm.district} onChange={e => setFriendField('district', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
+                                        </label>
+                                    </div>
+                                    <label className="block">
+                                        <span className="text-sm text-gray-300">Email</span>
+                                        <input type="email" value={friendForm.email} onChange={e => setFriendField('email', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
+                                    </label>
+                                    <label className="block">
+                                        <span className="text-sm text-gray-300">Qisqacha ma'lumot</span>
+                                        <textarea value={friendForm.about} onChange={e => setFriendField('about', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" rows={3} />
+                                    </label>
+                                </div>
+                            )}
+                            <div className="flex items-center gap-3 mt-2">
+                                <button type="submit" disabled={loading} className="flex-1 px-4 py-3 rounded-xl bg-purple-600 hover:bg-purple-500 disabled:opacity-60 transition font-semibold">
                                     {loading ? 'Yuborilmoqda...' : 'Ro‘yxatdan o‘tish'}
                                 </button>
-
-                                <button
-                                    type="button"
-                                    onClick={() => navigate(-1)}
-                                    className="px-4 py-3 rounded-xl border border-white/10 text-sm hover:bg-white/5 transition"
-                                >
+                                <button type="button" onClick={() => navigate(-1)} className="px-4 py-3 rounded-xl border border-white/10 text-sm hover:bg-white/5 transition">
                                     Bekor qilish
                                 </button>
                             </div>
@@ -478,6 +508,36 @@ export default function Register(): JSX.Element {
                     )}
                 </main>
             </div>
+
+            {/* Gifts Section */}
+            {/* <div className="mb-8 mt-8">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                    {block.gifts?.map((gift: any, idx: number) => (
+                        <div
+                            key={idx}
+                            className="flex flex-col items-center p-4 bg-gradient-to-br from-purple-700/30 to-purple-900/30 rounded-xl border border-purple-500/20 shadow-lg hover:scale-105 transition-transform"
+                        >
+                            <div className="w-16 h-16 mb-2 flex items-center justify-center rounded-lg bg-black/40">
+                                {gift.image ? (
+                                    <img src={gift.image} alt={gift.name} className="w-10 h-10 object-contain" />
+                                ) : (
+                                    giftIcon(gift.name)
+                                )}
+                            </div>
+                            <div className="text-white text-sm font-semibold">{gift.name}</div>
+                            {gift.count !== undefined && <div className="text-gray-300 text-xs">{gift.count}x</div>}
+                        </div>
+                    ))}
+                </div>
+            </div> */}
+
+            {/* Subscription modal */}
+            <SubscriptionModal
+                open={showSubscriptionModal}
+                onClose={() => setShowSubscriptionModal(false)}
+                formData={pendingPayload}
+                onSubmit={(data) => sendRegistration(data)}
+            />
         </div>
     );
 }

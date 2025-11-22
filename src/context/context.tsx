@@ -1,3 +1,4 @@
+// ...existing code...
 import robosumo from '../assets/robosumo.png';
 import futbol from '../assets/futbol.png';
 import ai from '../assets/ai.png';
@@ -6,6 +7,11 @@ import idea from '../assets/idea.png';
 import React, { createContext, useState, useContext } from "react";
 
 // Block turi
+interface Gift {
+  name: string;
+  count: number;
+}
+
 interface BlockType {
   id: number;
   title: string;
@@ -13,29 +19,32 @@ interface BlockType {
   image: string;
   size: 'small' | 'large';
   link: string;
-  gifts?: string[]; // yangi property sovg‘alar uchun
+  gifts?: Gift[]; // bu endi 0 yoki ko‘p sovg‘a bo‘lishi mumkin
 }
 
-// Modal kontekst turi
 interface ModalContextType {
   showRegister: boolean;
   setShowRegister: (value: boolean) => void;
+  showSubscribe: boolean;
+  setShowSubscribe: (value: boolean) => void;
   blocks: BlockType[];
 }
 
-// KONTEXT yaratish
 const ModalContext = createContext<ModalContextType | undefined>(undefined);
 
-// BLOCKS DATA
-const blocks: BlockType[] = [
+const blocks = [
   {
     id: 1,
-    title: "AI Texnologiyalar",
-    desc: "Sun'iy intellektning yangi chegaralarini kashf qiling.",
-    image: ai,
-    size: "large",
-    link: "/register/ai",
-    gifts: ["iPhone 17", "Planshet", "Smart soat", "Naushnik", "Klaviatura"]
+    title: 'Foydali Ixtirolar',
+    desc: 'Yangi g‘oyalarni amalga oshiring.',
+    image: idea,
+    size: 'small',
+    link: '/register/fixtirolar',
+    gifts: [
+      { name: "Planner", count: 1 },
+      { name: "Smart soat", count: 2 },
+      { name: "Desk lamp", count: 1 },
+    ],
   },
   {
     id: 2,
@@ -44,7 +53,11 @@ const blocks: BlockType[] = [
     image: robosumo,
     size: 'small',
     link: '/register/rsumo',
-    gifts: ["Naushnik", "Powerbank", "Mini dron"]
+    gifts: [
+      { name: "Naushnik", count: 2 },
+      { name: "Powerbank", count: 1 },
+      { name: "Mini dron", count: 1 },
+    ],
   },
   {
     id: 3,
@@ -53,7 +66,11 @@ const blocks: BlockType[] = [
     image: constest,
     size: 'small',
     link: '/register/contest',
-    gifts: ["Klaviatura", "Planshet", "Smart lamp"]
+    gifts: [
+      { name: "Klaviatura", count: 1 },
+      { name: "Planshet", count: 3 },
+      { name: "Smart lamp", count: 2 },
+    ],
   },
   {
     id: 4,
@@ -62,30 +79,38 @@ const blocks: BlockType[] = [
     image: futbol,
     size: 'small',
     link: '/register/rfutbol',
-    gifts: ["Mini futbol to‘pi", "Naushnik", "Water bottle"]
+    gifts: [
+      { name: "Mini futbol to‘pi", count: 2 },
+      { name: "Naushnik", count: 2 },
+      { name: "Water bottle", count: 3 },
+    ],
   },
   {
     id: 5,
-    title: 'Foydali Ixtirolar',
-    desc: 'Yangi g‘oyalarni amalga oshiring.',
-    image: idea,
-    size: 'small',
-    link: '/register/fixtirolar',
-    gifts: ["Planner", "Smart soat", "Desk lamp"]
+    title: "AI Texnologiyalar",
+    desc: "Sun'iy intellektning yangi chegaralarini kashf qiling.",
+    image: ai,
+    size: "large",
+    link: "/register/ai",
+    gifts: [
+      { name: "iPhone 17", count: 1 },
+      { name: "Planshet", count: 3 },
+      { name: "Smart soat", count: 2 },
+      { name: "Naushnik", count: 4 },
+      { name: "Klaviatura", count: 1 },
+    ],
   },
 ];
-// PROVIDER
+
 export const ModalProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [showRegister, setShowRegister] = useState<boolean>(false);
-
+  const [showSubscribe, setShowSubscribe] = useState<boolean>(false);
   return (
-    <ModalContext.Provider value={{ showRegister, setShowRegister, blocks }}>
+    <ModalContext.Provider value={{ showRegister, setShowRegister, blocks, showSubscribe, setShowSubscribe }}>
       {children}
     </ModalContext.Provider>
   );
 };
-
-// CUSTOM HOOK
 export const useModal = () => {
   const context = useContext(ModalContext);
   if (!context) {

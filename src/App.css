@@ -87,3 +87,34 @@
 .animate-glowpulse {
   animation: glowpulse 2.4s ease-in-out infinite;
 }
+
+
+
+input{
+  outline: blue solid 1px;
+}
+
+.we{
+  width: 45%
+  
+}
+@media (max-width: 768px) {
+  .we{
+    width: 100%
+  }
+  .sss{
+  width:100% !important;
+  margin:0 auto;
+}
+}
+.sss{
+  width:70%;
+  margin: 0 auto;
+}
+
+.ani article:nth-child(5){
+  width: 55%;
+}
+textarea{
+  outline: blue solid 1px;
+}

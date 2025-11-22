@@ -37,9 +37,9 @@ export function CountdownTimer({ targetDate }: CountdownTimerProps) {
   ];
 
   return (
-    <div className="p-8 w-[40%] bg-purple-900/20 backdrop-blur-sm border-t border-purple-500/50 flex justify-center rounded-xl">
+    <div className="p-8 w-[40%] bg-purple-900/20 backdrop-blur-sm border-t border-purple-500/50 flex flex-col items-center justify-center rounded-xl">
       <motion.div
-        className="flex justify-center gap-4"
+        className="flex justify-center gap-4 mb-4"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
@@ -48,8 +48,8 @@ export function CountdownTimer({ targetDate }: CountdownTimerProps) {
           const isSeconds = item.label === 'Seconds';
           return (
             <div
-              key={item.label}
-              className="bg-purple-900/30 backdrop-blur-sm border border-purple-500/50 rounded-xl p-4 flex flex-col items-center w-20"
+            key={item.label}
+            className="bg-purple-900/30 backdrop-blur-sm border border-purple-500/50 rounded-xl p-4 flex flex-col items-center w-20"
             >
               <span className="text-2xl font-bold text-white">{item.value.toString().padStart(2, '0')}</span>
               <span className="text-xs text-purple-400 mt-1">{item.label}</span>
@@ -57,6 +57,7 @@ export function CountdownTimer({ targetDate }: CountdownTimerProps) {
           );
         })}
       </motion.div>
+      <h1 className='text-blue-500 font-[30px] mt-4'>IT haftalig boshlanshiga qolgan vaqt</h1>
     </div>
   );
 }
