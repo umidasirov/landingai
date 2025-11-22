@@ -100,10 +100,10 @@ const blocks = [
     size: "large",
     link: "/register/ai",
     gifts: [
+      { type: "iphone", description: "iPhone 17", image: iphone, count: 1 },
       { type: "speaker", description: "Kalonka", image: s, count: 10 },
       { type: "termoz", description: "Termoz", image: s, count: 10 },
       { type: "thermocup", description: "Termokrushka", image: s, count: 10 },
-      { type: "iphone", description: "iPhone 17", image: iphone, count: 1 },
       { type: "smartwatch", description: "Smart soat", image: s, count: 10 },
       { type: "headphones", description: "Naushnik", image: s, count: 10 },
       { type: "keyboard", description: "Klaviatura", image: s, count: 10 },
