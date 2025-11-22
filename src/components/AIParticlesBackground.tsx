@@ -11,7 +11,7 @@ export function AIParticlesBackground() {
   ];
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+    <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{zIndex:1}}>
       
       {/* Gradient bloblar */}
       <div className="absolute top-1/4 left-1/4 w-48 sm:w-64 h-48 sm:h-64 bg-purple-600 rounded-full blur-[80px] sm:blur-[120px] opacity-[0.06] animate-blob" />

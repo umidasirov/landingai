@@ -6,11 +6,18 @@ import constest from '../assets/contest.png';
 import idea from '../assets/idea.png';
 import React, { createContext, useState, useContext } from "react";
 
+import laptop from '../assets/gifts/laptop.jpg';
+import iphone from '../assets/gifts/i.jpeg';
+import TV from '../assets/gifts/tv.png';
+import pilesos from '../assets/gifts/pilesos.png';
+import s from '../assets/gifts/ы.png';
 // Block turi
-interface Gift {
-  name: string;
-  count: number;
-}
+type GiftType = {
+    type: string;
+    description: string;
+    image?: string;
+    count: number;
+};
 
 interface BlockType {
   id: number;
@@ -41,9 +48,9 @@ const blocks = [
     size: 'small',
     link: '/register/fixtirolar',
     gifts: [
-      { name: "Planner", count: 1 },
-      { name: "Smart soat", count: 2 },
-      { name: "Desk lamp", count: 1 },
+      { type: "planner", description: "Rejalashtiruvchi daftarchalar", image: s, count: 1 },
+      { type: "smartwatch", description: "Smart soat", image: s, count: 2 },
+      { type: "lamp", description: "Stol lampasi", image: s, count: 1 },
     ],
   },
   {
@@ -54,9 +61,9 @@ const blocks = [
     size: 'small',
     link: '/register/rsumo',
     gifts: [
-      { name: "Naushnik", count: 2 },
-      { name: "Powerbank", count: 1 },
-      { name: "Mini dron", count: 1 },
+      { type: "samakat", description: "Samakat", image: s, count: 1 },
+      { type: "tv", description: "Televizor", image: TV, count: 1 },
+      { type: "robopilesos", description: "Robo Pilesos", image: pilesos, count: 1 },
     ],
   },
   {
@@ -67,9 +74,9 @@ const blocks = [
     size: 'small',
     link: '/register/contest',
     gifts: [
-      { name: "Klaviatura", count: 1 },
-      { name: "Planshet", count: 3 },
-      { name: "Smart lamp", count: 2 },
+      { type: "keyboard", description: "Klaviatura", image: s, count: 1 },
+      { type: "tablet", description: "Planshet", image: s, count: 3 },
+      { type: "smartlamp", description: "Smart lamp", image: s, count: 2 },
     ],
   },
   {
@@ -80,9 +87,9 @@ const blocks = [
     size: 'small',
     link: '/register/rfutbol',
     gifts: [
-      { name: "Mini futbol to‘pi", count: 2 },
-      { name: "Naushnik", count: 2 },
-      { name: "Water bottle", count: 3 },
+      { type: "nout", description: "Noutbuk", image: laptop, count: 2 },
+      { type: "tv", description: "Televizor", image: TV, count: 2 },
+      { type: "pilesos", description: "Robopilesos", image: pilesos, count: 2 },
     ],
   },
   {
@@ -93,11 +100,13 @@ const blocks = [
     size: "large",
     link: "/register/ai",
     gifts: [
-      { name: "iPhone 17", count: 1 },
-      { name: "Planshet", count: 3 },
-      { name: "Smart soat", count: 2 },
-      { name: "Naushnik", count: 4 },
-      { name: "Klaviatura", count: 1 },
+      { type: "speaker", description: "Kalonka", image: s, count: 10 },
+      { type: "termoz", description: "Termoz", image: s, count: 10 },
+      { type: "thermocup", description: "Termokrushka", image: s, count: 10 },
+      { type: "iphone", description: "iPhone 17", image: iphone, count: 1 },
+      { type: "smartwatch", description: "Smart soat", image: s, count: 10 },
+      { type: "headphones", description: "Naushnik", image: s, count: 10 },
+      { type: "keyboard", description: "Klaviatura", image: s, count: 10 },
     ],
   },
 ];

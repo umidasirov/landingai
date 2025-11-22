@@ -2,7 +2,9 @@ import { SubscriptionModal } from './SubscribeModal';
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useModal } from '../context/context';
-
+import regions from '../locate/regions.json';
+import districts from '../locate/districts.json';
+import { GiftsList } from './GiftList';
 type Params = { id?: string };
 
 type BlockType = {
@@ -158,8 +160,8 @@ export default function Register(): JSX.Element {
             if (!friendForm.email?.trim()) return "Do‘stingizning emaili kiritilsin.";
             if (!friendForm.birth_date) return "Do‘stingizning tug‘ilgan sanasi kiritilsin.";
             if (!friendForm.study_place?.trim()) return "Do‘stingizning o‘qish joyi kiritilsin.";
-            if (!friendForm.region?.trim()) return "Do‘stingizning hududi kiritilsin.";
-            if (!friendForm.district?.trim()) return "Do‘stingizning tumani kiritilsin.";
+            if (!friendForm.region1?.trim()) return "Do‘stingizning hududi kiritilsin.";
+            if (!friendForm.district1?.trim()) return "Do‘stingizning tumani kiritilsin.";
             if (!friendForm.about?.trim()) return "Do‘stingiz haqida qisqacha ma'lumot kiritilsin.";
         }
         return null;
@@ -243,8 +245,8 @@ export default function Register(): JSX.Element {
     }
 
     return (
-        <div className="min-h-screen text-white py-10 p-[20px] px-4 flex flex-col items-center justify-center">
-            <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="min-h-screen text-white py-10 p-[20px] px-4 flex flex-col items-center justify-center" style={{ zIndex: 50 }}>
+            <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 z-10 w-full">
                 <aside className="lg:col-span-1 rounded-l-2xl overflow-hidden bg-gradient-to-b from-gray-900 to-gray-800 shadow-lg flex flex-col">
                     <div className="w-full flex-1 min-h-0 bg-gray-700">
                         {eventImage ? (
@@ -298,55 +300,74 @@ export default function Register(): JSX.Element {
 
                 </aside>
 
-                <main className="lg:col-span-2 bg-gray-900 rounded-2xl p-6 shadow-2xl z-50">
+                <main className="lg:col-span-2 bg-gray-900 rounded-2xl p-6 shadow-2xl z-20">
                     {done ? (
-                        <div className="text-center space-y-6 rounded-r-lg ">
-                            <div className="flex justify-center rounded-r-lg ">
-                                <svg className="w-16 h-16 text-green-400 animate-bounce" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                        <div style={{ border: 0 }} className="text-center space-y-6 rounded-2xl p-8 bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 animate-fadeIn">
+                            {/* Animated check mark */}
+                            <div className="flex justify-center">
+                                <svg className="w-20 h-20 text-green-400 animate-bounce" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                                 </svg>
                             </div>
-                            <h2 className="text-3xl font-bold text-white">Rahmat! 🎉</h2>
-                            <p className="text-gray-300 text-lg">{successMessage}</p>
-                            <p className="text-gray-400 text-sm">
-                                Siz muvaffaqiyatli ro‘yxatdan o‘tdingiz. Yangiliklar va sovg‘alar haqida birinchi bo‘lib xabar topish uchun bizni kuzatib boring!
+
+                            {/* Motivational heading */}
+                            <h2 className="text-4xl md:text-5xl font-extrabold text-white tracking-wide drop-shadow-lg animate-pulse">
+                                Bravo! 🎉
+                            </h2>
+
+                            {/* Success message */}
+                            <p className="text-gray-200 text-lg md:text-xl max-w-2xl mx-auto">
+                                {successMessage || 'Siz muvaffaqiyatli ro‘yxatdan o‘tdingiz!'}
+                                Endi yangi imkoniyatlar va sovg‘alarni kuting – bu boshlanishi sizning sayohatingizning! 🚀
                             </p>
 
-                            <div className="flex justify-center gap-4 mt-4">
+                            {/* Motivational quote */}
+                            <p className="text-yellow-300 font-semibold italic text-md md:text-lg">
+                                "Harakat qilgan kishi, orzusiga yaqinlashadi!" ✨
+                            </p>
+
+                            {/* Social links with icons */}
+                            <div className="flex justify-center gap-6 mt-4">
                                 <a
                                     href="https://t.me/digitalgeneration_uz"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="relative px-5 py-3 rounded-lg bg-blue-500 hover:bg-blue-400 transition text-white font-semibold flex items-center gap-2 shadow-lg"
+                                    className="flex items-center gap-3 px-6 py-3 rounded-xl bg-blue-500 hover:bg-blue-400 shadow-lg transition transform hover:scale-105 text-white font-semibold"
                                 >
-                                    <i className="fab fa-telegram-plane text-lg"></i>
+                                    <i className="fab fa-telegram-plane text-2xl"></i>
                                     Telegram
                                 </a>
 
                                 <a
-                                    href="https://www.instagram.com/dguzbekistan?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+                                    href="https://www.instagram.com/dguzbekistan"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="relative px-5 py-3 rounded-lg bg-pink-500 hover:bg-pink-400 transition text-white font-semibold flex items-center gap-2 shadow-lg"
+                                    className="flex items-center gap-3 px-6 py-3 rounded-xl bg-pink-500 hover:bg-pink-400 shadow-lg transition transform hover:scale-105 text-white font-semibold"
                                 >
-                                    <i className="fab fa-instagram text-lg"></i>
+                                    <i className="fab fa-instagram text-2xl"></i>
                                     Instagram
                                 </a>
                             </div>
 
-
-                            <div className="flex justify-center mt-6">
+                            {/* Return button with icon */}
+                            <div className="flex justify-center mt-8">
                                 <button
                                     onClick={() => navigate('/')}
-                                    className="px-6 py-3 rounded-lg bg-purple-600 hover:bg-purple-500 transition text-white font-semibold shadow-md flex items-center gap-2"
+                                    className="flex items-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-500 hover:to-purple-400 shadow-2xl text-white font-bold text-lg transform hover:scale-105 transition"
                                 >
-                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M3 12h18M12 3l9 9-9 9" />
                                     </svg>
                                     Bosh sahifaga
                                 </button>
                             </div>
+
+                            {/* Confetti animation */}
+                            <div className="absolute inset-0 pointer-events-none">
+                                <div className="w-full h-full animate-confetti"></div>
+                            </div>
                         </div>
+
                     ) : (
                         <form id="form" onSubmit={handleSubmit} className="space-y-4" aria-labelledby="register-heading">
                             <h2 id="register-heading" className="text-xl font-semibold">
@@ -371,10 +392,10 @@ export default function Register(): JSX.Element {
                                 </label>
                                 <label className="block">
                                     <span className="text-sm text-gray-300">Jins</span>
-                                    <select style={{border:'1px solid blue'}} value={form.gender} onChange={e => setField('gender', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3">
-                                        <option value="">Tanlang</option>
-                                        <option value="male">Erkak</option>
-                                        <option value="female">Ayol</option>
+                                    <select style={{ border: '1px solid blue' }} value={form.gender} onChange={e => setField('gender', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3">
+                                        <option value="" className='bg-gray-900'>Tanlang</option>
+                                        <option value="male" className='bg-gray-900'>Erkak</option>
+                                        <option value="female" className='bg-gray-900'>Ayol</option>
                                     </select>
                                 </label>
                             </div>
@@ -394,15 +415,51 @@ export default function Register(): JSX.Element {
                                 <span className="text-sm text-gray-300">Ta'lim / O‘qish joyi</span>
                                 <input type="text" value={form.study_place} onChange={e => setField('study_place', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
                             </label>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <label className="block">
-                                    <span className="text-sm text-gray-300">Hudud</span>
-                                    <input type="text" value={form.region} onChange={e => setField('region', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
-                                </label>
-                                <label className="block">
-                                    <span className="text-sm text-gray-300">Tuman</span>
-                                    <input type="text" value={form.district} onChange={e => setField('district', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
-                                </label>
+                            <div>
+                                <label className="block text-sm mb-2">Viloyat</label>
+                                <select
+                                    value={form.region}
+                                    onChange={e => {
+                                        setField('region', e.target.value);
+                                        setField('district', '');
+                                    }}
+                                    className="w-full p-3 rounded-lg font-semibold shadow focus:outline-none"
+                                    style={{
+                                        color: '#fff',
+                                        border: '1px solid blue'
+                                    }}
+                                    required
+                                >
+                                    <option value="" className='bg-gray-900'>Viloyatni tanlang</option>
+                                    {regions.map(region => (
+                                        <option key={region.id} className='bg-gray-900' value={region.id}>
+                                            {region.name_uz}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div>
+                                <label className="block text-sm mb-2">Tuman</label>
+                                <select
+                                    value={form.district}
+                                    onChange={e => setField('district', e.target.value)}
+                                    className="w-full p-3 rounded-lg font-semibold shadow focus:outline-none"
+                                    style={{
+                                        color: '#fff',
+                                        border: '1px solid blue'
+                                    }}
+                                    required
+                                    disabled={!form.region}
+                                >
+                                    <option value="" className='bg-gray-900'>Tumanni tanlang</option>
+                                    {districts
+                                        .filter(d => String(d.region_id) === String(form.region))
+                                        .map(district => (
+                                            <option key={district.id} value={district.name_uz} className='bg-gray-900'>
+                                                {district.name_uz}
+                                            </option>
+                                        ))}
+                                </select>
                             </div>
                             <label className="block">
                                 <span className="text-sm text-gray-300">Email</span>
@@ -424,12 +481,10 @@ export default function Register(): JSX.Element {
                                     className="mt-1 w-full border rounded-xl bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white border border-purple-700 px-4 py-3 font-semibold shadow focus:outline-none"
                                     style={{ background: 'transparent', color: 'white', border: '1px solid blue' }} // Qo'shimcha inline style
                                 >
-                                    <option value="" className="text-black bg-white" style={{ background: 'black' }}>Tanlang</option>
-                                    <option value="ai">Sun'iy intelekt</option>
-                                    <option value="contest">DG Contest</option>
-                                    <option value="fixtirolar">Foydali ixtirolar</option>
-                                    <option value="rfutbol">Robo futbol</option>
-                                    <option value="rsumo">Robo sumo</option>
+                                    <option value="ai" className='bg-gray-900'>Sun'iy intelekt</option>
+                                    <option value="fixtirolar" className='bg-gray-900'>Foydali ixtirolar</option>
+                                    <option value="rfutbol" className='bg-gray-900'>Robo futbol</option>
+                                    <option value="rsumo" className='bg-gray-900'>Robo sumo</option>
                                 </select>
                             </label>
                             {/* Friend form only for robofutbol */}
@@ -453,10 +508,10 @@ export default function Register(): JSX.Element {
                                         </label>
                                         <label className="block">
                                             <span className="text-sm text-gray-300">Jins</span>
-                                            <select value={friendForm.gender} style={{border:'1px solid blue'}} onChange={e => setFriendField('gender', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3">
-                                                <option value="">Tanlang</option>
-                                                <option value="male">Erkak</option>
-                                                <option value="female">Ayol</option>
+                                            <select style={{ border: '1px solid blue' }} value={form.gender} onChange={e => setField('gender', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3">
+                                                <option value="" className='bg-gray-900'>Tanlang</option>
+                                                <option value="male" className='bg-gray-900'>Erkak</option>
+                                                <option value="female" className='bg-gray-900'>Ayol</option>
                                             </select>
                                         </label>
                                     </div>
@@ -476,15 +531,51 @@ export default function Register(): JSX.Element {
                                         <span className="text-sm text-gray-300">Ta'lim / O‘qish joyi</span>
                                         <input type="text" value={friendForm.study_place} onChange={e => setFriendField('study_place', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
                                     </label>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                        <label className="block">
-                                            <span className="text-sm text-gray-300">Hudud</span>
-                                            <input type="text" value={friendForm.region} onChange={e => setFriendField('region', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
-                                        </label>
-                                        <label className="block">
-                                            <span className="text-sm text-gray-300">Tuman</span>
-                                            <input type="text" value={friendForm.district} onChange={e => setFriendField('district', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
-                                        </label>
+                                    <div>
+                                        <label className="block text-sm mb-2">Viloyat</label>
+                                        <select
+                                            value={form.region2}
+                                            onChange={e => {
+                                                setField('region', e.target.value);
+                                                setField('district', '');
+                                            }}
+                                            className="w-full p-3 rounded-lg font-semibold shadow focus:outline-none"
+                                            style={{
+                                                color: '#fff',
+                                                border: '1px solid blue'
+                                            }}
+                                            required
+                                        >
+                                            <option value="" className='bg-gray-900'>Viloyatni tanlang</option>
+                                            {regions.map(region => (
+                                                <option key={region.id} className='bg-gray-900' value={region.id}>
+                                                    {region.name_uz}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm mb-2">Tuman</label>
+                                        <select
+                                            value={form.district2}
+                                            onChange={e => setField('district', e.target.value)}
+                                            className="w-full p-3 rounded-lg font-semibold shadow focus:outline-none"
+                                            style={{
+                                                color: '#fff',
+                                                border: '1px solid blue'
+                                            }}
+                                            required
+                                            disabled={!form.region}
+                                        >
+                                            <option value="" className='bg-gray-900'>Tumanni tanlang</option>
+                                            {districts
+                                                .filter(d => String(d.region_id) === String(form.region))
+                                                .map(district => (
+                                                    <option key={district.id} value={district.name_uz} className='bg-gray-900'>
+                                                        {district.name_uz}
+                                                    </option>
+                                                ))}
+                                        </select>
                                     </div>
                                     <label className="block">
                                         <span className="text-sm text-gray-300">Email</span>
@@ -508,30 +599,11 @@ export default function Register(): JSX.Element {
                     )}
                 </main>
             </div>
+            <div style={{marginTop:'30px', width: '80%',marginLeft: 'auto', marginRight: 'auto',marginBottom:'20px'}}>
+                <GiftsList gifts={block?.gifts} />
+            </div>
 
             {/* Gifts Section */}
-            {/* <div className="mb-8 mt-8">
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                    {block.gifts?.map((gift: any, idx: number) => (
-                        <div
-                            key={idx}
-                            className="flex flex-col items-center p-4 bg-gradient-to-br from-purple-700/30 to-purple-900/30 rounded-xl border border-purple-500/20 shadow-lg hover:scale-105 transition-transform"
-                        >
-                            <div className="w-16 h-16 mb-2 flex items-center justify-center rounded-lg bg-black/40">
-                                {gift.image ? (
-                                    <img src={gift.image} alt={gift.name} className="w-10 h-10 object-contain" />
-                                ) : (
-                                    giftIcon(gift.name)
-                                )}
-                            </div>
-                            <div className="text-white text-sm font-semibold">{gift.name}</div>
-                            {gift.count !== undefined && <div className="text-gray-300 text-xs">{gift.count}x</div>}
-                        </div>
-                    ))}
-                </div>
-            </div> */}
-
-            {/* Subscription modal */}
             <SubscriptionModal
                 open={showSubscriptionModal}
                 onClose={() => setShowSubscriptionModal(false)}
