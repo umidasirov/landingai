@@ -69,21 +69,16 @@ export function AboutSection() {
               Konferensiya haqida
             </div>
 
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl mb-6 text-white leading-tight">
-              Sun’iy Intellektning{' '}
-              <span className="bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
-                Kelajagi
-              </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl mb-6 bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
+              AI Day (Prompt): 
             </h2>
 
             <p className="text-gray-400 mb-6 text-sm sm:text-base">
-              AI Conference 2025 dunyoning yetakchi mutaxassislari, tadqiqotchilari va innovatorlarini birlashtiradi.
-              Uch kun davomida mashina o‘rganish, neyron tarmoqlar va kognitiv hisoblashdagi so‘nggi yutuqlarni o‘rganing.
+              So‘zlaringiz Kuchga Aylanadigan Kun!
+To‘g‘ri yozilgan prompt — minglab natijalarga eshik ochadi.
+Bu tadbir sizga AI bilan professional darajada “muloqot qilishni” o‘rgatadi.
             </p>
-
-            <p className="text-gray-400 mb-10 text-sm sm:text-base mb-6">
-              Sanoat yetakchilari bilan tarmoq yarating, ilg‘or yechimlarni kashf eting va AIning turli sohalarga ta’sirini o‘rganing.
-            </p>
+            
 
             {/* Features – Responsive */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12 ">
@@ -102,7 +97,7 @@ export function AboutSection() {
             </div>
 
             {/* Stats – Responsive */}
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-6">
+            {/* <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-6">
               {stats.map((stat, i) => (
                 <div key={i} className="text-center">
                   <div className="mb-2 flex justify-center">
@@ -116,7 +111,7 @@ export function AboutSection() {
                   <div className="text-xs text-gray-500 mt-1">{stat.label}</div>
                 </div>
               ))}
-            </div>
+            </div> */}
           </motion.div>
 
           {/* RIGHT – IMAGE */}

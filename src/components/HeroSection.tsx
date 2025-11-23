@@ -7,7 +7,6 @@ import { CountdownTimer } from './ui/CountdownTimer';
 import { Link } from 'react-router-dom';
 import { useContext } from 'react';
 
-
 export function FiveBlocks() {
   const { blocks } = useModal();
   const allBlocks = [...blocks]; // original massivni saqlab qo'yish
@@ -40,7 +39,7 @@ export function FiveBlocks() {
 
                 <div className="flex flex-wrap gap-3 mt-auto justify-center">
                   <Link
-                    to={item.link =='/register/contest'?'https://online.raqamliavlod.uz/':item.link}
+                    to={item.link}
                     className="px-5 p-2 rounded-lg bg-purple-600 hover:bg-purple-500 mt-2 transition font-semibold"
                   >
                     Ro‘yxatdan o‘tish

@@ -91,7 +91,7 @@
 
 
 input{
-  outline: oklch(.627 .265 303.9) solid 1px;
+outline: oklch(62.054% 0.25877 304.985 / 0.267) solid 2px;
 }
 
 .we{
@@ -121,10 +121,10 @@ input{
 }
 
 textarea{
-  outline: oklch(.627 .265 303.9) solid 1px;
+  outline: oklch(62.054% 0.25877 304.985 / 0.267) solid 2px;
 }
 select{
-  outline: oklch(.627 .265 303.9) solid 1px;
+  outline: oklch(62.054% 0.25877 304.985 / 0.267) solid 2px;
   border: none !important;
 }@keyframes glow {
   0%, 100% { box-shadow: 0 0 20px 5px var(--glow-color); }
@@ -139,3 +139,16 @@ select{
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 } */
+
+input:focus {
+    outline: oklch(.627 .265 303.9) solid 2px;
+  box-shadow: 0 0 0 2px rgba(59,130,246,0.3); /* как ring в Tailwind */
+}
+textarea:focus {
+    outline: oklch(.627 .265 303.9) solid 2px;
+  box-shadow: 0 0 0 2px rgba(59,130,246,0.3); /* как ring в Tailwind */
+}
+select:focus {
+    outline: oklch(.627 .265 303.9) solid 2px;
+  box-shadow: 0 0 0 2px rgba(59,130,246,0.3); /* как ring в Tailwind */
+}

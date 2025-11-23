@@ -1,6 +1,5 @@
-import { SubscriptionModal } from './SubscribeModal';
 import React, { useEffect, useRef, useState } from 'react';
-import { useParams, useNavigate, useLocation, NavLink } from 'react-router-dom';
+import { useParams, useNavigate, useLocation, NavLink, Link } from 'react-router-dom';
 import { useModal } from '../context/context';
 import regions from '../locate/regions.json';
 import districts from '../locate/districts.json';
@@ -10,11 +9,6 @@ import { SuspendedGiftBox } from './GiftReveal';
 import { PrizesSection } from './t';
 import pdf from "../assets/pdf.pdf"
 type Params = { id?: string };
-
-
-
-
-
 
 
 import { motion } from 'framer-motion';
@@ -94,7 +88,6 @@ function CountdownTimer({ targetDate }: CountdownTimerProps) {
 
 
 
-
 type BlockType = {
     id: number | string;
     title: string;
@@ -142,18 +135,22 @@ const SEATS_DEFAULT: Record<string, number> = {
     robofutbol: 24,
     ixtirolar: 20,
 };
+const TEAM_DIRECTIONS = ["rfutbol"];
+
 
 export default function Register(): JSX.Element {
     const { setShowSubscribe } = useModal();
-
+    const [agree, setAgree] = useState(false);
     const { id } = useParams<Params>();
     const location = useLocation();
     const navigate = useNavigate();
     const { blocks = [] as BlockType[] } = useModal();
 
-    const detected = (id || location.pathname.split('/').pop() || 'ai').toString().toLowerCase();
+    const detected = (id || location.pathname.split("/").pop() || "ai")
+        .toString()
+        .toLowerCase();
     const eventKey = DIRECTION_ALIASES[detected] ?? detected;
-
+    const needsPartner = TEAM_DIRECTIONS.includes(eventKey);
     const block: BlockType | undefined =
         blocks.find(
             (b) =>
@@ -260,7 +257,7 @@ export default function Register(): JSX.Element {
         return null;
     }
 
-    function handleSubmit(e: React.FormEvent) {
+    async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
         setError(null);
         setSuccessMessage(null);
@@ -275,10 +272,7 @@ export default function Register(): JSX.Element {
             return;
         }
 
-        let payload: any = {
-            ...form,
-            direction: eventKey,
-        };
+        let payload: any = { ...form, direction: eventKey };
         if (eventKey === "rfutbol") {
             payload.friend = { ...friendForm };
         }
@@ -293,9 +287,10 @@ export default function Register(): JSX.Element {
             });
         }
 
-        setPendingPayload(payload);
-        setShowSubscriptionModal(true);
+        // to'g'ridan-to'g'ri yuborish
+        await sendRegistration(payload);
     }
+
 
     async function sendRegistration(payload: any) {
         if (!payload) return;
@@ -365,7 +360,7 @@ export default function Register(): JSX.Element {
 
                         {/* Gift message */}
                         <CountdownTimer targetDate={block.date} />
-                        <button onClick={()=>navigate('/')} className='mt-2 w-full py-3 rounded-xl px-6 text-white font-semibold transition bg-purple-600 hover:bg-purple-500'><i class="fa-solid fa-arrow-left"></i> Asosiy menyuga o'tish</button>
+                        <button onClick={() => navigate('/')} className='mt-2 w-full py-3 rounded-xl px-6 text-white font-semibold transition bg-purple-600 hover:bg-purple-500'><i className="fa-solid fa-arrow-left"></i> Asosiy menyuga o'tish</button>
                     </div>
                 </aside>
 
@@ -381,7 +376,8 @@ export default function Register(): JSX.Element {
 
                             {/* Motivational heading */}
                             <h2 className="text-4xl md:text-5xl font-extrabold text-white tracking-wide drop-shadow-lg animate-pulse">
-                                Bravo! 🎉
+                                Tabriklaymiz! Siz muvaffaqiyatli ro‘yxatdan o‘tdingiz.
+                                Yangilik va e’lonlarni ijtimoiy tarmoqlardagi sahifalarimiz orqali kuzatib boring. 🎉
                             </h2>
 
                             {/* Success message */}
@@ -391,9 +387,9 @@ export default function Register(): JSX.Element {
                             </p>
 
                             {/* Motivational quote */}
-                            <p className="text-yellow-300 font-semibold italic text-md md:text-lg">
+                            {/* <p className="text-yellow-300 font-semibold italic text-md md:text-lg">
                                 "Harakat qilgan kishi, orzusiga yaqinlashadi!" ✨
-                            </p>
+                            </p> */}
 
                             {/* Social links with icons */}
                             <div className="flex justify-center gap-6 mt-4">
@@ -444,266 +440,385 @@ export default function Register(): JSX.Element {
                                     {eventTitle} — Ro‘yxatdan o‘tish
                                 </h2>
                                 <a href={pdf} download className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
-                                <button className='mt-2 w-full py-3 rounded-xl px-6 text-white font-semibold transition bg-purple-600 hover:bg-purple-500'>
-                                    nizomni yuklab olish <i className='fa-solid fa-download'></i>
-                                </button>
+                                    <button className='mt-2 w-full py-3 rounded-xl px-6 text-white font-semibold transition bg-purple-600 hover:bg-purple-500'>
+                                        Nizomni yuklab olish <i className='fa-solid fa-download'></i>
+                                    </button>
                                 </a>
                             </div>
-                        <form id="form" onSubmit={handleSubmit} className="space-y-4" aria-labelledby="register-heading">
-                            {error && <div className="text-sm text-red-700">{error}</div>}
-                            {/* Main person fields */}
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <label className="block">
-                                    <span className="text-sm text-gray-300">Ism</span>
-                                    <input ref={firstNameRef} type="text" value={form.first_name} onChange={e => setField('first_name', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
-                                </label>
-                                <label className="block">
-                                    <span className="text-sm text-gray-300">Familiya</span>
-                                    <input type="text" value={form.last_name} onChange={e => setField('last_name', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
-                                </label>
-                            </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <label className="block">
-                                    <span className="text-sm text-gray-300">Otasining ismi</span>
-                                    <input type="text" value={form.middle_name} onChange={e => setField('middle_name', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
-                                </label>
-                                <label className="block">
-                                    <span className="text-sm text-gray-300">Jins</span>
-                                    <select style={{ border: '1px solid white' }} value={form.gender} onChange={e => setField('gender', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3">
-                                        <option value="" className='bg-gray-900'>Tanlang</option>
-                                        <option value="male" className='bg-gray-900'>Erkak</option>
-                                        <option value="female" className='bg-gray-900'>Ayol</option>
-                                    </select>
-                                </label>
-                            </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <label className="block">
-                                    <span className="text-sm text-gray-300">Telefon</span>
-                                    <input type="tel" value={form.phone_number} onChange={e => setField('phone_number', e.target.value)} placeholder='+998(12)-345-67-89' required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
-                                </label>
-                                <label className="block">
-                                    <span className="text-sm text-gray-300">Telegram username</span>
-                                    <input type="text" value={form.telegram_username} placeholder='@username' onChange={e => setField('telegram_username', e.target.value)} className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
-                                </label>
-                            </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <label className="block">
-                                    <span className="text-sm text-gray-300">Tug‘ilgan sana</span>
-                                    <input type="date" value={form.birth_date} onChange={e => setField('birth_date', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
-                                </label>
-                                <label className="block">
-                                    <span className="text-sm text-gray-300">Ta'lim / O‘qish joyi</span>
-                                    <input type="text" value={form.study_place} onChange={e => setField('study_place', e.target.value)} required placeholder='Maktab, Litsey, Universitet nomi' className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
-                                </label>
-                            </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <div>
-                                    <label className="block text-sm mb-2">Viloyat</label>
-                                    <select
-                                        value={form.region}
-                                        onChange={e => {
-                                            setField('region', e.target.value);
-                                            setField('district', '');
-                                        }}
-                                        className="w-full p-3 rounded-lg font-semibold shadow focus:outline-none"
-                                        style={{
-                                            color: '#fff',
-                                            border: '1px solid white'
-                                        }}
-                                        required
-                                    >
-                                        <option value="" className='bg-gray-900'>Viloyatni tanlang</option>
-                                        {regions.map(region => (
-                                            <option key={region.id} className='bg-gray-900' value={region.id}>
-                                                {region.name_uz}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </div>
-                                <div>
-                                    <label className="block text-sm mb-2">Tuman</label>
-                                    <select
-                                        value={form.district}
-                                        onChange={e => setField('district', e.target.value)}
-                                        className="w-full p-3 rounded-lg font-semibold shadow focus:outline-none"
-                                        style={{
-                                            color: '#fff',
-                                            border: '1px solid white'
-                                        }}
-                                        required
-                                        disabled={!form.region}
-                                    >
-                                        <option value="" className='bg-gray-900'>Tumanni tanlang</option>
-                                        {districts
-                                            .filter(d => String(d.region_id) === String(form.region))
-                                            .map(district => (
-                                                <option key={district.id} value={district.name_uz} className='bg-gray-900'>
-                                                    {district.name_uz}
-                                                </option>
-                                            ))}
-                                    </select>
-                                </div>
-                            </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <label className="block">
-                                    <span className="text-sm text-gray-300">Email</span>
-                                    <input type="email" placeholder='example@gmail.com' value={form.email} onChange={e => setField('email', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
-                                </label>
-                                <label className="block">
-                                    <span className="text-sm text-gray-300">Yo'nalish</span>
-                                    <select
-                                        value={form.direction}
-                                        onChange={e => {
-                                            setField('direction', e.target.value);
-                                            navigate(`/register/${e.target.value}`);
-                                        }}
-                                        required
-                                        className="mt-1 w-full border rounded-xl bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white border border-purple-700 px-4 py-3 font-semibold shadow focus:outline-none"
-                                        style={{ background: 'transparent', color: 'white', border: '1px solid white' }} // Qo'shimcha inline style
-                                    >
-                                        <option value="ai" className='bg-gray-900'>Sun'iy intelekt</option>
-                                        <option value="fixtirolar" className='bg-gray-900'>Foydali ixtirolar</option>
-                                        <option value="rfutbol" className='bg-gray-900'>Robo futbol</option>
-                                        <option value="rsumo" className='bg-gray-900'>Robo sumo</option>
-                                    </select>
-                                </label>
-                            </div>
-                            <label className="block">
-                                <span className="text-sm text-gray-300">Qisqacha ma'lumot</span>
-                                <textarea value={form.about} onChange={e => setField('about', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" rows={3} />
-                            </label>
-                            {/* Friend form only for robofutbol */}
-                            {eventKey === "rfutbol" && (
-                                <div className="mt-8 p-4 rounded-xl border border-purple-500/30 bg-purple-900/10">
-                                    <h3 className="text-lg font-bold mb-2 text-purple-300">Do‘stingiz ma'lumotlari</h3>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                        <label className="block">
-                                            <span className="text-sm text-gray-300">Ism</span>
-                                            <input type="text" value={friendForm.first_name} onChange={e => setFriendField('first_name', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
-                                        </label>
-                                        <label className="block">
-                                            <span className="text-sm text-gray-300">Familiya</span>
-                                            <input type="text" value={friendForm.last_name} onChange={e => setFriendField('last_name', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
-                                        </label>
+                            {
+                                block.link === "/register/contest" ? (
+                                    <div className="lg:col-span-2 bg-gray-900 rounded-2xl p-6 ">
+                                        <form id="form" className="space-y-4">
+                                            {/* Header */}
+
+                                            {/* Social subscription */}
+                                            <div className="text-center topp space-y-6">
+                                                <div className="bg-gradient-to-r from-purple-500/20 to-blue-500/20 rounded-2xl p-6 border border-purple-500/30">
+                                                    <h3 className="text-2xl font-bold text-white mb-4">Contest Yo'nalishi</h3>
+                                                    <p className="text-gray-300 mb-6">
+                                                        Quyidagi ijtimoiy tarmoq sahifalarimizga obuna bo'ling va <br />
+                                                        keyingi qadamlar haqida xabardor bo'ling.
+                                                    </p>
+                                                    <div className="flex justify-center gap-4 mt-6">
+                                                        <a
+                                                            href="https://t.me/digitalgeneration_uz"
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            className="px-6 py-3 rounded-xl bg-blue-500 hover:bg-blue-600 transition text-white font-semibold flex items-center gap-2"
+                                                        >
+                                                            <i className="fab fa-telegram-plane"></i> Telegram
+                                                        </a>
+                                                        <a
+                                                            href="https://www.instagram.com/dguzbekistan"
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            className="px-6 py-3 rounded-xl bg-pink-500 hover:bg-pink-600 transition text-white font-semibold flex items-center gap-2"
+                                                        >
+                                                            <i className="fab fa-instagram"></i> Instagram
+                                                        </a>
+                                                    </div>
+                                                </div>
+
+                                                {/* Checkbox */}
+                                                <div className="box2">
+                                                    <label className="flex items-center justify-center gap-2 cursor-pointer">
+                                                        <input className="boxx" type="checkbox"
+                                                            checked={agree}
+                                                            onChange={(e) => setAgree(e.target.checked)} /> Shartlarni to'liq bajardingizmi?
+                                                    </label>
+                                                </div>
+
+                                                {/* Buttons */}
+                                                <div className="flex justify-center gap-3 mt-6">
+                                                    <a
+                                                        href={agree ? "https://online.raqamliavlod.uz/" : "#"}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className={`flex-1 px-4 py-3 rounded-xl text-center hover:bg-purple-500 transition font-semibold ${!agree ? "bg-purple-400 cursor-not-allowed" : "bg-purple-600"}`}
+                                                    >
+                                                        {loading
+                                                            ? "Yuborilmoqda..."
+                                                            : needsPartner
+                                                                ? "Jamoani ro'yxatdan o'tkazish"
+                                                                : "Ro'yxatdan o'tish"}
+                                                    </a>
+
+                                                    <button
+                                                        type="button"
+                                                        className="px-6 py-3 rounded-xl border border-white/10 text-sm hover:bg-white/5 transition"
+                                                    >
+                                                        Bekor qilish
+                                                    </button>
+                                                </div>
+
+                                            </div>
+                                        </form>
                                     </div>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                        <label className="block">
-                                            <span className="text-sm text-gray-300">Otasining ismi</span>
-                                            <input type="text" value={friendForm.middle_name} onChange={e => setFriendField('middle_name', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
-                                        </label>
-                                        <label className="block">
-                                            <span className="text-sm text-gray-300">Jins</span>
-                                            <select value={friendForm.gender} onChange={e => setFriendField('gender', e.target.value)} required style={{ border: '1px solid white' }} className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3">
-                                                <option value="" className='bg-gray-900'>Tanlang</option>
-                                                <option value="male" className='bg-gray-900'>Erkak</option>
-                                                <option value="female" className='bg-gray-900'>Ayol</option>
-                                            </select>
-                                        </label>
-                                    </div>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                        <label className="block">
-                                            <span className="text-sm text-gray-300">Telefon</span>
-                                            <input type="tel" value={friendForm.phone_number} onChange={e => setFriendField('phone_number', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
-                                        </label>
-                                        <label className="block">
-                                            <span className="text-sm text-gray-300">Telegram username</span>
-                                            <input type="text" value={friendForm.telegram_username} onChange={e => setFriendField('telegram_username', e.target.value)} className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
-                                        </label>
-                                    </div>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                        <label className="block">
-                                            <span className="text-sm text-gray-300">Tug‘ilgan sana</span>
-                                            <input type="date" value={friendForm.birth_date} onChange={e => setFriendField('birth_date', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
-                                        </label>
-                                        <label className="block">
-                                            <span className="text-sm text-gray-300">Ta'lim / O‘qish joyi</span>
-                                            <input type="text" value={friendForm.study_place} onChange={e => setFriendField('study_place', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
-                                        </label>
-                                    </div>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                        <div>
-                                            <label className="block text-sm mb-2">Viloyat</label>
-                                            <select
-                                                value={friendForm.region}
-                                                onChange={e => {
-                                                    setFriendField('region', e.target.value);
-                                                    setFriendField('district', '');
-                                                }}
-                                                className="w-full p-3 rounded-lg font-semibold shadow focus:outline-none"
-                                                style={{
-                                                    color: '#fff',
-                                                    border: '1px solid white'
-                                                }}
-                                                required
-                                            >
-                                                <option value="" className='bg-gray-900'>Viloyatni tanlang</option>
-                                                {regions.map(region => (
-                                                    <option key={region.id} className='bg-gray-900' value={region.id}>
-                                                        {region.name_uz}
-                                                    </option>
-                                                ))}
-                                            </select>
+
+                                ) : (
+                                    <form id="form" onSubmit={handleSubmit} className="space-y-4" aria-labelledby="register-heading">
+                                        {error && <div className="text-sm text-red-700">{error}</div>}
+                                        {/* Main person fields */}
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                            <label className="block">
+                                                <span className="text-sm text-gray-300">Ism</span>
+                                                <input ref={firstNameRef} type="text" value={form.first_name} onChange={e => setField('first_name', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
+                                            </label>
+                                            <label className="block">
+                                                <span className="text-sm text-gray-300">Familiya</span>
+                                                <input type="text" value={form.last_name} onChange={e => setField('last_name', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
+                                            </label>
                                         </div>
-                                        <div>
-                                            <label className="block text-sm mb-2">Tuman</label>
-                                            <select
-                                                value={friendForm.district}
-                                                onChange={e => setFriendField('district', e.target.value)}
-                                                className="w-full p-3 rounded-lg font-semibold shadow focus:outline-none"
-                                                style={{
-                                                    color: '#fff',
-                                                    border: '1px solid white'
-                                                }}
-                                                required
-                                                disabled={!friendForm.region}
-                                            >
-                                                <option value="" className='bg-gray-900'>Tumanni tanlang</option>
-                                                {districts
-                                                    .filter(d => String(d.region_id) === String(friendForm.region))
-                                                    .map(district => (
-                                                        <option key={district.id} value={district.name_uz} className='bg-gray-900'>
-                                                            {district.name_uz}
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                            <label className="block">
+                                                <span className="text-sm text-gray-300">Otasining ismi</span>
+                                                <input type="text" value={form.middle_name} onChange={e => setField('middle_name', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
+                                            </label>
+                                            <label className="block">
+                                                <span className="text-sm text-gray-300">Jins</span>
+                                                <select style={{ border: '1px solid white' }} value={form.gender} onChange={e => setField('gender', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3">
+                                                    <option value="" className='bg-gray-900'>Tanlang</option>
+                                                    <option value="male" className='bg-gray-900'>Erkak</option>
+                                                    <option value="female" className='bg-gray-900'>Ayol</option>
+                                                </select>
+                                            </label>
+                                        </div>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                            <label className="block">
+                                                <span className="text-sm text-gray-300">Telefon</span>
+                                                <input type="tel" value={form.phone_number} onChange={e => setField('phone_number', e.target.value)} placeholder='+998(12)-345-67-89' required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
+                                            </label>
+                                            <label className="block">
+                                                <span className="text-sm text-gray-300">Telegram username</span>
+                                                <input type="text" value={form.telegram_username} placeholder='@username' onChange={e => setField('telegram_username', e.target.value)} className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
+                                            </label>
+                                        </div>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                            <label className="block">
+                                                <span className="text-sm text-gray-300">Tug‘ilgan sana</span>
+                                                <input type="date" value={form.birth_date} onChange={e => setField('birth_date', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
+                                            </label>
+                                            <label className="block">
+                                                <span className="text-sm text-gray-300">Ta'lim / O‘qish joyi</span>
+                                                <input type="text" value={form.study_place} onChange={e => setField('study_place', e.target.value)} required placeholder='Maktab, Litsey, Universitet nomi' className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
+                                            </label>
+                                        </div>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                            <div>
+                                                <label className="block text-sm mb-2">Viloyat</label>
+                                                <select
+                                                    value={form.region}
+                                                    onChange={e => {
+                                                        setField('region', e.target.value);
+                                                        setField('district', '');
+                                                    }}
+                                                    className="w-full p-3 rounded-lg font-semibold shadow focus:outline-none"
+                                                    style={{
+                                                        color: '#fff',
+                                                        border: '1px solid white'
+                                                    }}
+                                                    required
+                                                >
+                                                    <option value="" className='bg-gray-900'>Viloyatni tanlang</option>
+                                                    {regions.map(region => (
+                                                        <option key={region.id} className='bg-gray-900' value={region.id}>
+                                                            {region.name_uz}
                                                         </option>
                                                     ))}
-                                            </select>
+                                                </select>
+                                            </div>
+                                            <div>
+                                                <label className="block text-sm mb-2">Tuman</label>
+                                                <select
+                                                    value={form.district}
+                                                    onChange={e => setField('district', e.target.value)}
+                                                    className="w-full p-3 rounded-lg font-semibold shadow focus:outline-none"
+                                                    style={{
+                                                        color: '#fff',
+                                                        border: '1px solid white'
+                                                    }}
+                                                    required
+                                                    disabled={!form.region}
+                                                >
+                                                    <option value="" className='bg-gray-900'>Tumanni tanlang</option>
+                                                    {districts
+                                                        .filter(d => String(d.region_id) === String(form.region))
+                                                        .map(district => (
+                                                            <option key={district.id} value={district.name_uz} className='bg-gray-900'>
+                                                                {district.name_uz}
+                                                            </option>
+                                                        ))}
+                                                </select>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <label className="block">
-                                        <span className="text-sm text-gray-300">Email</span>
-                                        <input type="email" value={friendForm.email} onChange={e => setFriendField('email', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
-                                    </label>
-                                    <label className="block">
-                                        <span className="text-sm text-gray-300">Qisqacha ma'lumot</span>
-                                        <textarea value={friendForm.about} onChange={e => setFriendField('about', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" rows={3} />
-                                    </label>
-                                </div>
-                            )}
-                            <div className="flex items-center gap-3 mt-2">
-                                <button type="submit" disabled={loading} className="flex-1 px-4 py-3 rounded-xl bg-purple-600 hover:bg-purple-500 disabled:opacity-60 transition font-semibold">
-                                    {loading ? 'Yuborilmoqda...' : 'Ro‘yxatdan o‘tish'}
-                                </button>
-                                <button type="button" onClick={() => navigate(-1)} className="px-4 py-3 rounded-xl border border-white/10 text-sm hover:bg-white/5 transition">
-                                    Bekor qilish
-                                </button>
-                            </div>
-                        </form>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                            <label className="block">
+                                                <span className="text-sm text-gray-300">Email</span>
+                                                <input type="email" placeholder='example@gmail.com' value={form.email} onChange={e => setField('email', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
+                                            </label>
+                                            <label className="block">
+                                                <span className="text-sm text-gray-300">Yo'nalish</span>
+                                                <select
+                                                    value={form.direction}
+                                                    onChange={e => {
+                                                        setField('direction', e.target.value);
+                                                        navigate(`/register/${e.target.value}`);
+                                                    }}
+                                                    required
+                                                    className="mt-1 w-full border rounded-xl bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white border border-purple-700 px-4 py-3 font-semibold shadow focus:outline-none"
+                                                    style={{ background: 'transparent', color: 'white', border: '1px solid white' }} // Qo'shimcha inline style
+                                                >
+                                                    <option value="ai" className='bg-gray-900'>Sun'iy intelekt</option>
+                                                    <option value="fixtirolar" className='bg-gray-900'>Foydali ixtirolar</option>
+                                                    <option value="rfutbol" className='bg-gray-900'>Robo futbol</option>
+                                                    <option value="rsumo" className='bg-gray-900'>Robo sumo</option>
+                                                </select>
+                                            </label>
+                                        </div>
+                                        <label className="block">
+                                            <span className="text-sm text-gray-300">Qisqacha ma'lumot</span>
+                                            <textarea value={form.about} onChange={e => setField('about', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" rows={3} />
+                                        </label>
+                                        {/* Friend form only for robofutbol */}
+                                        {eventKey === "rfutbol" && (
+                                            <div className="mt-8 p-4 rounded-xl border border-purple-500/30 bg-purple-900/10">
+                                                <h3 className="text-lg font-bold mb-2 text-purple-300">2-ishtirokchi ma'lumotlari</h3>
+                                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                                    <label className="block">
+                                                        <span className="text-sm text-gray-300">Ism</span>
+                                                        <input type="text" value={friendForm.first_name} onChange={e => setFriendField('first_name', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
+                                                    </label>
+                                                    <label className="block">
+                                                        <span className="text-sm text-gray-300">Familiya</span>
+                                                        <input type="text" value={friendForm.last_name} onChange={e => setFriendField('last_name', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
+                                                    </label>
+                                                </div>
+                                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                                    <label className="block">
+                                                        <span className="text-sm text-gray-300">Otasining ismi</span>
+                                                        <input type="text" value={friendForm.middle_name} onChange={e => setFriendField('middle_name', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
+                                                    </label>
+                                                    <label className="block">
+                                                        <span className="text-sm text-gray-300">Jins</span>
+                                                        <select value={friendForm.gender} onChange={e => setFriendField('gender', e.target.value)} required style={{ border: '1px solid white' }} className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3">
+                                                            <option value="" className='bg-gray-900'>Tanlang</option>
+                                                            <option value="male" className='bg-gray-900'>Erkak</option>
+                                                            <option value="female" className='bg-gray-900'>Ayol</option>
+                                                        </select>
+                                                    </label>
+                                                </div>
+                                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                                    <label className="block">
+                                                        <span className="text-sm text-gray-300">Telefon</span>
+                                                        <input type="tel" value={friendForm.phone_number} onChange={e => setFriendField('phone_number', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
+                                                    </label>
+                                                    <label className="block">
+                                                        <span className="text-sm text-gray-300">Telegram username</span>
+                                                        <input type="text" value={friendForm.telegram_username} onChange={e => setFriendField('telegram_username', e.target.value)} className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
+                                                    </label>
+                                                </div>
+                                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                                    <label className="block">
+                                                        <span className="text-sm text-gray-300">Tug‘ilgan sana</span>
+                                                        <input type="date" value={friendForm.birth_date} onChange={e => setFriendField('birth_date', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
+                                                    </label>
+                                                    <label className="block">
+                                                        <span className="text-sm text-gray-300">Ta'lim / O‘qish joyi</span>
+                                                        <input type="text" value={friendForm.study_place} onChange={e => setFriendField('study_place', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
+                                                    </label>
+                                                </div>
+                                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                                    <div>
+                                                        <label className="block text-sm mb-2">Viloyat</label>
+                                                        <select
+                                                            value={friendForm.region}
+                                                            onChange={e => {
+                                                                setFriendField('region', e.target.value);
+                                                                setFriendField('district', '');
+                                                            }}
+                                                            className="w-full p-3 rounded-lg font-semibold shadow focus:outline-none"
+                                                            style={{
+                                                                color: '#fff',
+                                                                border: '1px solid white'
+                                                            }}
+                                                            required
+                                                        >
+                                                            <option value="" className='bg-gray-900'>Viloyatni tanlang</option>
+                                                            {regions.map(region => (
+                                                                <option key={region.id} className='bg-gray-900' value={region.id}>
+                                                                    {region.name_uz}
+                                                                </option>
+                                                            ))}
+                                                        </select>
+                                                    </div>
+                                                    <div>
+                                                        <label className="block text-sm mb-2">Tuman</label>
+                                                        <select
+                                                            value={friendForm.district}
+                                                            onChange={e => setFriendField('district', e.target.value)}
+                                                            className="w-full p-3 rounded-lg font-semibold shadow focus:outline-none"
+                                                            style={{
+                                                                color: '#fff',
+                                                                border: '1px solid white'
+                                                            }}
+                                                            required
+                                                            disabled={!friendForm.region}
+                                                        >
+                                                            <option value="" className='bg-gray-900'>Tumanni tanlang</option>
+                                                            {districts
+                                                                .filter(d => String(d.region_id) === String(friendForm.region))
+                                                                .map(district => (
+                                                                    <option key={district.id} value={district.name_uz} className='bg-gray-900'>
+                                                                        {district.name_uz}
+                                                                    </option>
+                                                                ))}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <label className="block">
+                                                    <span className="text-sm text-gray-300">Email</span>
+                                                    <input type="email" value={friendForm.email} onChange={e => setFriendField('email', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
+                                                </label>
+                                                <label className="block">
+                                                    <span className="text-sm text-gray-300">Qisqacha ma'lumot</span>
+                                                    <textarea value={friendForm.about} onChange={e => setFriendField('about', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" rows={3} />
+                                                </label>
+                                            </div>
+                                        )}
+                                        <h2 className="text-center">
+                                            To'liq ro'yxatdan o'tish uchun <br /> bizning ijtimoiy
+                                            tarmoq sahifalarimizga ham obuna bo'ling. 👇
+                                        </h2>
+                                        <div className="flex justify-center gap-4 mt-4">
+                                            <a
+                                                href="https://t.me/digitalgeneration_uz"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="px-5 py-3 rounded-lg bg-blue-500 hover:bg-blue-400 transition text-white font-semibold flex items-center gap-2 shadow-lg"
+                                            >
+                                                <i className="fab fa-telegram-plane text-lg"></i>
+                                                Telegram
+                                            </a>
+                                            <a
+                                                href="https://www.instagram.com/dguzbekistan"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="px-5 py-3 rounded-lg bg-pink-500 hover:bg-pink-400 transition text-white font-semibold flex items-center gap-2 shadow-lg"
+                                            >
+                                                <i className="fab fa-instagram text-lg"></i>Instagram
+                                            </a>
+                                        </div>
+                                        <div>
+                                            <div className="box2">
+                                                <label className="flex items-center gap-2 cursor-pointer">
+                                                    <input
+                                                        className="boxx"
+                                                        type="checkbox"
+                                                        checked={agree}
+                                                        onChange={(e) => setAgree(e.target.checked)}
+                                                    />
+                                                    Shartlarni to'liq bajardingizmi?
+                                                </label>
+                                            </div>
+                                            <div className="flex buttonSend gap-3 mt-6">
+                                                <button
+                                                    type="submit"
+                                                    disabled={loading || !agree}
+
+                                                    className={`flex-1 px-4 py-3 rounded-xl  hover:bg-purple-500 disabled:opacity-60 transition font-semibold ${loading || !agree ? "btn-disabled bg-purple-400 cursor-not-allowed" : "btn-enabled bg-purple-600"
+                                                        }`}
+                                                >
+                                                    {loading
+                                                        ? "Yuborilmoqda..."
+                                                        : needsPartner
+                                                            ? "Jamoani ro'yxatdan o'tkazish"
+                                                            : "Ro'yxatdan o'tish"}
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => navigate(-1)}
+                                                    className="px-4 cansell py-3 rounded-xl border border-white/10 text-sm hover:bg-white/5 transition"
+                                                >
+                                                    Bekor qilish
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                )
+
+                            }
                         </div>
                     )}
                 </main>
             </div>
+
             <div style={{ marginTop: '30px', width: '80%', marginLeft: 'auto', marginRight: 'auto', marginBottom: '20px', zIndex: 50 }}>
                 {/* <PrizesSection gifts={block.gifts}/> */}
                 <Karobka f={block} />
             </div>
 
-
             {/* Gifts Section */}
-            <SubscriptionModal
-                open={showSubscriptionModal}
-                onClose={() => setShowSubscriptionModal(false)}
-                formData={pendingPayload}
-                onSubmit={(data) => sendRegistration(data)}
-            />
+
         </div>
     );
 }

@@ -30,10 +30,10 @@ export function CountdownTimer({ targetDate }: CountdownTimerProps) {
   }, [targetDate]);
 
   const timeItems = [
-    { label: 'Days', value: timeLeft.days },
-    { label: 'Hours', value: timeLeft.hours },
-    { label: 'Minutes', value: timeLeft.minutes },
-    { label: 'Seconds', value: timeLeft.seconds },
+    { label: 'Kun', value: timeLeft.days },
+    { label: 'Soat', value: timeLeft.hours },
+    { label: 'Daqiqa', value: timeLeft.minutes },
+    { label: 'Soniya', value: timeLeft.seconds },
   ];
 
   return (

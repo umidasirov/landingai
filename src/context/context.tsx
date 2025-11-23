@@ -5,10 +5,12 @@ import ai from '../assets/ai.png';
 import constest from '../assets/contest.png';
 import idea from '../assets/idea.png';
 import React, { createContext, useState, useContext } from "react";
+import contestGift from '../assets/gifts/contest.png';
 
 import robof from '../assets/gifts/robo_fut.png';
+import robofutbol from '../assets/gifts/robo_futa.png';
 import aig from '../assets/gifts/Raqamli avlod to’plami (7)-edited-free (carve.photos).png';
-
+import sumon from '../assets/gifts/sumo.png';
 // import laptop from '../assets/gifts/lop.png';
 // import iphone from '../assets/gifts/i.png';
 // import TV from '../assets/gifts/tele.png';
@@ -76,7 +78,7 @@ const blocks = [
     image: robosumo,
     size: 'small',
     link: '/register/rsumo',
-    img:robof,
+    img:sumon,
     date: "2025-12-29T00:00:00",
     // gifts: [
     //   { type: "samakat", description: "Samakat", image: s, count: 1 },
@@ -91,7 +93,7 @@ const blocks = [
     image: constest,
     size: 'small',
     link: '/register/contest',
-    img:robof,
+    img:contestGift,
     date: "2025-12-07T00:00:00",
     // gifts: [
     //   { type: "keyboard", description: "Klaviatura", image: key, count: 1 },
@@ -107,7 +109,7 @@ const blocks = [
     size: 'small',
     link: '/register/rfutbol',
     date: "2025-12-01T00:00:00",
-    img:robof,
+    img:robofutbol,
     // gifts: [
     //   { type: "nout", description: "Noutbuk", image: laptop, count: 2 },
     //   { type: "tv", description: "Televizor", image: TV, count: 2 },
