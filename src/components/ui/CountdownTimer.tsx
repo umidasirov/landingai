@@ -38,7 +38,7 @@ export function CountdownTimer({ targetDate }: CountdownTimerProps) {
 
   return (
     <div className="p-6 mb-2 w-[40%] bg-purple-900/20 backdrop-blur-sm border-purple-500/50 flex flex-col items-center justify-center rounded-xl">
-      <h1 className='text-blue-500 font-[30px] mt-4 mb-6'>IT haftalig boshlanshiga qolgan vaqt</h1>
+      <h1 className='text-blue-500 text-xl font-[30px] mt-4 mb-6'>IT Haftaligi boshlanishiga oz qoldi — tayyor bo‘ling!</h1>
       <motion.div
         className="flex justify-center gap-4 mb-4"
         initial={{ opacity: 0, y: 20 }}

@@ -116,7 +116,7 @@ type PersonPayload = {
 type RegisterPayload = PersonPayload & {
     direction: string;
     eventKey?: string;
-    friend?: PersonPayload | null;
+    friend_data?: PersonPayload | null;
 };
 
 const DIRECTION_ALIASES: Record<string, string> = {
@@ -190,7 +190,7 @@ export default function Register(): JSX.Element {
         telegram_username: '',
         direction: eventKey,
         eventKey,
-        friend: null,
+        friend_data: null,
     });
 
     // Friend form (only for robofutbol)
@@ -235,7 +235,6 @@ export default function Register(): JSX.Element {
         if (!form.middle_name?.trim()) return "Otasining ismi kiritilsin.";
         if (!form.gender) return "Jins tanlang.";
         if (!form.phone_number?.trim()) return "Telefon raqam kiritilsin.";
-        if (!form.email?.trim()) return "Email kiritilsin.";
         if (!form.birth_date) return "Tug‘ilgan sana kiritilsin.";
         if (!form.study_place?.trim()) return "O‘qish joyi kiritilsin.";
         if (!form.region?.trim()) return "Hudud kiritilsin.";
@@ -247,7 +246,6 @@ export default function Register(): JSX.Element {
             if (!friendForm.middle_name?.trim()) return "Do‘stingizning otasining ismi kiritilsin.";
             if (!friendForm.gender) return "Do‘stingizning jinsini tanlang.";
             if (!friendForm.phone_number?.trim()) return "Do‘stingizning telefon raqami kiritilsin.";
-            if (!friendForm.email?.trim()) return "Do‘stingizning emaili kiritilsin.";
             if (!friendForm.birth_date) return "Do‘stingizning tug‘ilgan sanasi kiritilsin.";
             if (!friendForm.study_place?.trim()) return "Do‘stingizning o‘qish joyi kiritilsin.";
             if (!friendForm.region?.trim()) return "Do‘stingizning hududi kiritilsin.";
@@ -274,8 +272,9 @@ export default function Register(): JSX.Element {
 
         let payload: any = { ...form, direction: eventKey };
         if (eventKey === "rfutbol") {
-            payload.friend = { ...friendForm };
+            payload.friend_data = { ...friendForm };
         }
+
 
         // Remove empty strings
         Object.keys(payload).forEach((k) => {
@@ -332,6 +331,17 @@ export default function Register(): JSX.Element {
             setPendingPayload(null);
         }
     }
+    function ormatDate(dateString: string) {
+        const date = new Date(dateString);
+        const days = ['Yakshanba', 'Dushanba', 'Seshanba', 'Chorshanba', 'Payshanba', 'Juma', 'Shanba'];
+        const dayName = days[date.getDay()];
+        const day = date.getDate();
+        const month = date.getMonth() + 1;
+        const year = date.getFullYear();
+
+        return `${dayName}, ${day}-${month}-${year}`;
+    }
+
 
     return (
         <div className="min-h-screen text-white py-10 p-[20px] px-4 flex flex-col items-center justify-center" style={{ zIndex: 50 }}>
@@ -361,6 +371,12 @@ export default function Register(): JSX.Element {
 
                         {/* Gift message */}
                         <CountdownTimer targetDate={block.date} />
+
+                        <div className="mt-2 px-4 py-2 bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 text-white text-sm font-medium rounded-xl shadow-md text-center">
+                            {ormatDate(block.date)}
+                        </div>
+
+
                         <button onClick={() => navigate('/')} className='mt-2 w-full py-3 rounded-xl px-6 text-white font-semibold transition bg-purple-600 hover:bg-purple-500'><i className="fa-solid fa-arrow-left"></i> Asosiy menyuga o'tish</button>
                     </div>
                 </aside>
@@ -370,7 +386,7 @@ export default function Register(): JSX.Element {
                         <div style={{ border: 0 }} className="text-center space-y-6 rounded-2xl p-8 bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 animate-fadeIn">
                             {/* Animated check mark */}
                             <div className="flex justify-center border-lg border-0 rounded-full w-24 h-24 mx-auto bg-gradient-to-tr from-green-500 to-green-400 shadow-lg items-center">
-                                <svg className="w-20 h-20 text-green-400 animate-bounce border-2 rounded-full" style={{borderBlockColor:'green',border:'2px solid'}} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                <svg className="w-20 h-20 text-green-400 animate-bounce border-2 rounded-full" style={{ borderBlockColor: 'green', border: '2px solid' }} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                                 </svg>
                             </div>
@@ -383,7 +399,7 @@ export default function Register(): JSX.Element {
                             {/* Success message */}
                             <p className="text-gray-400 text-sm md:text-xl max-w-2xl mx-auto">
                                 {successMessage || 'Siz muvaffaqiyatli ro‘yxatdan o‘tdingiz!'}
-                                 Yangilik va e’lonlarni ijtimoiy tarmoqlardagi sahifalarimiz orqali kuzatib boring. 🎉
+                                Yangilik va e’lonlarni ijtimoiy tarmoqlardagi sahifalarimiz orqali kuzatib boring. 🎉
                             </p>
 
                             {/* Motivational quote */}
@@ -770,8 +786,8 @@ export default function Register(): JSX.Element {
                                             </a>
                                         </div>
                                         <div>
-                                            <div className="box2">
-                                                <label className="flex items-center gap-2 cursor-pointer">
+                                            <div className="box2 text-center mt-6">
+                                                <label className="flex items-center justify-center mt-8 gap-2 cursor-pointer" style={{marginTop:'20px'}}>
                                                     <input
                                                         className="boxx"
                                                         type="checkbox"

@@ -23,15 +23,16 @@ export function LocationSection() {
             Manzil
           </div>
           <h2 className="text-4xl lg:text-5xl mb-4 text-white">
-            Bizni konferensiyamizga tashrif buyuring: {' '}
+            IT Haftaligiga tashrif buyuring   {' '}
             <span className="bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
-              Toshkent
+              Al-Xorazmiy maktabida, Toshkent
             </span>
           </h2>
           <p className="text-gray-400 max-w-2xl mx-auto">
-            O‘zbekiston poytaxtining markazida zamonaviy konferensiya markazi
+            Zamonaviy texnologiyalar bilan jihozlangan maktabda bir hafta davomida IT konkurslar va qiziqarli tadbirlar sizni kutmoqda.
           </p>
         </div>
+
 
         <div className="grid lg:grid-cols-2 gap-8">
           {/* Chap taraf: Venue rasmi */}

@@ -63,9 +63,9 @@ export default function App() {
                     <ScrollReveal direction="up" delay={0.04}>
                       <MainGifts />
                     </ScrollReveal>
-                    <ScrollReveal direction="up">
+                    {/* <ScrollReveal direction="up">
                       <AboutSection />
-                    </ScrollReveal>
+                    </ScrollReveal> */}
                     {/* <ScrollReveal direction="up" delay={0.04}>
                       <ScheduleSection />  
                     </ScrollReveal> */}
