@@ -693,7 +693,7 @@ export default function Register(): JSX.Element {
             </div>
             <div style={{ marginTop: '30px', width: '80%', marginLeft: 'auto', marginRight: 'auto', marginBottom: '20px', zIndex: 50 }}>
                 {/* <PrizesSection gifts={block.gifts}/> */}
-                <Karobka f={block.gifts} />
+                <Karobka f={block} />
             </div>
 
 

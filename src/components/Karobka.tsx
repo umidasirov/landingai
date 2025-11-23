@@ -16,85 +16,46 @@ export default function Karobka({ f }: { f: any[] }) {
     setGifts(f);
   }, [f]);
 
-  const rows = Math.ceil(Math.sqrt(gifts.length));
-  const pyramidGifts = gifts.slice(0, rows * (rows + 1) / 2);
-
   return (
-    <div className="relative w-full py-8 px-2 sm:py-12 sm:px-4">
-      <style>{`
-        @keyframes glow {
-          0%, 100% {
-            box-shadow: 0 0 20px var(--glow-color);
-          }
-          50% {
-            box-shadow: 0 0 40px var(--glow-color);
-          }
-        }
+    <section
+      id="manzil"
+      className="relative py-24 lg:py-32 bg-gradient-to-b from-black via-purple-950/10 to-black overflow-hidden"
+    >
+      {/* Fon Grid */}
+      <div
+        className="absolute inset-0 opacity-5"
+        style={{
+          backgroundImage: 'radial-gradient(circle, rgba(168,85,247,0.5) 2px, transparent 2px)',
+          backgroundSize: '50px 50px',
+        }}
+      />
 
-        @keyframes float {
-          0%, 100% {
-            transform: translateY(0px);
-          }
-          50% {
-            transform: translateY(-8px);
-          }
-        }
-      `}</style>
-
-      <div className="relative max-w-full sm:max-w-7xl mx-auto">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Sarlavha */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl lg:text-5xl mb-4 text-white">
-           Ishtirokchilar yutib olishi mumkin sovg'alar
-          </h2>
-        </div>
-        <div
-          className="flex flex-col items-center p-4 sm:p-8 rounded-3xl border border-purple-500/30 
-             bg-black/20 backdrop-blur-xl"
-        >
-          <div className="flex flex-col items-center mb-8 sm:mb-16">
-            {Array.from({ length: rows }).map((_, row) => {
-              const itemsInRow = row + 1;
-              const startIdx = (row * (row + 1)) / 2;
-              const endIdx = startIdx + itemsInRow;
-              const rowGifts = pyramidGifts.slice(startIdx, endIdx);
-
-              return (
-                <div key={row} className="flex flex-wrap gap-2 sm:gap-4 justify-center mb-2 sm:mb-4">
-                  
-                  {rowGifts.map((gift, idx) => {
-                    const glowColor = shadowColors[(startIdx + idx) % shadowColors.length];
-
-                    return (
-                      <div
-                        key={`${gift.type}-${startIdx + idx}`}
-                        className="relative flex flex-col items-center p-2 sm:p-3 rounded-lg backdrop-blur-lg transition-all duration-300 group hover:scale-110"
-                        style={{
-                          animation: 'float 2s ease-in-out infinite',
-                        } as React.CSSProperties}
-                      >
-                        <div className="flex items-center justify-center">
-                          {gift.image ? (
-                            <img
-                              src={gift.image}
-                              alt={gift.type}
-                              className="object-contain w-40 h-40 sm:w-82 sm:h-72 p-1"
-                              style={{
-                                filter: 'drop-shadow(0 0 228px rgba(13, 4, 218, 0.4))',
-                              }}
-                            />
-                          ) : (
-                            ''
-                          )}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              );
-            })}
+          <div className="inline-block px-4 py-2 bg-purple-900/30 border border-purple-500/50 rounded-full text-purple-400 mb-6">
+            Sovg'alar
           </div>
+          <h2 className="text-4xl lg:text-5xl mb-4 text-white">
+            Ushbu sovg'alardan {" "}
+            <span className="bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
+              birini yutib olishingiz mumkin
+            </span>
+          </h2>
+          <p className="text-gray-400 max-w-2xl mx-auto">
+            Shoshiling, joylar soni <span className='bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent'>cheklangan!!!</span>
+          </p>
         </div>
+
+        <div className="flex justify-center mb-12">
+          <img
+            src={gifts?.img}
+            alt=""
+            className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl object-contain"
+          />
+        </div>
+
       </div>
-    </div>
+    </section>
   );
 }

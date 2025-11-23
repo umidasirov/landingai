@@ -6,27 +6,30 @@ import constest from '../assets/contest.png';
 import idea from '../assets/idea.png';
 import React, { createContext, useState, useContext } from "react";
 
-import laptop from '../assets/gifts/lop.png';
-import iphone from '../assets/gifts/i.png';
-import TV from '../assets/gifts/tele.png';
-import pilesos from '../assets/gifts/piles.png';
-import s from '../assets/gifts/pil.png';
-import naush from '../assets/gifts/na.png';
-import key from '../assets/gifts/klav.png';
-import ter from '../assets/gifts/termiz.png';
-import kal from '../assets/gifts/kalon.png';
-import t from '../assets/gifts/ls-no-bg-preview (carve.photos).png';
-import rp from '../assets/gifts/piles.png';
-import sam from '../assets/gifts/sama.png';
-import sumk from '../assets/gifts/sumka.png';
+import robof from '../assets/gifts/robo_fut.png';
+import aig from '../assets/gifts/Raqamli avlod to’plami (7)-edited-free (carve.photos).png';
 
-// Block turi
-type GiftType = {
-    type: string;
-    description: string;
-    image?: string;
-    count: number;
-};
+// import laptop from '../assets/gifts/lop.png';
+// import iphone from '../assets/gifts/i.png';
+// import TV from '../assets/gifts/tele.png';
+// import pilesos from '../assets/gifts/piles.png';
+// import s from '../assets/gifts/pil.png';
+// import naush from '../assets/gifts/na.png';
+// import key from '../assets/gifts/klav.png';
+// import ter from '../assets/gifts/termiz.png';
+// import kal from '../assets/gifts/kalon.png';
+// import t from '../assets/gifts/ls-no-bg-preview (carve.photos).png';
+// import rp from '../assets/gifts/piles.png';
+// import sam from '../assets/gifts/sama.png';
+// import sumk from '../assets/gifts/sumka.png';
+
+// // Block turi
+// type GiftType = {
+//     type: string;
+//     description: string;
+//     image?: string;
+//     count: number;
+// };
 
 interface BlockType {
   id: number;
@@ -35,7 +38,8 @@ interface BlockType {
   image: string;
   size: 'small' | 'large';
   link: string;
-  gifts?: Gift[]; 
+  // gifts?: Gift[]; 
+  img:string;
   date:string;
 }
 
@@ -58,11 +62,12 @@ const blocks = [
     size: 'small',
     link: '/register/fixtirolar',
     date: "2025-11-30T00:00:00",
-    gifts: [
-      { type: "Noutbuk", description: "Noutbuk", image: laptop, count: 1 },
-      { type: "Televizor", description: "Smart soat", image: TV, count: 2 },
-      { type: "Robo pilesos", description: "Robot changyutgich", image: rp, count: 1 },
-    ],
+    img:robof,
+    // gifts: [
+    //   { type: "Noutbuk", description: "Noutbuk", image: laptop, count: 1 },
+    //   { type: "Televizor", description: "Smart soat", image: TV, count: 2 },
+    //   { type: "Robo pilesos", description: "Robot changyutgich", image: rp, count: 1 },
+    // ],
   },
   {
     id: 2,
@@ -71,12 +76,13 @@ const blocks = [
     image: robosumo,
     size: 'small',
     link: '/register/rsumo',
+    img:robof,
     date: "2025-12-29T00:00:00",
-    gifts: [
-      { type: "samakat", description: "Samakat", image: s, count: 1 },
-      { type: "tv", description: "Televizor", image: TV, count: 1 },
-      { type: "robopilesos", description: "Robo Pilesos", image: pilesos, count: 1 },
-    ],
+    // gifts: [
+    //   { type: "samakat", description: "Samakat", image: s, count: 1 },
+    //   { type: "tv", description: "Televizor", image: TV, count: 1 },
+    //   { type: "robopilesos", description: "Robo Pilesos", image: pilesos, count: 1 },
+    // ],
   },
   {
     id: 3,
@@ -85,12 +91,13 @@ const blocks = [
     image: constest,
     size: 'small',
     link: '/register/contest',
+    img:robof,
     date: "2025-12-07T00:00:00",
-    gifts: [
-      { type: "keyboard", description: "Klaviatura", image: key, count: 1 },
-      { type: "tablet", description: "Planshet", image: s, count: 3 },
-      { type: "smartlamp", description: "Smart lamp", image: s, count: 2 },
-    ],
+    // gifts: [
+    //   { type: "keyboard", description: "Klaviatura", image: key, count: 1 },
+    //   { type: "tablet", description: "Planshet", image: s, count: 3 },
+    //   { type: "smartlamp", description: "Smart lamp", image: s, count: 2 },
+    // ],
   },
   {
     id: 4,
@@ -100,11 +107,12 @@ const blocks = [
     size: 'small',
     link: '/register/rfutbol',
     date: "2025-12-01T00:00:00",
-    gifts: [
-      { type: "nout", description: "Noutbuk", image: laptop, count: 2 },
-      { type: "tv", description: "Televizor", image: TV, count: 2 },
-      { type: "pilesos", description: "Robopilesos", image: pilesos, count: 2 },
-    ],
+    img:robof,
+    // gifts: [
+    //   { type: "nout", description: "Noutbuk", image: laptop, count: 2 },
+    //   { type: "tv", description: "Televizor", image: TV, count: 2 },
+    //   { type: "pilesos", description: "Robopilesos", image: pilesos, count: 2 },
+    // ],
   },
   {
     id: 5,
@@ -114,16 +122,17 @@ const blocks = [
     size: "large",
     link: "/register/ai",
     date: "2025-11-25T00:00:00",
-    gifts: [
-      { type: "iphone", description: "iPhone 17", image: iphone, count: 1 },
-      { type: "speaker", description: "Kalonka", image: kal, count: 10 },
-      { type: "termoz", description: "Termoz", image: ter, count: 10 },
-      { type: "thermocup", description: "Termokrushka", image: t, count: 10 },
-      { type:'sumka', description: "Sumka", image: sumk, count: 10 },
-      { type: "headphones", description: "Naushnik", image: naush, count: 10 },
-      { type: "keyboard", description: "Klaviatura", image: key, count: 10 },
-    ],
-  },
+    img:aig,
+    // gifts: [
+    //   { type: "iphone", description: "iPhone 17", image: iphone, count: 1 },
+    //   { type: "speaker", description: "Kalonka", image: kal, count: 10 },
+    //   { type: "termoz", description: "Termoz", image: ter, count: 10 },
+    //   { type: "thermocup", description: "Termokrushka", image: t, count: 10 },
+    //   { type:'sumka', description: "Sumka", image: sumk, count: 10 },
+    //   { type: "headphones", description: "Naushnik", image: naush, count: 10 },
+    //   { type: "keyboard", description: "Klaviatura", image: key, count: 10 },
+    // ],
+  }
 ];
 
 
