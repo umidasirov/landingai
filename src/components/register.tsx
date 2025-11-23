@@ -287,6 +287,7 @@ export default function Register(): JSX.Element {
             });
         }
 
+        console.log("to'g'ridan-to'g'ri yuborish", payload);
         // to'g'ridan-to'g'ri yuborish
         await sendRegistration(payload);
     }
@@ -368,22 +369,21 @@ export default function Register(): JSX.Element {
                     {done ? (
                         <div style={{ border: 0 }} className="text-center space-y-6 rounded-2xl p-8 bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 animate-fadeIn">
                             {/* Animated check mark */}
-                            <div className="flex justify-center">
-                                <svg className="w-20 h-20 text-green-400 animate-bounce" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                            <div className="flex justify-center border-lg border-0 rounded-full w-24 h-24 mx-auto bg-gradient-to-tr from-green-500 to-green-400 shadow-lg items-center">
+                                <svg className="w-20 h-20 text-green-400 animate-bounce border-2 rounded-full" style={{borderBlockColor:'green',border:'2px solid'}} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                                 </svg>
                             </div>
 
                             {/* Motivational heading */}
-                            <h2 className="text-4xl md:text-5xl font-extrabold text-white tracking-wide drop-shadow-lg animate-pulse">
+                            <h2 className="text-4xl md:text-5xl text-white-100 font-extrabold text-white tracking-wide drop-shadow-lg animate-pulse">
                                 Tabriklaymiz! Siz muvaffaqiyatli ro‘yxatdan o‘tdingiz.
-                                Yangilik va e’lonlarni ijtimoiy tarmoqlardagi sahifalarimiz orqali kuzatib boring. 🎉
                             </h2>
 
                             {/* Success message */}
-                            <p className="text-gray-200 text-lg md:text-xl max-w-2xl mx-auto">
+                            <p className="text-gray-400 text-sm md:text-xl max-w-2xl mx-auto">
                                 {successMessage || 'Siz muvaffaqiyatli ro‘yxatdan o‘tdingiz!'}
-                                Endi yangi imkoniyatlar va sovg‘alarni kuting – bu boshlanishi sizning sayohatingizning! 🚀
+                                 Yangilik va e’lonlarni ijtimoiy tarmoqlardagi sahifalarimiz orqali kuzatib boring. 🎉
                             </p>
 
                             {/* Motivational quote */}
@@ -447,24 +447,21 @@ export default function Register(): JSX.Element {
                             </div>
                             {
                                 block.link === "/register/contest" ? (
-                                    <div className="lg:col-span-2 bg-gray-900 rounded-2xl p-6 ">
+                                    <div className="lg:col-span-2 bg-gray-900 rounded-2xl p-4 sm:p-6 md:p-8">
                                         <form id="form" className="space-y-4">
-                                            {/* Header */}
-
-                                            {/* Social subscription */}
                                             <div className="text-center topp space-y-6">
-                                                <div className="bg-gradient-to-r from-purple-500/20 to-blue-500/20 rounded-2xl p-6 border border-purple-500/30">
-                                                    <h3 className="text-2xl font-bold text-white mb-4">Contest Yo'nalishi</h3>
-                                                    <p className="text-gray-300 mb-6">
+                                                <div className="bg-gradient-to-r from-purple-500/20 to-blue-500/20 rounded-2xl p-4 sm:p-6 md:p-8 border border-purple-500/30">
+                                                    <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-4">Contest Yo'nalishi</h3>
+                                                    <p className="text-gray-300 mb-6 text-sm sm:text-base md:text-lg">
                                                         Quyidagi ijtimoiy tarmoq sahifalarimizga obuna bo'ling va <br />
                                                         keyingi qadamlar haqida xabardor bo'ling.
                                                     </p>
-                                                    <div className="flex justify-center gap-4 mt-6">
+                                                    <div className="flex flex-col sm:flex-row justify-center gap-4 mt-6">
                                                         <a
                                                             href="https://t.me/digitalgeneration_uz"
                                                             target="_blank"
                                                             rel="noopener noreferrer"
-                                                            className="px-6 py-3 rounded-xl bg-blue-500 hover:bg-blue-600 transition text-white font-semibold flex items-center gap-2"
+                                                            className="px-6 py-3 rounded-xl bg-blue-500 hover:bg-blue-600 transition text-white font-semibold flex items-center justify-center gap-2"
                                                         >
                                                             <i className="fab fa-telegram-plane"></i> Telegram
                                                         </a>
@@ -472,7 +469,7 @@ export default function Register(): JSX.Element {
                                                             href="https://www.instagram.com/dguzbekistan"
                                                             target="_blank"
                                                             rel="noopener noreferrer"
-                                                            className="px-6 py-3 rounded-xl bg-pink-500 hover:bg-pink-600 transition text-white font-semibold flex items-center gap-2"
+                                                            className="px-6 py-3 rounded-xl bg-pink-500 hover:bg-pink-600 transition text-white font-semibold flex items-center justify-center gap-2"
                                                         >
                                                             <i className="fab fa-instagram"></i> Instagram
                                                         </a>
@@ -482,14 +479,18 @@ export default function Register(): JSX.Element {
                                                 {/* Checkbox */}
                                                 <div className="box2">
                                                     <label className="flex items-center justify-center gap-2 cursor-pointer">
-                                                        <input className="boxx" type="checkbox"
+                                                        <input
+                                                            className="boxx"
+                                                            type="checkbox"
                                                             checked={agree}
-                                                            onChange={(e) => setAgree(e.target.checked)} /> Shartlarni to'liq bajardingizmi?
+                                                            onChange={(e) => setAgree(e.target.checked)}
+                                                        />{" "}
+                                                        Shartlarni to'liq bajardingizmi?
                                                     </label>
                                                 </div>
 
                                                 {/* Buttons */}
-                                                <div className="flex justify-center gap-3 mt-6">
+                                                <div className="flex flex-col sm:flex-row justify-center gap-3 mt-6">
                                                     <a
                                                         href={agree ? "https://online.raqamliavlod.uz/" : "#"}
                                                         target="_blank"
@@ -510,10 +511,10 @@ export default function Register(): JSX.Element {
                                                         Bekor qilish
                                                     </button>
                                                 </div>
-
                                             </div>
                                         </form>
                                     </div>
+
 
                                 ) : (
                                     <form id="form" onSubmit={handleSubmit} className="space-y-4" aria-labelledby="register-heading">

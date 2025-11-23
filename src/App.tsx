@@ -4,7 +4,8 @@ import { AboutSection } from './components/AboutSection';
 import { MainGifts } from './components/SpeakersSection';
 import { ScheduleSection } from './components/ScheduleSection';
 import { LocationSection } from './components/LocationSection';
-import { SponsorsSection } from './components/SponsorsSection';
+import { SponsorsSection } from './components/SponsorsSection'; // ✅
+
 import { Gifs } from './components/poxxuy';
 import { Footer } from './components/Footer';
 import { AIParticlesBackground } from './components/AIParticlesBackground';
@@ -15,9 +16,25 @@ import { ModalProvider } from './context/context';
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import { TypingEffect } from './components/TypingEffect';
 import Register from './components/register';
+import { SponsorCarousel } from './components/SponsorCarousel';
+
 import "./App.css"
 import Contest from './components/contest'
+import a from './assets/homiylar/1.png';
+import b from './assets/homiylar/2.png';
+import c from './assets/homiylar/3.png';
+import d from './assets/homiylar/4.svg';
+import e from './assets/homiylar/5.png';
+import f from './assets/homiylar/6.png';
+interface SponsorCarouselProps {
+  logos: string[];   //  ➜ string array: har bir element logoning URLi
+  interval?: number; //  ➜ optional, number: logolar qanchalik tez aylanishini millisekundlarda belgilaydi (default 2000ms)
+}
 
+
+const sponsorLogos: SponsorCarouselProps[] = [
+  a,b,c,d,e,f
+]
 import { CountdownTimer } from './components/ui/CountdownTimer';
 export default function App() {
   return (
@@ -49,14 +66,17 @@ export default function App() {
                     <ScrollReveal direction="up">
                       <AboutSection />
                     </ScrollReveal>
-                    <ScrollReveal direction="up" delay={0.04}>
-                      <ScheduleSection />  {/* shu joyda bosh sahifadagi rasm chiqish kerak */}
-                    </ScrollReveal>
+                    {/* <ScrollReveal direction="up" delay={0.04}>
+                      <ScheduleSection />  
+                    </ScrollReveal> */}
                     <ScrollReveal direction="up" delay={0.04}>
                       <LocationSection />
                     </ScrollReveal>
                     <ScrollReveal direction="up">
                       <SponsorsSection />
+                    </ScrollReveal>
+                    <ScrollReveal direction="up">
+                      <SponsorCarousel interval={2000} logos={sponsorLogos} />
                     </ScrollReveal>
                     <Footer />
                   </main>

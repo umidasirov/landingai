@@ -9,7 +9,7 @@ export function Navigation() {
   const { showRegister, setShowRegister } = useModal();
   const [language, setLanguage] = useState('EN');
 
-  const navLinks = ['Musobaqalar', 'Nutqchilar', 'Manzil', 'Homiylar', 'Bog‘lanish'];
+  const navLinks = ['Musobaqalar', "Sovg'alar", 'Manzil', 'Homiylar', 'Bog‘lanish'];
   const languages = ['EN'];
 
   const scrollToSection = (section: string) => {

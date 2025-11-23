@@ -42,7 +42,7 @@ export function LocationSection() {
                 src="https://storage.kun.uz/source/5/s5qSCwSqNUg9DnCjhVAQE3XH72A58i-T.jpg"
                 alt="Konferensiya markazi"
                 className="w-full h-full object-cover"
-                style={{width:'100%',height:'100%'}}
+                style={{ width: '100%', height: '100%' }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-black/90 to-transparent backdrop-blur-sm">
@@ -66,10 +66,10 @@ export function LocationSection() {
                 </div>
                 <div>
                   <h4 className="text-white mb-2">Manzil</h4>
-                  <p className="text-gray-400">
-                    Amir Temur ko‘chasi, 107A<br />
-                    Toshkent, O‘zbekiston<br />
-                    100084
+                  <p>
+                    Mahtumquli ko‘chasi, <br />100047,
+                    Toshkent, Yashnobod tumani,<br />
+                    Maxtumquli ko‘chasi, 28-uy.
                   </p>
                 </div>
               </div>
@@ -77,11 +77,11 @@ export function LocationSection() {
 
             {/* Xarita */}
             <div className="relative rounded-2xl overflow-hidden border-2 border-purple-500/30 backdrop-blur-sm h-64 sm:h-80 lg:h-96">
-             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1498.6370638324217!2d69.31624253176832!3d41.302899763840294!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38aef5378726fbaf%3A0x2d84fd21efda8919!2sMuhammad%20al-Xorazmiy%20nomidagi%20ixtisoslashtirilgan%20maktab!5e0!3m2!1sru!2s!4v1763813441498!5m2!1sru!2s" width="600" height="450" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1498.6370638324217!2d69.31624253176832!3d41.302899763840294!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38aef5378726fbaf%3A0x2d84fd21efda8919!2sMuhammad%20al-Xorazmiy%20nomidagi%20ixtisoslashtirilgan%20maktab!5e0!3m2!1sru!2s!4v1763813441498!5m2!1sru!2s" width="600" height="450" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
 
             {/* Aloqa ma’lumotlari */}
-            <div className="grid sm:grid-cols-2 gap-4">
+            {/* <div className="grid sm:grid-cols-2 gap-4">
               <div className="bg-gradient-to-br from-gray-900 to-black border border-purple-500/30 rounded-xl p-4 backdrop-blur-sm hover:border-purple-500/60 transition-all cursor-pointer flex items-center gap-3">
                 <div className="w-10 h-10 bg-purple-600/20 rounded-lg flex items-center justify-center">
                   <Phone className="text-purple-400" size={18} />
@@ -101,7 +101,7 @@ export function LocationSection() {
                   <p className="text-white">info@aiconf.uz</p>
                 </div>
               </div>
-            </div>
+            </div> */}
 
             {/* Yo‘nalish olish tugmasi */}
             <a

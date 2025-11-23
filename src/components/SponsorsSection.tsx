@@ -99,10 +99,10 @@ export function SponsorsSection() {
             </div>
           </div>
         </div>
-
-        {/* Sponsor Form Modal */}
-        <SponsorForm isOpen={isFormOpen} onClose={() => setIsFormOpen(false)} />
       </div>
     </section>
   );
 }
+
+
+

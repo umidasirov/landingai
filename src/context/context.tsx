@@ -8,7 +8,7 @@ import React, { createContext, useState, useContext } from "react";
 import contestGift from '../assets/gifts/contest.png';
 
 import robof from '../assets/gifts/robo_fut.png';
-import robofutbol from '../assets/gifts/robo_futa.png';
+import robofutbol from '../assets/gifts/robo_fut.png';
 import aig from '../assets/gifts/Raqamli avlod to’plami (7)-edited-free (carve.photos).png';
 import sumon from '../assets/gifts/sumo.png';
 // import laptop from '../assets/gifts/lop.png';

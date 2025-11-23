@@ -3,7 +3,7 @@ import { ImageWithFallback } from './figma/ImageWithFallback';
 import imgAll from '../assets/gifts/Barchasi.png';
 export function MainGifts() {
   return (
-    <section id="nutqchilar" className="relative py-24 lg:py-32 bg-gradient-to-b from-black via-purple-950/10 to-black overflow-hidden">
+    <section id="sovg'alar" className="relative py-24 lg:py-32 bg-gradient-to-b from-black via-purple-950/10 to-black overflow-hidden">
       {/* Background Grid */}
       <div className="absolute inset-0 opacity-10"
            style={{
