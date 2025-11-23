@@ -278,16 +278,28 @@ export default function Register(): JSX.Element {
 
         // Remove empty strings
         Object.keys(payload).forEach((k) => {
-            if (payload[k] === "") payload[k] = null;
+            if (payload[k] === "") {
+                payload[k] = null;
+            }
         });
-        if (payload.friend) {
-            Object.keys(payload.friend).forEach((k) => {
-                if (payload.friend[k] === "") payload.friend[k] = null;
+        if (payload.friend_data) {
+            Object.keys(payload.friend_data).forEach((k) => {
+                if (payload.friend_data![k] === "") payload.friend_data![k] = null;
             });
+
+            const friendRegionObj = regions.find(
+                region => region.id === Number(payload.friend_data!.region) || region.soato_id === Number(payload.friend_data!.region)
+            );
+
+            payload.friend_data.region = friendRegionObj?.name_uz || '';
         }
 
+
+        const regionObj = regions.find(region => region.id === Number(payload.region) || region.soato_id === Number(payload.region));
+
+        payload.region = regionObj?.name_uz || '';
+
         console.log("to'g'ridan-to'g'ri yuborish", payload);
-        // to'g'ridan-to'g'ri yuborish
         await sendRegistration(payload);
     }
 
@@ -493,7 +505,7 @@ export default function Register(): JSX.Element {
                                                 </div>
 
                                                 {/* Checkbox */}
-                                                <div className="box2">
+                                                <div className="box2 mb-10">
                                                     <label className="flex items-center justify-center gap-2 cursor-pointer">
                                                         <input
                                                             className="boxx"
@@ -522,7 +534,8 @@ export default function Register(): JSX.Element {
 
                                                     <button
                                                         type="button"
-                                                        className="px-6 py-3 rounded-xl border border-white/10 text-sm hover:bg-white/5 transition"
+                                                        className="px-6 py-3 rounded-xl border border-white/10 text-sm hover:bg-white/5 transition bor"
+                                                        style={{ border: 'oklch(.627 .265 303.9) solid 2px' }}
                                                     >
                                                         Bekor qilish
                                                     </button>
@@ -787,7 +800,7 @@ export default function Register(): JSX.Element {
                                         </div>
                                         <div>
                                             <div className="box2 text-center mt-6">
-                                                <label className="flex items-center justify-center mt-8 gap-2 cursor-pointer" style={{marginTop:'20px'}}>
+                                                <label className="flex items-center justify-center mt-8 gap-2 cursor-pointer" style={{ marginTop: '20px' }}>
                                                     <input
                                                         className="boxx"
                                                         type="checkbox"
@@ -797,7 +810,7 @@ export default function Register(): JSX.Element {
                                                     Shartlarni to'liq bajardingizmi?
                                                 </label>
                                             </div>
-                                            <div className="flex buttonSend gap-3 mt-6">
+                                            <div className="flex buttonSend gap-3 mt-6" style={{ marginTop: '20px' }}>
                                                 <button
                                                     type="submit"
                                                     disabled={loading || !agree}
@@ -814,7 +827,8 @@ export default function Register(): JSX.Element {
                                                 <button
                                                     type="button"
                                                     onClick={() => navigate(-1)}
-                                                    className="px-4 cansell py-3 rounded-xl border border-white/10 text-sm hover:bg-white/5 transition"
+                                                    className="px-4 cansell py-3 rounded-xl border-xl border-purple-600 text-sm hover:bg-white/5 transition"
+                                                    style={{ border: 'oklch(.627 .265 303.9) solid 2px' }}
                                                 >
                                                     Bekor qilish
                                                 </button>

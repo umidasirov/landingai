@@ -30,7 +30,6 @@ export function MainGifts() {
           </p>
         </div>
 
-        {/* Speakers Grid */}
         <div className="flex justify-center items-center">
           <img src={imgAll} alt="" />
         </div>

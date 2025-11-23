@@ -14,7 +14,7 @@ export function SponsorCarousel({ logos, speed = 3000 }: SponsorCarouselProps) {
   return (
     <div className="relative w-full mt-8 mb-8 relative rounded-xl overflow-hidden
                     p-4 sm:p-6 md:p-8
-                    bg-transparent
+                    bg-gray-100
                     border border-purple-500/20
                     backdrop-blur-sm sm:backdrop-blur-md md:backdrop-blur-lg" style={{zIndex:12}}>
       
