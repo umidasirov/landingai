@@ -548,7 +548,7 @@ export default function Register(): JSX.Element {
                                                 {/* Buttons */}
                                                 <div className="flex flex-col sm:flex-row justify-center gap-3 mt-6">
                                                     <a
-                                                        href={agree ? "https://online.raqamliavlod.uz/" : "#"}
+                                                        href={agree ? "https://raqamliavlod.uz/kontest/" : "#"}
                                                         target="_blank"
                                                         rel="noopener noreferrer"
                                                         className={`flex-1 px-4 py-3 rounded-xl text-center hover:bg-purple-500 transition font-semibold ${!agree ? "bg-purple-400 cursor-not-allowed" : "bg-purple-600"}`}
