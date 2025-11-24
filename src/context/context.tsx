@@ -63,7 +63,7 @@ const blocks = [
     image: idea,
     size: 'small',
     link: '/register/fixtirolar',
-    date: "2025-12-11T09:00:00",
+    date: "2025-11-30T00:00:00",
     img:robof,
     // gifts: [
     //   { type: "Noutbuk", description: "Noutbuk", image: laptop, count: 1 },
@@ -79,7 +79,7 @@ const blocks = [
     size: 'small',
     link: '/register/rsumo',
     img:sumon,
-    date: "2025-12-11T09:00:00",
+    date: "2025-12-29T00:00:00",
     // gifts: [
     //   { type: "samakat", description: "Samakat", image: s, count: 1 },
     //   { type: "tv", description: "Televizor", image: TV, count: 1 },
@@ -94,7 +94,7 @@ const blocks = [
     size: 'small',
     link: '/register/contest',
     img:contestGift,
-    date: "2025-12-10T09:00:00",
+    date: "2025-12-07T00:00:00",
     // gifts: [
     //   { type: "keyboard", description: "Klaviatura", image: key, count: 1 },
     //   { type: "tablet", description: "Planshet", image: s, count: 3 },
@@ -108,7 +108,7 @@ const blocks = [
     image: futbol,
     size: 'small',
     link: '/register/rfutbol',
-    date: "2025-12-12T09:00:00",
+    date: "2025-12-01T00:00:00",
     img:robofutbol,
     // gifts: [
     //   { type: "nout", description: "Noutbuk", image: laptop, count: 2 },
@@ -123,7 +123,7 @@ const blocks = [
     image: ai,
     size: "large",
     link: "/register/ai",
-    date: "2025-12-13T09:00:00",
+    date: "2025-11-25T00:00:00",
     img:aig,
     // gifts: [
     //   { type: "iphone", description: "iPhone 17", image: iphone, count: 1 },

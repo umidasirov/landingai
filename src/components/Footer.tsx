@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion';
 import { Facebook, Twitter, Linkedin, Instagram, Youtube, Mail } from 'lucide-react@0.487.0';
 import logo from "../assets/logo.png";
-import pdf from "../assets/pdf.pdf"
 import { FaTelegramPlane } from 'react-icons/fa';
 export function Footer() {
   const socialLinks = [
@@ -48,7 +47,7 @@ export function Footer() {
     ],
     Nizom: [
       <a
-        href={pdf}
+        href="/pdf.pdf"
         target="_blank" // yangi tabda ochadi
         rel="noopener noreferrer"
       >

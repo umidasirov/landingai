@@ -1,6 +1,6 @@
 import { Linkedin, Twitter } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
-import imgAll from '../assets/gifts/asosiy.png';
+import imgAll from '../assets/gifts/Barchasi.png';
 export function MainGifts() {
   return (
     <section id="sovg'alar" className="relative py-24 lg:py-32 bg-gradient-to-b from-black via-purple-950/10 to-black overflow-hidden">
@@ -20,16 +20,17 @@ export function MainGifts() {
             <span>IT Haftaligi: Sovg‘alar Sizni Kutmoqda</span>
           </div>
           <h2 className="text-4xl lg:text-5xl font-bold mb-4 text-white">
-            IT Haftaligi { ' '}
             <span className="bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
-               Sovrinlari
+               IT haftalikda {' '}
             </span>
+            yutib olishingiz mumkun bo'lgan sovg'alar
           </h2>
           <p className="text-gray-400 max-w-2xl mx-auto text-lg">
             Ushbu IT haftaligida ishtirok eting va yangi tajribalar orttiring. Yoqimli sovg‘alarga ega bo'lish esa  sizning ishtirokingiz va faoliyatingizga bog‘liq
           </p>
         </div>
 
+        {/* Speakers Grid */}
         <div className="flex justify-center items-center">
           <img src={imgAll} alt="" />
         </div>

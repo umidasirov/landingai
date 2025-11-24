@@ -13,7 +13,6 @@ type Params = { id?: string };
 
 import { motion } from 'framer-motion';
 import Karobka from './Karobka';
-import PhoneNumberInput from './PhoneNumberInput';
 
 interface CountdownTimerProps {
     targetDate: string;
@@ -117,7 +116,7 @@ type PersonPayload = {
 type RegisterPayload = PersonPayload & {
     direction: string;
     eventKey?: string;
-    friend_data?: PersonPayload | null;
+    friend?: PersonPayload | null;
 };
 
 const DIRECTION_ALIASES: Record<string, string> = {
@@ -191,7 +190,7 @@ export default function Register(): JSX.Element {
         telegram_username: '',
         direction: eventKey,
         eventKey,
-        friend_data: null,
+        friend: null,
     });
 
     // Friend form (only for robofutbol)
@@ -209,31 +208,6 @@ export default function Register(): JSX.Element {
         gender: '',
         telegram_username: '',
     });
-    // pomne
-
-
-    interface PhoneInputProps {
-        value: string;
-        onChange: (value: string) => void;
-        error?: string;
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     const [loading, setLoading] = useState(false);
     const [done, setDone] = useState(false);
@@ -261,6 +235,7 @@ export default function Register(): JSX.Element {
         if (!form.middle_name?.trim()) return "Otasining ismi kiritilsin.";
         if (!form.gender) return "Jins tanlang.";
         if (!form.phone_number?.trim()) return "Telefon raqam kiritilsin.";
+        if (!form.email?.trim()) return "Email kiritilsin.";
         if (!form.birth_date) return "Tug‘ilgan sana kiritilsin.";
         if (!form.study_place?.trim()) return "O‘qish joyi kiritilsin.";
         if (!form.region?.trim()) return "Hudud kiritilsin.";
@@ -272,6 +247,7 @@ export default function Register(): JSX.Element {
             if (!friendForm.middle_name?.trim()) return "Do‘stingizning otasining ismi kiritilsin.";
             if (!friendForm.gender) return "Do‘stingizning jinsini tanlang.";
             if (!friendForm.phone_number?.trim()) return "Do‘stingizning telefon raqami kiritilsin.";
+            if (!friendForm.email?.trim()) return "Do‘stingizning emaili kiritilsin.";
             if (!friendForm.birth_date) return "Do‘stingizning tug‘ilgan sanasi kiritilsin.";
             if (!friendForm.study_place?.trim()) return "Do‘stingizning o‘qish joyi kiritilsin.";
             if (!friendForm.region?.trim()) return "Do‘stingizning hududi kiritilsin.";
@@ -298,36 +274,21 @@ export default function Register(): JSX.Element {
 
         let payload: any = { ...form, direction: eventKey };
         if (eventKey === "rfutbol") {
-            payload.friend_data = { ...friendForm };
-        } else {
-            delete payload.friend_data;
+            payload.friend = { ...friendForm };
         }
-
 
         // Remove empty strings
         Object.keys(payload).forEach((k) => {
-            if (payload[k] === "") {
-                payload[k] = null;
-            }
+            if (payload[k] === "") payload[k] = null;
         });
-        if (payload.friend_data) {
-            Object.keys(payload.friend_data).forEach((k) => {
-                if (payload.friend_data![k] === "") payload.friend_data![k] = null;
+        if (payload.friend) {
+            Object.keys(payload.friend).forEach((k) => {
+                if (payload.friend[k] === "") payload.friend[k] = null;
             });
-
-            const friendRegionObj = regions.find(
-                region => region.id === Number(payload.friend_data!.region) || region.soato_id === Number(payload.friend_data!.region)
-            );
-
-            payload.friend_data.region = friendRegionObj?.name_uz || '';
         }
 
-
-        const regionObj = regions.find(region => region.id === Number(payload.region) || region.soato_id === Number(payload.region));
-
-        payload.region = regionObj?.name_uz || '';
-
         console.log("to'g'ridan-to'g'ri yuborish", payload);
+        // to'g'ridan-to'g'ri yuborish
         await sendRegistration(payload);
     }
 
@@ -371,17 +332,6 @@ export default function Register(): JSX.Element {
             setPendingPayload(null);
         }
     }
-    function ormatDate(dateString: string) {
-        const date = new Date(dateString);
-        const days = ['Yakshanba', 'Dushanba', 'Seshanba', 'Chorshanba', 'Payshanba', 'Juma', 'Shanba'];
-        const dayName = days[date.getDay()];
-        const day = date.getDate();
-        const month = date.getMonth() + 1;
-        const year = date.getFullYear();
-
-        return `${dayName}, ${day}-${month}-${year}`;
-    }
-
 
     return (
         <div className="min-h-screen text-white py-10 p-[20px] px-4 flex flex-col items-center justify-center" style={{ zIndex: 50 }}>
@@ -411,12 +361,6 @@ export default function Register(): JSX.Element {
 
                         {/* Gift message */}
                         <CountdownTimer targetDate={block.date} />
-
-                        <div className="mt-2 px-4 py-2 bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 text-white text-sm font-medium rounded-xl shadow-md text-center">
-                            {ormatDate(block.date)}
-                        </div>
-
-
                         <button onClick={() => navigate('/')} className='mt-2 w-full py-3 rounded-xl px-6 text-white font-semibold transition bg-purple-600 hover:bg-purple-500'><i className="fa-solid fa-arrow-left"></i> Asosiy menyuga o'tish</button>
                     </div>
                 </aside>
@@ -426,7 +370,7 @@ export default function Register(): JSX.Element {
                         <div style={{ border: 0 }} className="text-center space-y-6 rounded-2xl p-8 bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 animate-fadeIn">
                             {/* Animated check mark */}
                             <div className="flex justify-center border-lg border-0 rounded-full w-24 h-24 mx-auto bg-gradient-to-tr from-green-500 to-green-400 shadow-lg items-center">
-                                <svg className="w-20 h-20 text-green-400 animate-bounce border-2 rounded-full" style={{ borderBlockColor: 'green', border: '2px solid' }} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                <svg className="w-20 h-20 text-green-400 animate-bounce border-2 rounded-full" style={{borderBlockColor:'green',border:'2px solid'}} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                                 </svg>
                             </div>
@@ -439,7 +383,7 @@ export default function Register(): JSX.Element {
                             {/* Success message */}
                             <p className="text-gray-400 text-sm md:text-xl max-w-2xl mx-auto">
                                 {successMessage || 'Siz muvaffaqiyatli ro‘yxatdan o‘tdingiz!'}
-                                Yangilik va e’lonlarni ijtimoiy tarmoqlardagi sahifalarimiz orqali kuzatib boring. 🎉
+                                 Yangilik va e’lonlarni ijtimoiy tarmoqlardagi sahifalarimiz orqali kuzatib boring. 🎉
                             </p>
 
                             {/* Motivational quote */}
@@ -533,7 +477,7 @@ export default function Register(): JSX.Element {
                                                 </div>
 
                                                 {/* Checkbox */}
-                                                <div className="box2 mb-10">
+                                                <div className="box2">
                                                     <label className="flex items-center justify-center gap-2 cursor-pointer">
                                                         <input
                                                             className="boxx"
@@ -548,7 +492,7 @@ export default function Register(): JSX.Element {
                                                 {/* Buttons */}
                                                 <div className="flex flex-col sm:flex-row justify-center gap-3 mt-6">
                                                     <a
-                                                        href={agree ? "https://raqamliavlod.uz/kontest/" : "#"}
+                                                        href={agree ? "https://online.raqamliavlod.uz/" : "#"}
                                                         target="_blank"
                                                         rel="noopener noreferrer"
                                                         className={`flex-1 px-4 py-3 rounded-xl text-center hover:bg-purple-500 transition font-semibold ${!agree ? "bg-purple-400 cursor-not-allowed" : "bg-purple-600"}`}
@@ -562,8 +506,7 @@ export default function Register(): JSX.Element {
 
                                                     <button
                                                         type="button"
-                                                        className="px-6 py-3 rounded-xl border border-white/10 text-sm hover:bg-white/5 transition bor"
-                                                        style={{ border: 'oklch(.627 .265 303.9) solid 2px' }}
+                                                        className="px-6 py-3 rounded-xl border border-white/10 text-sm hover:bg-white/5 transition"
                                                     >
                                                         Bekor qilish
                                                     </button>
@@ -603,10 +546,8 @@ export default function Register(): JSX.Element {
                                         </div>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                             <label className="block">
-                                                <PhoneNumberInput
-                                                    value={form.phone_number}
-                                                    onChange={(v) => setField('phone_number', v)}
-                                                />
+                                                <span className="text-sm text-gray-300">Telefon</span>
+                                                <input type="tel" value={form.phone_number} onChange={e => setField('phone_number', e.target.value)} placeholder='+998(12)-345-67-89' required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
                                             </label>
                                             <label className="block">
                                                 <span className="text-sm text-gray-300">Telegram username</span>
@@ -692,7 +633,6 @@ export default function Register(): JSX.Element {
                                                     <option value="fixtirolar" className='bg-gray-900'>Foydali ixtirolar</option>
                                                     <option value="rfutbol" className='bg-gray-900'>Robo futbol</option>
                                                     <option value="rsumo" className='bg-gray-900'>Robo sumo</option>
-                                                    <option value="contest" className='bg-gray-900'>DG Contest</option>
                                                 </select>
                                             </label>
                                         </div>
@@ -729,16 +669,14 @@ export default function Register(): JSX.Element {
                                                     </label>
                                                 </div>
                                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                                        <label className="block">
-                                                            <PhoneNumberInput
-                                                                value={form.phone_number}
-                                                                onChange={(v) => setField('phone_number', v)}
-                                                            />
-                                                        </label>
-                                                        <label className="block">
-                                                            <span className="text-sm text-gray-300">Telegram username</span>
-                                                            <input type="text" value={friendForm.telegram_username} onChange={e => setFriendField('telegram_username', e.target.value)} className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
-                                                        </label>
+                                                    <label className="block">
+                                                        <span className="text-sm text-gray-300">Telefon</span>
+                                                        <input type="tel" value={friendForm.phone_number} onChange={e => setFriendField('phone_number', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
+                                                    </label>
+                                                    <label className="block">
+                                                        <span className="text-sm text-gray-300">Telegram username</span>
+                                                        <input type="text" value={friendForm.telegram_username} onChange={e => setFriendField('telegram_username', e.target.value)} className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
+                                                    </label>
                                                 </div>
                                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                                     <label className="block">
@@ -832,8 +770,8 @@ export default function Register(): JSX.Element {
                                             </a>
                                         </div>
                                         <div>
-                                            <div className="box2 text-center mt-6">
-                                                <label className="flex items-center justify-center mt-8 gap-2 cursor-pointer" style={{ marginTop: '20px' }}>
+                                            <div className="box2">
+                                                <label className="flex items-center gap-2 cursor-pointer">
                                                     <input
                                                         className="boxx"
                                                         type="checkbox"
@@ -843,7 +781,7 @@ export default function Register(): JSX.Element {
                                                     Shartlarni to'liq bajardingizmi?
                                                 </label>
                                             </div>
-                                            <div className="flex buttonSend gap-3 mt-6" style={{ marginTop: '20px' }}>
+                                            <div className="flex buttonSend gap-3 mt-6">
                                                 <button
                                                     type="submit"
                                                     disabled={loading || !agree}
@@ -860,8 +798,7 @@ export default function Register(): JSX.Element {
                                                 <button
                                                     type="button"
                                                     onClick={() => navigate(-1)}
-                                                    className="px-4 cansell py-3 rounded-xl border-xl border-purple-600 text-sm hover:bg-white/5 transition"
-                                                    style={{ border: 'oklch(.627 .265 303.9) solid 2px' }}
+                                                    className="px-4 cansell py-3 rounded-xl border border-white/10 text-sm hover:bg-white/5 transition"
                                                 >
                                                     Bekor qilish
                                                 </button>

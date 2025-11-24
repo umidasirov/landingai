@@ -15,7 +15,7 @@ export function FiveBlocks() {
   return (
     <section className="bg-gray-950 py-10 px-4 sm:px-6 lg:px-10 mt-10 lg:mt-20" id='musobaqalar'>
       <div className="max-w-7xl mx-auto">
-        <CountdownTimer targetDate="2025-12-10T09:00:00" />
+        <CountdownTimer targetDate="2025-11-29T00:00:00" />
         <div className="flex flex-wrap justify-center gap-8 lg:gap-10 ani">
           {blocks.map((item, idx) => (
             <article
