@@ -13,6 +13,7 @@ type Params = { id?: string };
 
 import { motion } from 'framer-motion';
 import Karobka from './Karobka';
+import PhoneNumberInput from './PhoneNumberInput';
 
 interface CountdownTimerProps {
     targetDate: string;
@@ -208,6 +209,31 @@ export default function Register(): JSX.Element {
         gender: '',
         telegram_username: '',
     });
+    // pomne
+
+
+    interface PhoneInputProps {
+        value: string;
+        onChange: (value: string) => void;
+        error?: string;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     const [loading, setLoading] = useState(false);
     const [done, setDone] = useState(false);
@@ -273,7 +299,7 @@ export default function Register(): JSX.Element {
         let payload: any = { ...form, direction: eventKey };
         if (eventKey === "rfutbol") {
             payload.friend_data = { ...friendForm };
-        }else{
+        } else {
             delete payload.friend_data;
         }
 
@@ -578,7 +604,10 @@ export default function Register(): JSX.Element {
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                             <label className="block">
                                                 <span className="text-sm text-gray-300">Telefon</span>
-                                                <input type="tel" value={form.phone_number} onChange={e => setField('phone_number', e.target.value)} placeholder='+998(12)-345-67-89' required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
+                                                <PhoneNumberInput
+                                                    value={form.phone_number}
+                                                    onChange={(v) => setField('phone_number', v)}
+                                                />
                                             </label>
                                             <label className="block">
                                                 <span className="text-sm text-gray-300">Telegram username</span>

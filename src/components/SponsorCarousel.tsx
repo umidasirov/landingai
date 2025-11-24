@@ -40,7 +40,7 @@ export function SponsorCarousel({ logos, speed = 3000 }: SponsorCarouselProps) {
             <img
               src={logo}
               alt={`Sponsor ${idx}`}
-              className="h-20 sm:h-20 md:h-24 lg:h-28 object-contain"
+              className="h-20 sm:h-20 md:h-24 lg:h-28 object-contain w-full"
             />
           </SwiperSlide>
         ))}
