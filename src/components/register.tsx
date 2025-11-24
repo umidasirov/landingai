@@ -273,6 +273,8 @@ export default function Register(): JSX.Element {
         let payload: any = { ...form, direction: eventKey };
         if (eventKey === "rfutbol") {
             payload.friend_data = { ...friendForm };
+        }else{
+            delete payload.friend_data;
         }
 
 
@@ -662,6 +664,7 @@ export default function Register(): JSX.Element {
                                                     <option value="fixtirolar" className='bg-gray-900'>Foydali ixtirolar</option>
                                                     <option value="rfutbol" className='bg-gray-900'>Robo futbol</option>
                                                     <option value="rsumo" className='bg-gray-900'>Robo sumo</option>
+                                                    <option value="contest" className='bg-gray-900'>DG Contest</option>
                                                 </select>
                                             </label>
                                         </div>
