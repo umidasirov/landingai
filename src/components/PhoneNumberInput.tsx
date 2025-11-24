@@ -36,7 +36,7 @@ export default function PhoneNumberInput({ value, onChange, error }: PhoneInputP
 
   return (
     <div className="flex flex-col gap-1">
-      <label className="text-sm font-medium">Telefon raqam *</label>
+      <span className="text-sm text-gray-300 mb-2">Telefon</span>
 
       <input
         type="tel"

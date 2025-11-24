@@ -603,7 +603,6 @@ export default function Register(): JSX.Element {
                                         </div>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                             <label className="block">
-                                                <span className="text-sm text-gray-300">Telefon</span>
                                                 <PhoneNumberInput
                                                     value={form.phone_number}
                                                     onChange={(v) => setField('phone_number', v)}
@@ -730,14 +729,16 @@ export default function Register(): JSX.Element {
                                                     </label>
                                                 </div>
                                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                                    <label className="block">
-                                                        <span className="text-sm text-gray-300">Telefon</span>
-                                                        <input type="tel" value={friendForm.phone_number} onChange={e => setFriendField('phone_number', e.target.value)} required className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
-                                                    </label>
-                                                    <label className="block">
-                                                        <span className="text-sm text-gray-300">Telegram username</span>
-                                                        <input type="text" value={friendForm.telegram_username} onChange={e => setFriendField('telegram_username', e.target.value)} className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
-                                                    </label>
+                                                        <label className="block">
+                                                            <PhoneNumberInput
+                                                                value={form.phone_number}
+                                                                onChange={(v) => setField('phone_number', v)}
+                                                            />
+                                                        </label>
+                                                        <label className="block">
+                                                            <span className="text-sm text-gray-300">Telegram username</span>
+                                                            <input type="text" value={friendForm.telegram_username} onChange={e => setFriendField('telegram_username', e.target.value)} className="mt-1 w-full rounded-xl bg-white text-black border border-gray-300 px-4 py-3" />
+                                                        </label>
                                                 </div>
                                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                                     <label className="block">
